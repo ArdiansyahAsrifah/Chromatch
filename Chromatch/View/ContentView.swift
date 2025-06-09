@@ -37,7 +37,7 @@ struct ContentView: View {
                 VStack(spacing: 20) {
                     // Header
                     VStack(spacing: 8) {
-                        Text("🎨 Chroma")
+                        Text("🎨 Chromatch")
                             .font(.largeTitle)
                             .fontWeight(.bold)
                             .foregroundStyle(
