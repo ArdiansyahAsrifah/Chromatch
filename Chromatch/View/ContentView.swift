@@ -107,6 +107,7 @@ struct ContentView: View {
                                 .resizable()
                                 .scaledToFill()
                                 .frame(height: geometry.size.height * 0.4)
+                                .padding(.top, 100)
                                 .cornerRadius(20)
                                 .clipped()
                         } else {
