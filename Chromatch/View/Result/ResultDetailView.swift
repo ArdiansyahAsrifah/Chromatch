@@ -24,9 +24,6 @@ struct ResultDetailView: View {
             Text(String(format: "Kepercayaan: %.2f%%", confidence * 100))
 
             Button("Simpan") {
-                // Simpan data ke database atau UserDefaults
-
-                // Setelah save, tutup semua dan pindah ke History
                 isActive = false
                 selectedTab = 1
             }

@@ -34,9 +34,6 @@ struct SplashView: View {
             }
             .buttonStyle(.borderedProminent)
 
-            Button("Kembali ke Kamera") {
-                isActive = false
-            }
         }
         .padding()
         .background(
@@ -49,3 +46,5 @@ struct SplashView: View {
         )
     }
 }
+
+

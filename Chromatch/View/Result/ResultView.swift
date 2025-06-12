@@ -79,12 +79,15 @@ struct ResultView: View {
             }
         }
         .sheet(isPresented: $navigateToSplash) {
-            SplashView(
-                result: predictionResult,
-                confidence: confidence,
-                isActive: $navigateToSplash,
-                selectedTab: $selectedTab
-            )
+            NavigationStack {
+                SplashView(
+                    result: predictionResult,
+                    confidence: confidence,
+                    isActive: $navigateToSplash,
+                    selectedTab: $selectedTab
+                )
+            }
+            
         }
         .onAppear {
             cameraManager.requestPermission()
