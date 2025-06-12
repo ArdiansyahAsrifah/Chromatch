@@ -16,6 +16,8 @@ struct ResultView: View {
     @State private var showingResults = false
     @State private var animateResult = false
     @State private var confidence: Float = 0.0
+    @State private var navigateToSplash = false
+
     
     var body: some View {
         ZStack {
@@ -53,53 +55,6 @@ struct ResultView: View {
                 .padding(.top, 60)
 
                 Spacer()
-
-                // Result Box
-                if showingResults {
-                    VStack(spacing: 10) {
-                        Text("Hasil Prediksi:")
-                            .font(.headline)
-                            .foregroundColor(.white)
-
-                        Text(predictionResult)
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundStyle(
-                                LinearGradient(colors: colorForSeason(predictionResult), startPoint: .leading, endPoint: .trailing)
-                            )
-                            .multilineTextAlignment(.center)
-
-                        if confidence > 0 {
-                            VStack(spacing: 5) {
-                                Text("Confidence: \(Int(confidence * 100))%")
-                                    .font(.caption)
-                                    .foregroundColor(.white)
-
-                                ProgressView(value: confidence)
-                                    .progressViewStyle(LinearProgressViewStyle(tint: .blue))
-                                    .frame(height: 6)
-                                    .background(Color.white.opacity(0.2))
-                                    .cornerRadius(3)
-                            }
-                        }
-
-                        Button(action: resetToCamera) {
-                            Text("Foto Lagi")
-                                .fontWeight(.semibold)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.white.opacity(0.2))
-                                .foregroundColor(.white)
-                                .cornerRadius(15)
-                        }
-                        .padding(.top)
-                    }
-                    .padding()
-                    .background(Color.black.opacity(0.5))
-                    .cornerRadius(20)
-                    .padding(.horizontal)
-                    .transition(.scale)
-                }
 
                 // Capture Button
                 if !showingResults {
@@ -145,6 +100,10 @@ struct ResultView: View {
             cameraManager.requestPermission()
             animateResult = true
         }
+        .fullScreenCover(isPresented: $navigateToSplash) {
+            SplashView(result: predictionResult, confidence: confidence)
+        }
+
     }
 
     private func capturePhoto() {
@@ -206,6 +165,7 @@ struct ResultView: View {
                         self.confidence = Float(prediction.targetProbability[prediction.target] ?? 0.0)
                         self.isAnalyzing = false
                         self.animateResult = true
+                        self.navigateToSplash = true
                     }
                 }
             } catch {

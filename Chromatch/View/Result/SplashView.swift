@@ -5,38 +5,46 @@
 //  Created by Muhammad Ardiansyah Asrifah on 12/06/25.
 //
 
+// SplashView.swift
+
+// SplashView.swift
+
 import SwiftUI
 
 struct SplashView: View {
+    let result: String
+    let confidence: Float
+
+    @State private var goToResultDetail = false
+
     var body: some View {
         ZStack {
-            Color.blue
-                .edgesIgnoringSafeArea(.all)
-            
-            VStack {
-                Circle()
-                    .frame(width: 100, height: 100)
-                    .foregroundColor(.red)
-                    .padding(10)
-                    .shadow(radius: 20)
-                
-                Text("You are a")
-                    .foregroundColor(.white)
-                    .font(.system(size: 15, weight: .medium, design: .default))
-                
-                Text("True Summer")
-                    .foregroundColor(.white)
-                    .font(.system(size: 30, weight: .bold, design: .default))
-                    .italic()
-            }
-            .padding(.top, -150)
-        }
-        
-        
-        
-    }
-}
+            LinearGradient(colors: [.purple, .pink], startPoint: .topLeading, endPoint: .bottomTrailing)
+                .ignoresSafeArea()
 
-#Preview {
-    SplashView()
+            VStack(spacing: 20) {
+                Text("You are a")
+                    .font(.title)
+                    .foregroundColor(.white)
+
+                Text(result)
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
+
+                Text("Confidence: \(Int(confidence * 100))%")
+                    .font(.headline)
+                    .foregroundColor(.white.opacity(0.9))
+            }
+        }
+        .onAppear {
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                goToResultDetail = true
+            }
+        }
+        .fullScreenCover(isPresented: $goToResultDetail) {
+            ResultDetailView(result: result, confidence: confidence)
+        }
+    }
 }
