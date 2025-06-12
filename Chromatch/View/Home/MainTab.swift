@@ -17,7 +17,7 @@ struct MainTabView: View {
                     Image(systemName: "house.fill")
                 }
 
-            HomeView()
+            ResultView() 
                 .tabItem {
                     Image(systemName: "plus.circle.fill")
                 }
