@@ -18,10 +18,10 @@ struct ResultView: View {
     @State private var confidence: Float = 0.0
     @State private var navigateToSplash = false
 
-    
+    @Binding var selectedTab: Int
+
     var body: some View {
         ZStack {
-            // Fullscreen Camera
             if cameraManager.isPermissionGranted && !showingResults {
                 CameraPreview(cameraManager: cameraManager)
                     .edgesIgnoringSafeArea(.all)
@@ -34,19 +34,13 @@ struct ResultView: View {
                 Color.black.edgesIgnoringSafeArea(.all)
             }
 
-            // Overlay UI
             VStack {
-                // Header
                 VStack(spacing: 8) {
                     Text("🎨 Chromatch")
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .foregroundStyle(
-                            LinearGradient(
-                                colors: [.blue, .purple, .pink],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
+                            LinearGradient(colors: [.blue, .purple, .pink], startPoint: .leading, endPoint: .trailing)
                         )
                     Text("Temukan Seasonal Color Anda")
                         .font(.subheadline)
@@ -56,7 +50,6 @@ struct ResultView: View {
 
                 Spacer()
 
-                // Capture Button
                 if !showingResults {
                     Button(action: capturePhoto) {
                         ZStack {
@@ -72,7 +65,6 @@ struct ResultView: View {
                 }
             }
 
-            // Analysis Overlay
             if isAnalyzing {
                 Color.black.opacity(0.5)
                     .edgesIgnoringSafeArea(.all)
@@ -80,38 +72,38 @@ struct ResultView: View {
                     ProgressView()
                         .scaleEffect(1.5)
                         .progressViewStyle(CircularProgressViewStyle(tint: .white))
-
                     Text("Menganalisis...")
                         .font(.headline)
                         .foregroundColor(.white)
                 }
             }
         }
-        .sheet(isPresented: $showImagePicker, onDismiss: loadImageFromPicker) {
-            ImagePicker(image: .constant(nil), sourceType: sourceType) { image in
-                if let image = image {
-                    cameraManager.capturedImage = image
-                    showingResults = true
-                    runPrediction(image: image)
-                }
-            }
+        .sheet(isPresented: $navigateToSplash) {
+            SplashView(
+                result: predictionResult,
+                confidence: confidence,
+                isActive: $navigateToSplash,
+                selectedTab: $selectedTab
+            )
         }
         .onAppear {
             cameraManager.requestPermission()
             animateResult = true
         }
-        .fullScreenCover(isPresented: $navigateToSplash) {
-            SplashView(result: predictionResult, confidence: confidence)
+        .onChange(of: navigateToSplash) { newValue in
+            if !newValue {
+                showingResults = false
+                cameraManager.startSession()
+            }
         }
-
     }
 
     private func capturePhoto() {
         guard !isAnalyzing else { return }
-        
+
         isAnalyzing = true
         showingResults = true
-        
+
         cameraManager.capturePhoto { image in
             DispatchQueue.main.async {
                 if let image = image {
@@ -123,25 +115,7 @@ struct ResultView: View {
             }
         }
     }
-    
-    func resetToCamera() {
-        withAnimation(.spring()) {
-            showingResults = false
-            cameraManager.capturedImage = nil
-            predictionResult = "Ambil foto untuk prediksi"
-            confidence = 0.0
-            animateResult = false
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            animateResult = true
-        }
-    }
-    
-    private func loadImageFromPicker() {
-        // Handle picker dismissal if needed
-    }
-    
+
     private func runPrediction(image: UIImage) {
         guard let resizedImage = image.resizeTo(size: CGSize(width: 299, height: 299)),
               let buffer = resizedImage.toCVPixelBuffer() else {
@@ -151,20 +125,18 @@ struct ResultView: View {
             }
             return
         }
-        
+
         DispatchQueue.global(qos: .userInteractive).async {
             let model = SeasonalColorClassifier()
-            
             do {
                 let input = SeasonalColorClassifierInput(image: buffer)
                 let prediction = try model.prediction(input: input)
-                
+
                 DispatchQueue.main.async {
-                    withAnimation(.spring(response: 0.8, dampingFraction: 0.6)) {
+                    withAnimation {
                         self.predictionResult = prediction.target
                         self.confidence = Float(prediction.targetProbability[prediction.target] ?? 0.0)
                         self.isAnalyzing = false
-                        self.animateResult = true
                         self.navigateToSplash = true
                     }
                 }
@@ -176,23 +148,4 @@ struct ResultView: View {
             }
         }
     }
-    
-    private func colorForSeason(_ season: String) -> [Color] {
-        switch season.lowercased() {
-        case let s where s.contains("spring"):
-            return [.green, .yellow]
-        case let s where s.contains("summer"):
-            return [.blue, .cyan]
-        case let s where s.contains("autumn"), let s where s.contains("fall"):
-            return [.orange, .red]
-        case let s where s.contains("winter"):
-            return [.blue, .purple]
-        default:
-            return [.blue, .purple]
-        }
-    }
-}
-
-#Preview{
-    ResultView()
 }

@@ -4,20 +4,33 @@
 //
 //  Created by Muhammad Ardiansyah Asrifah on 12/06/25.
 //
+
 import SwiftUI
 
 struct ResultDetailView: View {
-    let result: String
-    let confidence: Float
+    var result: String
+    var confidence: Float
+
+    @Binding var isActive: Bool
+    @Binding var selectedTab: Int
 
     var body: some View {
         VStack(spacing: 20) {
-            Text("Detail Result")
-                .font(.largeTitle)
+            Text("Detail Warna")
+                .font(.title)
                 .bold()
 
-            Text("Result: \(result)")
-            Text("Confidence: \(Int(confidence * 100))%")
+            Text("Warna Musim: \(result)")
+            Text(String(format: "Kepercayaan: %.2f%%", confidence * 100))
+
+            Button("Simpan") {
+                // Simpan data ke database atau UserDefaults
+
+                // Setelah save, tutup semua dan pindah ke History
+                isActive = false
+                selectedTab = 1
+            }
+            .buttonStyle(.borderedProminent)
         }
         .padding()
     }

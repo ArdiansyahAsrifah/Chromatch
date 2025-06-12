@@ -5,46 +5,47 @@
 //  Created by Muhammad Ardiansyah Asrifah on 12/06/25.
 //
 
-// SplashView.swift
-
-// SplashView.swift
-
 import SwiftUI
 
 struct SplashView: View {
-    let result: String
-    let confidence: Float
+    var result: String
+    var confidence: Float
 
-    @State private var goToResultDetail = false
+    @Binding var isActive: Bool
+    @Binding var selectedTab: Int
+
+    @State private var goToDetail = false
 
     var body: some View {
-        ZStack {
-            LinearGradient(colors: [.purple, .pink], startPoint: .topLeading, endPoint: .bottomTrailing)
-                .ignoresSafeArea()
+        VStack(spacing: 20) {
+            Text("Hasil Prediksi")
+                .font(.largeTitle)
+                .bold()
 
-            VStack(spacing: 20) {
-                Text("You are a")
-                    .font(.title)
-                    .foregroundColor(.white)
+            Text(result)
+                .font(.title)
+                .foregroundColor(.blue)
 
-                Text(result)
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
+            Text(String(format: "Confidence: %.2f%%", confidence * 100))
+                .foregroundColor(.gray)
 
-                Text("Confidence: \(Int(confidence * 100))%")
-                    .font(.headline)
-                    .foregroundColor(.white.opacity(0.9))
+            Button("Lihat Detail") {
+                goToDetail = true
+            }
+            .buttonStyle(.borderedProminent)
+
+            Button("Kembali ke Kamera") {
+                isActive = false
             }
         }
-        .onAppear {
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                goToResultDetail = true
+        .padding()
+        .background(
+            NavigationLink(
+                destination: ResultDetailView(result: result, confidence: confidence, isActive: $isActive, selectedTab: $selectedTab),
+                isActive: $goToDetail
+            ) {
+                EmptyView()
             }
-        }
-        .fullScreenCover(isPresented: $goToResultDetail) {
-            ResultDetailView(result: result, confidence: confidence)
-        }
+        )
     }
 }

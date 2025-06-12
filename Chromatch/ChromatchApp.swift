@@ -13,5 +13,6 @@ struct ChromatchApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: AnalysisResult.self)
     }
 }
