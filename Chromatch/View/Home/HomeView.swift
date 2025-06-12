@@ -309,9 +309,7 @@ struct HomeView: View {
                 DispatchQueue.main.async {
                     withAnimation(.spring(response: 0.8, dampingFraction: 0.6)) {
                         self.predictionResult = prediction.target
-                        // Assuming the model provides confidence scores
-                        // self.confidence = prediction.confidence or similar
-                        self.confidence = Float.random(in: 0.75...0.95) // Placeholder
+                        self.confidence = Float(prediction.targetProbability[prediction.target] ?? 0.0)
                         self.isAnalyzing = false
                         self.animateResult = true
                     }

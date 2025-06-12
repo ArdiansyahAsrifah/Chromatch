@@ -17,7 +17,7 @@ struct MainTabView: View {
                     Image(systemName: "house.fill")
                 }
 
-            HomeView() // This could be your "Start Analysis" screen
+            HomeView()
                 .tabItem {
                     Image(systemName: "plus.circle.fill")
                 }
