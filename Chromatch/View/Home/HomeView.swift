@@ -10,7 +10,7 @@ import CoreML
 import UIKit
 import AVFoundation
 
-struct ContentView: View {
+struct HomeView: View {
     @StateObject private var cameraManager = CameraManager()
     @State private var showImagePicker = false
     @State private var predictionResult = "Ambil foto untuk prediksi"
@@ -200,7 +200,7 @@ struct ContentView: View {
                         }
                     }
                     
-                    Spacer()
+//                    Spacer()
                     
                     // Action buttons
                     HStack(spacing: 15) {
@@ -342,5 +342,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    HomeView()
 }

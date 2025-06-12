@@ -2,6 +2,8 @@ import SwiftUI
 
 struct Onboarding: View {
     @State private var currentPageIndex = 0
+    @AppStorage("hasCompletedOnboarding") var hasCompletedOnboarding = false
+
     
     private let totalPages = 3
     
@@ -35,7 +37,7 @@ struct Onboarding: View {
                         currentPageIndex += 1
                     }
                 } else {
-                    print("Go to Analysis Page!")
+                    hasCompletedOnboarding = true
                 }
             }) {
                 Text(currentPageIndex == totalPages - 1 ? "Continue to Analysis" : "Continue")
