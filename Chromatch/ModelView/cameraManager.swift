@@ -1,35 +1,36 @@
-//
-//  cameraManager.swift
-//  Chromatch
-//
-//  Created by Muhammad Ardiansyah Asrifah on 09/06/25.
-//
+// cameraManager.swift
 
 import SwiftUI
 import AVFoundation
+import Vision
 
-// MARK: - Camera Manager
+// This class now controls the live video feed and analysis.
+class CameraManager: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleBufferDelegate {
 
-class CameraManager: NSObject, ObservableObject {
     @Published var isPermissionGranted = false
-    @Published var capturedImage: UIImage?
-    
     let captureSession = AVCaptureSession()
-    private let photoOutput = AVCapturePhotoOutput()
-    private var captureCompletion: ((UIImage?) -> Void)?
     
+    weak var viewModel: FaceScannerViewModel?
+    
+    // --- Private properties for analysis ---
+    private let videoDataOutput = AVCaptureVideoDataOutput()
+    private let context = CIContext()
+    private var lastAnalysisTime: TimeInterval = 0
+    private let analysisInterval: TimeInterval = 0.7
+    
+    // A one-time closure for capturing a single frame.
+    private var onCaptureFrame: ((CVPixelBuffer?) -> Void)?
+
     override init() {
         super.init()
         setupCamera()
+        requestPermission()
     }
     
     func requestPermission() {
         AVCaptureDevice.requestAccess(for: .video) { granted in
             DispatchQueue.main.async {
                 self.isPermissionGranted = granted
-                if granted {
-                    self.startSession()
-                }
             }
         }
     }
@@ -40,43 +41,72 @@ class CameraManager: NSObject, ObservableObject {
             return
         }
         
+        captureSession.beginConfiguration()
+        
         if captureSession.canAddInput(videoInput) {
             captureSession.addInput(videoInput)
         }
         
-        if captureSession.canAddOutput(photoOutput) {
-            captureSession.addOutput(photoOutput)
+        videoDataOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))
+        if captureSession.canAddOutput(videoDataOutput) {
+            captureSession.addOutput(videoDataOutput)
         }
+        
+        captureSession.commitConfiguration()
     }
     
     func startSession() {
-        DispatchQueue.global(qos: .background).async {
-            self.captureSession.startRunning()
+        if !captureSession.isRunning {
+            DispatchQueue.global(qos: .userInitiated).async {
+                self.captureSession.startRunning()
+            }
         }
     }
     
     func stopSession() {
-        DispatchQueue.global(qos: .background).async {
-            self.captureSession.stopRunning()
+        if captureSession.isRunning {
+            DispatchQueue.global(qos: .background).async {
+                self.captureSession.stopRunning()
+            }
         }
     }
     
-    func capturePhoto(completion: @escaping (UIImage?) -> Void) {
-        captureCompletion = completion
-        let settings = AVCapturePhotoSettings()
-        photoOutput.capturePhoto(with: settings, delegate: self)
+    // fungsi untuk capture image
+    public func captureCurrentImage(completion: @escaping (CVPixelBuffer?) -> Void) {
+        self.onCaptureFrame = completion
     }
-}
+    
+    // method untuk live capture video
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
 
-extension CameraManager: AVCapturePhotoCaptureDelegate {
-    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        guard let imageData = photo.fileDataRepresentation(),
-              let image = UIImage(data: imageData) else {
-            captureCompletion?(nil)
-            return
+    
+        if let completion = self.onCaptureFrame {
+            completion(pixelBuffer)
+            self.onCaptureFrame = nil // Clear the request
         }
         
-        capturedImage = image
-        captureCompletion?(image)
+        let currentTime = CACurrentMediaTime()
+        guard currentTime - lastAnalysisTime > analysisInterval else { return }
+        lastAnalysisTime = currentTime
+
+
+        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+        let filter = CIFilter(name: "CIAreaAverage", parameters: [kCIInputImageKey: ciImage, kCIInputExtentKey: CIVector(cgRect: ciImage.extent)])!
+        let outputImage = filter.outputImage!
+        var bitmap = [UInt8](repeating: 0, count: 4)
+        context.render(outputImage, toBitmap: &bitmap, rowBytes: 4, bounds: CGRect(x: 0, y: 0, width: 1, height: 1), format: .RGBA8, colorSpace: nil)
+        let brightnessValue = (0.299 * CGFloat(bitmap[0]) + 0.587 * CGFloat(bitmap[1]) + 0.114 * CGFloat(bitmap[2]))
+        
+        let faceRequest = VNDetectFaceRectanglesRequest { [weak self] request, error in
+            guard let self = self,
+                  let results = request.results as? [VNFaceObservation],
+                  let firstResult = results.first else {
+                DispatchQueue.main.async { self?.viewModel?.update(faceObservation: nil, brightness: brightnessValue) }
+                return
+            }
+            DispatchQueue.main.async { self.viewModel?.update(faceObservation: firstResult.boundingBox, brightness: brightnessValue) }
+        }
+        try? VNImageRequestHandler(cmSampleBuffer: sampleBuffer, options: [:]).perform([faceRequest])
     }
 }
