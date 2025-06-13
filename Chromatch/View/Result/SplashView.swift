@@ -12,7 +12,7 @@ struct SplashView: View {
     var confidence: Float
 
     @Binding var isActive: Bool
-    @Binding var selectedTab: Int
+    @Binding var selectedTab: AppTab
 
     @State private var goToDetail = false
     @State private var animateProgress = false
@@ -135,19 +135,19 @@ struct SplashView: View {
                 goToDetail = true
             }
         }
-        .background(
-            NavigationLink(
-                destination: ResultDetailView(
-                    result: result,
-                    confidence: confidence,
-                    isActive: $isActive,
-                    selectedTab: $selectedTab
-                ),
-                isActive: $goToDetail
-            ) {
-                EmptyView()
-            }
-        )
+//        .background(
+//            NavigationLink(
+//                destination: ResultDetailView(
+//                    result: result,
+//                    confidence: confidence,
+//                    isActive: $isActive,
+//                    selectedTab: $selectedTab
+//                ),
+//                isActive: $goToDetail
+//            ) {
+//                EmptyView()
+//            }
+//        )
     }
     
     private func startAnimations() {
@@ -175,7 +175,7 @@ struct SplashView_Previews: PreviewProvider {
             result: "Spring",
             confidence: 1.0,
             isActive: .constant(true),
-            selectedTab: .constant(0)
+            selectedTab: .constant(.home)
         )
     }
 }

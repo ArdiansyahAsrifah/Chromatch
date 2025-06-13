@@ -5,7 +5,6 @@
 //  Created by Felda Everyl on 12/06/25.
 //
 
-
 import SwiftUI
 
 struct ContentView: View {
@@ -13,7 +12,7 @@ struct ContentView: View {
 
     var body: some View {
         if hasCompletedOnboarding {
-            MainTabView()
+            MainTabView(selectedTab: .constant(.home))
         } else {
             Onboarding()
         }

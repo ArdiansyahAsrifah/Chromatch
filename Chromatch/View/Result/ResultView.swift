@@ -11,7 +11,7 @@ struct ResultView: View {
     @State private var isAnalyzing = false
     @State private var confidence: Float = 0.0
     @State private var navigateToSplash = false
-    @Binding var selectedTab: Int
+    @Binding var selectedTab: AppTab
     
     // MARK: - Body
     var body: some View {

@@ -7,36 +7,73 @@
 
 
 import SwiftUI
-import SwiftData
 
 struct MainTabView: View {
-    
-    @State private var selectedTab = 0
-    
+    @Binding var selectedTab: AppTab
+
     var body: some View {
-        TabView {
-            HomeView()
-                .tabItem {
-                    Image(systemName: "house.fill")
-                }
-                .tag(0)
+        ZStack(alignment: .bottom) {
 
-            ResultView(selectedTab: $selectedTab)
-                .tabItem {
-                    Image(systemName: "plus.circle.fill")
+            // Custom Tab Bar
+            ZStack {
+                // Background bar
+                HStack (alignment: .center, spacing: 20){
+                    Spacer()
+                    tabBarItem(icon: "house.fill", tab: .home)
+                    Spacer()
+                    Spacer() // For center button space
+                    Spacer()
+                    tabBarItem(icon: "clock.fill", tab: .history)
+                    Spacer()
                 }
-                .tag(1)
+                .frame(width: 180, height: 60)
+                .padding(.horizontal, 20)
+                .background(.black.opacity(0.3))
+                .cornerRadius(50)
+                .padding(.bottom, 20)
 
-            HistoryView()
-                .tabItem {
-                    Image(systemName: "clock.fill")
+                // Center Floating Button
+                Button(action: {
+                    selectedTab = .scan
+                }) {
+                    Image(systemName: "plus")
+                        .font(.system(size: 24))
+                        .foregroundColor(.black)
+                        .frame(width: 60, height: 56)
+                        .background(Color.white)
+                        .clipShape(Circle())
+//                        .shadow(radius: 5)
                 }
-                .tag(2)
+                .offset(y: -10)
+            }
         }
     }
+
+    // Helper function for tab icons
+    func tabBarItem(icon: String, tab: AppTab) -> some View {
+        Button(action: {
+            selectedTab = tab
+        }) {
+            Image(systemName: icon)
+                .font(.system(size: 24))
+                .foregroundColor(selectedTab == tab ? .white : .gray)
+        }
+    }
+    func navigationTitle(for tab: AppTab) -> String {
+          switch tab {
+          case .home:
+              return "HOME / SPRING"
+          case .scan:
+              return "SCAN / EMPTY"
+          case .history:
+              return "HISTORY / MARCH"
+          }
+      }
+
 }
 
+
+
 #Preview {
-    MainTabView()
-        .modelContainer(for: AnalysisResult.self, inMemory: true)
+    MainTabView(selectedTab: .constant(.home))
 }
