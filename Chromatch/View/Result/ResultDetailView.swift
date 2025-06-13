@@ -1,10 +1,10 @@
 //
-//  ResultDetailView.swift
-//  Chromatch
+////  ResultDetailView.swift
+////  Chromatch
+////
+////  Created by Muhammad Ardiansyah Asrifah on 12/06/25.
 //
-//  Created by Muhammad Ardiansyah Asrifah on 12/06/25.
 //
-
 //import SwiftUI
 //
 //struct ResultDetailView: View {
