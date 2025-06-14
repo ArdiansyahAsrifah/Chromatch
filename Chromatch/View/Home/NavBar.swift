@@ -7,8 +7,11 @@
 //
 
 import SwiftUI
+import Combine
 
-import SwiftUI
+class AppState: ObservableObject {
+    @Published var hasShownInitialPopup = false
+}
 
 enum AppTab {
     case home
@@ -18,23 +21,25 @@ enum AppTab {
 
 struct NavigationView: View {
     @State private var selectedTab: AppTab = .home
-
+    @StateObject private var appState = AppState()
+    
     var body: some View {
         VStack(spacing: 0) {
-            // Top Navigation Title
-            HStack (alignment: .center, spacing: 2){
-                Text(navigationTitle(for: selectedTab))
-                    .font(.body)
-                    .foregroundColor(.white)
+            if selectedTab != .scan {
+                HStack (alignment: .center, spacing: 2){
+                    Text(navigationTitle(for: selectedTab))
+                        .font(.body)
+                        .foregroundColor(.white)
+                }
+                .frame(width: 100, height: 40)
+                .background(.black.opacity(0.5))
+                .cornerRadius(20)
+                .padding(.horizontal, 24)
+                .padding(.top, 60)
             }
-            .frame(width: 100, height: 40)
-            .background(.black.opacity(0.5))
-            .cornerRadius(20)
-            .padding(.horizontal, 24)
-            .padding(.top, 60)
-
+            
             Spacer()
-
+            
             // Current page
             Group {
                 switch selectedTab {
@@ -47,15 +52,18 @@ struct NavigationView: View {
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-
+            
             // Custom Tab Bar
-            MainTabView(selectedTab: $selectedTab)
+            if selectedTab != .scan {
+                MainTabView(selectedTab: $selectedTab)
+            }
             
         }
         .edgesIgnoringSafeArea(.all)
-
+        .environmentObject(appState)
+        
     }
-
+    
     func navigationTitle(for tab: AppTab) -> String {
         switch tab {
         case .home:

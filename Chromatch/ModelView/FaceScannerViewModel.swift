@@ -90,13 +90,13 @@ class FaceScannerViewModel: ObservableObject {
             return
         }
         
-        let targetWidth: CGFloat = 0.30
-        let targetHeight: CGFloat = 0.30
+        let targetWidth: CGFloat = 0.45
+        let targetHeight: CGFloat = 0.45
         let targetCenterX: CGFloat = 0.5
-        let targetCenterY: CGFloat = 0.20
+        let targetCenterY: CGFloat = 0.5
         
-        let centerTolerance: CGFloat = 0.3
-        let sizeTolerance: CGFloat = 0.4
+        let centerTolerance: CGFloat = 0.1
+        let sizeTolerance: CGFloat = 0.2
 
         let isCentered = abs(faceBoundingBox.midX - targetCenterX) < centerTolerance &&
                          abs(faceBoundingBox.midY - targetCenterY) < centerTolerance
