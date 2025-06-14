@@ -192,8 +192,10 @@ struct ResultView: View {
     @State private var predictionResult = "Ambil foto untuk prediksi"
     @State private var isAnalyzing = false
     @State private var confidence: Float = 0.0
+    @State private var isInfoPopupPresented = false
     @State private var navigateToSplash = false
     @Binding var selectedTab: AppTab
+    
     
     // MARK: - Body
     var body: some View {
@@ -312,25 +314,39 @@ struct ResultView: View {
                 }
             }
             
-            //Back button to return to home
+            //Button for navigation and help
             VStack {
                 HStack {
                     Button(action: {
-                        // This is the main action: switch the tab back to home.
                         selectedTab = .home
                     }) {
                         Image(systemName: "chevron.left")
                             .font(.title3)
-                            .fontWeight(.bold)
                             .foregroundColor(.black)
                             .padding(12)
-                            .background(Color.white.opacity(0.6))
+                            .background(Color.secondary.opacity(0.2))
                             .clipShape(Circle())
                     }
-                    .padding(.leading, 24) // Indent from the left edge
+                    .padding(.leading, 24)
                     .padding(.top, 60)   // Indent from the top to avoid the notch
                     
                     Spacer() // Pushes the button to the left
+                    
+                    Button(action: {
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            isInfoPopupPresented = true
+                        }
+                    }) {
+                        Image(systemName: "questionmark.circle")
+                            .font(.title3)
+                            .foregroundColor(.blue)
+                            .padding(12)
+                            .background(Color.secondary.opacity(0.2))
+                            .clipShape(Circle())
+                    }
+                    .padding(.trailing, 24) // Indent from the right edge
+                    .padding(.top, 60)   // Indent from the top to avoid the notch
+                    
                 }
                 Spacer() // Pushes the HStack to the top
             }
@@ -348,6 +364,11 @@ struct ResultView: View {
                         .fontWeight(.medium)
                         .foregroundColor(.white)
                 }
+            }
+            
+            if isInfoPopupPresented {
+                PopupInfo(isPresented: $isInfoPopupPresented)
+                    .transition(.opacity)
             }
         }
         .sheet(isPresented: $navigateToSplash) {
