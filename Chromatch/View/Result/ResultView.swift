@@ -179,6 +179,7 @@
 //    }
 //}
 
+
 import SwiftUI
 import VideoToolbox
 
@@ -228,40 +229,14 @@ struct ResultView: View {
                             .foregroundColor(viewModel.areAllCriteriaMet ? .green : .white)
                             .animation(.easeInOut(duration: 0.3), value: viewModel.areAllCriteriaMet)
                     }
-                    .padding(.top, 50)
+                    .padding(.top, 100)
                     
                     Spacer()
                     
                     // Status message
                     VStack(spacing: 15) {
-                        if viewModel.areAllCriteriaMet {
-                            // "You're all set!" message
-                            Text("You're all set!")
-                                .font(.title2)
-                                .fontWeight(.semibold)
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 20)
-                                .padding(.vertical, 12)
-                                .background(
-                                    Capsule()
-                                        .fill(Color.green)
-                                )
-                        } else {
-                            // Instruction text
-                            Text(viewModel.facePositionState.instructionText)
-                                .font(.headline)
-                                .fontWeight(.medium)
-                                .foregroundColor(.white)
-                                .multilineTextAlignment(.center)
-                                .padding(.horizontal, 20)
-                                .padding(.vertical, 12)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .fill(Color.black.opacity(0.6))
-                                )
-                        }
                         
-                        // Lighting Warning
+                        // Warning
                         if let warningText = viewModel.lightingState.warningText {
                             HStack(spacing: 8) {
                                 Image(systemName: "lightbulb.slash.fill")
@@ -277,6 +252,33 @@ struct ResultView: View {
                                 RoundedRectangle(cornerRadius: 16)
                                     .fill(Color.black.opacity(0.6))
                             )
+                        } else {
+                            if viewModel.areAllCriteriaMet {
+                                // "You're all set!" message
+                                Text("You're all set!")
+                                    .font(.title2)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal, 20)
+                                    .padding(.vertical, 12)
+                                    .background(
+                                        Capsule()
+                                            .fill(Color.green)
+                                    )
+                            } else {
+                                // Instruction text
+                                Text(viewModel.facePositionState.instructionText)
+                                    .font(.headline)
+                                    .fontWeight(.medium)
+                                    .foregroundColor(.white)
+                                    .multilineTextAlignment(.center)
+                                    .padding(.horizontal, 20)
+                                    .padding(.vertical, 12)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .fill(Color.black.opacity(0.6))
+                                    )
+                            }
                         }
                     }
                     .animation(.easeInOut(duration: 0.3), value: viewModel.areAllCriteriaMet)
@@ -309,6 +311,30 @@ struct ResultView: View {
                     .padding(.bottom, 50)
                 }
             }
+            
+            //Back button to return to home
+            VStack {
+                HStack {
+                    Button(action: {
+                        // This is the main action: switch the tab back to home.
+                        selectedTab = .home
+                    }) {
+                        Image(systemName: "chevron.left")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .foregroundColor(.black)
+                            .padding(12)
+                            .background(Color.white.opacity(0.6))
+                            .clipShape(Circle())
+                    }
+                    .padding(.leading, 24) // Indent from the left edge
+                    .padding(.top, 60)   // Indent from the top to avoid the notch
+                    
+                    Spacer() // Pushes the button to the left
+                }
+                Spacer() // Pushes the HStack to the top
+            }
+            .edgesIgnoringSafeArea(.top)
             
             // Loading overlay
             if isAnalyzing {
