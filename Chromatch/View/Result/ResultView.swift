@@ -188,6 +188,7 @@ struct ResultView: View {
     @StateObject private var viewModel = FaceScannerViewModel()
     @StateObject private var cameraManager = CameraManager()
     @State private var capturedImageForAnalysis: UIImage?
+    @EnvironmentObject var appState: AppState
     
     @State private var predictionResult = "Ambil foto untuk prediksi"
     @State private var isAnalyzing = false
@@ -390,6 +391,16 @@ struct ResultView: View {
             }
         }
         .onAppear {
+            if !appState.hasShownInitialPopup {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    withAnimation(.easeInOut) {
+                        isInfoPopupPresented = true
+                        
+                    }
+                    appState.hasShownInitialPopup = true
+                }
+            }
+            
             cameraManager.viewModel = viewModel
             cameraManager.startSession()
         }

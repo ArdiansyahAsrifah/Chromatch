@@ -7,8 +7,11 @@
 //
 
 import SwiftUI
+import Combine
 
-import SwiftUI
+class AppState: ObservableObject {
+    @Published var hasShownInitialPopup = false
+}
 
 enum AppTab {
     case home
@@ -18,6 +21,7 @@ enum AppTab {
 
 struct NavigationView: View {
     @State private var selectedTab: AppTab = .home
+    @StateObject private var appState = AppState()
     
     var body: some View {
         VStack(spacing: 0) {
@@ -56,6 +60,7 @@ struct NavigationView: View {
             
         }
         .edgesIgnoringSafeArea(.all)
+        .environmentObject(appState)
         
     }
     
