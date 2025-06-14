@@ -135,19 +135,19 @@ struct SplashView: View {
                 goToDetail = true
             }
         }
-//        .background(
-//            NavigationLink(
-//                destination: ResultDetailView(
-//                    result: result,
-//                    confidence: confidence,
-//                    isActive: $isActive,
-//                    selectedTab: $selectedTab
-//                ),
-//                isActive: $goToDetail
-//            ) {
-//                EmptyView()
-//            }
-//        )
+        .background(
+            NavigationLink(
+                destination: ResultDetailView(
+                    result: result,
+                    confidence: confidence,
+                    isActive: $isActive,
+                    selectedTab: $selectedTab
+                ),
+                isActive: $goToDetail
+            ) {
+                EmptyView()
+            }
+        )
     }
     
     private func startAnimations() {

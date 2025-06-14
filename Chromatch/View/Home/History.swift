@@ -68,12 +68,19 @@ struct HistoryView: View {
 
                         ForEach(groupedResults[month] ?? [], id: \.self) { result in
                             HStack {
-                                Image(result.imageName)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 50, height: 50)
-                                    .clipShape(Circle())
-                                    .shadow(radius: 4)
+                                if let data = result.imageData, let uiImage = UIImage(data: data) {
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 50, height: 50)
+                                        .clipShape(Circle())
+                                        .shadow(radius: 4)
+                                } else {
+                                    // Fallback image
+                                    Circle()
+                                        .fill(Color.gray)
+                                        .frame(width: 50, height: 50)
+                                }
 
                                 VStack(alignment: .leading) {
                                     Text(result.date, style: .date)
@@ -99,23 +106,23 @@ struct HistoryView: View {
 }
 
 
-
-#Preview {
-    let modelContainer = try! ModelContainer(for: AnalysisResult.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
-
-    let context = modelContainer.mainContext
-
-    // Sample preview data
-    let sampleResults = [
-        AnalysisResult(date: Date(), season: "Winter", confidence: 1.0, imageName: "person1"),
-        AnalysisResult(date: Date().addingTimeInterval(-86400 * 2), season: "Winter", confidence: 0.72, imageName: "person2"),
-        AnalysisResult(date: Date().addingTimeInterval(-86400 * 30), season: "Winter", confidence: 0.56, imageName: "person3")
-    ]
-
-    for result in sampleResults {
-        context.insert(result)
-    }
-
-    return HistoryView()
-        .modelContainer(modelContainer)
-}
+//
+//#Preview {
+//    let modelContainer = try! ModelContainer(for: AnalysisResult.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+//
+//    let context = modelContainer.mainContext
+//
+//    // Sample preview data
+//    let sampleResults = [
+//        AnalysisResult(date: Date(), season: "Winter", confidence: 1.0, imageName: "person1"),
+//        AnalysisResult(date: Date().addingTimeInterval(-86400 * 2), season: "Winter", confidence: 0.72, imageName: "person2"),
+//        AnalysisResult(date: Date().addingTimeInterval(-86400 * 30), season: "Winter", confidence: 0.56, imageName: "person3")
+//    ]
+//
+//    for result in sampleResults {
+//        context.insert(result)
+//    }
+//
+//    HistoryView()
+//        .modelContainer(modelContainer)
+//}

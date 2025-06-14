@@ -12,7 +12,7 @@ struct ChromatchApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .modelContainer(for: AnalysisResult.self)
         }
-        .modelContainer(for: AnalysisResult.self)
     }
 }

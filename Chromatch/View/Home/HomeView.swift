@@ -5,20 +5,28 @@
 //  Created by Muhammad Ardiansyah Asrifah on 09/06/25.
 //
 
+import SwiftData
 import SwiftUI
-import CoreML
-import UIKit
-import AVFoundation
+
 
 struct HomeView: View {
+    @Query(sort: \AnalysisResult.date, order: .reverse)
+    private var latestResults: [AnalysisResult]
 
-    
+    @Binding var isActive: Bool
+    @Binding var selectedTab: AppTab
+
     var body: some View {
-        Text("HomeView")
-       
+        VStack {
+            let result = latestResults.first?.season
+            let confidence = Double(latestResults.first!.confidence)
+            ResultDetailView(
+                result: result!,
+                confidence: Float(confidence),
+                isActive: $isActive,
+                selectedTab: $selectedTab
+            )
+        }
     }
 }
 
-#Preview {
-    HomeView()
-}

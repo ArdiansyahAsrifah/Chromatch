@@ -192,10 +192,12 @@ struct ResultView: View {
     
     @State private var predictionResult = "Ambil foto untuk prediksi"
     @State private var isAnalyzing = false
-    @State private var confidence: Float = 0.0
+    @State private var confidence: Double = 0.0
     @State private var isInfoPopupPresented = false
     @State private var navigateToSplash = false
     @Binding var selectedTab: AppTab
+    
+    @Environment(\.modelContext) private var modelContext
     
     
     // MARK: - Body
@@ -374,7 +376,7 @@ struct ResultView: View {
         }
         .sheet(isPresented: $navigateToSplash) {
             NavigationStack {
-                SplashView(result: predictionResult, confidence: confidence, isActive: $navigateToSplash, selectedTab: $selectedTab)
+                SplashView(result: predictionResult, confidence: Float(confidence), isActive: $navigateToSplash, selectedTab: $selectedTab)
             }
         }
         .onChange(of: capturedImageForAnalysis) { _, newImage in
@@ -430,17 +432,29 @@ struct ResultView: View {
             DispatchQueue.main.async { self.isAnalyzing = false }
             return
         }
-        
+
         DispatchQueue.global(qos: .userInteractive).async {
             let model = SeasonalColorClassifier()
             do {
                 let input = SeasonalColorClassifierInput(image: bufferForModel)
                 let prediction = try model.prediction(input: input)
-                
+
                 DispatchQueue.main.async {
                     withAnimation {
                         self.predictionResult = prediction.target
-                        self.confidence = Float(prediction.targetProbability[prediction.target] ?? 0.0)
+                        self.confidence = Double(Float(prediction.targetProbability[prediction.target] ?? 0.0))
+
+                        // ✅ Convert image to Data
+                        let imageData = image.jpegData(compressionQuality: 0.8)
+
+                        // ✅ Save to SwiftData
+                        let historyItem = AnalysisResult(
+                            season: predictionResult,
+                            confidence: confidence,
+                            imageData: imageData
+                        )
+                        modelContext.insert(historyItem)
+
                         self.isAnalyzing = false
                         self.navigateToSplash = true
                     }
@@ -453,7 +467,8 @@ struct ResultView: View {
             }
         }
     }
-    
+
+
     private func imageFromPixelBuffer(_ pixelBuffer: CVPixelBuffer) -> UIImage? {
         var cgImage: CGImage?
         VTCreateCGImageFromCVPixelBuffer(pixelBuffer, options: nil, imageOut: &cgImage)

@@ -21,6 +21,7 @@ enum AppTab {
 
 struct NavigationView: View {
     @State private var selectedTab: AppTab = .home
+    @State private var isActive: Bool = false
     @StateObject private var appState = AppState()
     
     var body: some View {
@@ -44,7 +45,7 @@ struct NavigationView: View {
             Group {
                 switch selectedTab {
                 case .home:
-                    HomeView()
+                    HomeView(isActive:$isActive, selectedTab: $selectedTab)
                 case .scan:
                     ResultView(selectedTab: $selectedTab)
                 case .history:
