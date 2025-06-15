@@ -56,7 +56,7 @@ Follow these instructions to get a copy of the project up and running on your lo
     ```
 
 2.  **Open in Xcode**
-    Navigate to the cloned directory and open the `Choramatch.xcodeproj` file. This will launch the project in Xcode.
+    Navigate to the cloned directory and open the `Chromatch.xcodeproj` file. This will launch the project in Xcode.
 
 3.  **Build & Run the Project**
     * Select your target device (e.g., an iPhone simulator or a connected physical iPhone) from the scheme menu at the top of the Xcode window.
