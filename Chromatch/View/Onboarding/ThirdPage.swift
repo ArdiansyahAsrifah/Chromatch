@@ -9,26 +9,29 @@ import SwiftUI
 
 struct OnboardPageThirdView: View {
     var body: some View {
-        VStack(spacing: 20) {
-            Spacer()
+        ZStack {
+            Rectangle()
+                .ignoresSafeArea()
+                .foregroundStyle(.idleBTEnd)
+                .opacity(0.2)
             
-            Text("Let's find Yours!")
-                .font(.system(size: 32, weight: .bold))
-                .multilineTextAlignment(.center)
+            VStack(alignment: .leading, spacing: 20) {
+                Text("Ready to unlock the colors that were made for you?\n\nLet's start with a selfie.")
+                    .font(.system(size: 18, weight: .light, design: .rounded))
+                    .foregroundColor(.black)
+                    .opacity(0.9)
+                    .padding(.horizontal, 30)
+                    .padding(.top, -80)
+                    .multilineTextAlignment(.center)
+                
+            }
             
-            Text("Scan your face now to find out")
-                .font(.body)
-                .foregroundColor(.secondary)
-            
-            RoundedRectangle(cornerRadius: 25.0)
-                .fill(Color.pink.opacity(0.8))
-                .frame(width: 250, height: 250)
-                .padding(.vertical, 40)
-            
-            Spacer()
-            Spacer()
         }
-        .padding(.horizontal, 40)
     }
+}
+
+
+#Preview {
+    OnboardPageThirdView()
 }
 

@@ -5,59 +5,6 @@ import Foundation
 import Combine
 import SwiftUI
 
-// MARK: - State Enums
-// Describes the position of the user's face relative to the guide circle.
-enum FacePositionState {
-    case notFound
-    case tooFar
-    case tooClose
-    case offCenter
-    case correct
-    
-    var instructionText: String {
-        switch self {
-        case .notFound:
-            return "Position your face in the circle"
-        case .tooFar:
-            return "Move Closer"
-        case .tooClose:
-            return "Move Further Away"
-        case .offCenter:
-            return "Center Your Face"
-        case .correct:
-            return "Perfect! Hold Still"
-        }
-    }
-    
-    var color: Color {
-        switch self {
-        case .correct:
-            return .green
-        default:
-            return .red
-        }
-    }
-}
-
-// Describes the lighting conditions of the camera feed.
-enum LightingState {
-    case normal
-    case tooDim
-    case tooBright
-    
-    var warningText: String? {
-        switch self {
-        case .normal:
-            return nil
-        case .tooDim:
-            return "Lighting is too dim"
-        case .tooBright:
-            return "Lighting is too bright"
-        }
-    }
-}
-
-
 // MARK: - View Model
 class FaceScannerViewModel: ObservableObject {
     @Published var facePositionState: FacePositionState = .notFound
