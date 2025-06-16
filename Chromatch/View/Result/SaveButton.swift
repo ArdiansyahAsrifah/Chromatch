@@ -10,6 +10,7 @@ import SwiftUI
 struct SaveButton: View {
     var result: String
     var confidence: Float
+    var imageData: Data?
     
     @Binding var isActive: Bool
     @Binding var selectedTab: AppTab
@@ -22,7 +23,9 @@ struct SaveButton: View {
             let newResult = ColorResult(
                 result: result,
                 confidence: confidence,
-                timestamp: Date()
+                timestamp: Date(),
+                imageData: imageData
+                
             )
             historyManager.addResult(newResult)
             

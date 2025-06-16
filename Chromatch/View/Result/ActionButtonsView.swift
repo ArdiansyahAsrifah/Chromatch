@@ -10,7 +10,8 @@ struct ActionButtonsView: View {
     @Binding var isActive: Bool
     @Binding var selectedTab: AppTab
     @EnvironmentObject var historyManager: HistoryManager
-    
+
+    let imageData: Data?
     var result: String
     var confidence: Float
     @Environment(\.presentationMode) var presentationMode
@@ -20,7 +21,7 @@ struct ActionButtonsView: View {
             SaveButton(
                 result: result,
                 confidence: confidence,
-                isActive: $isActive,
+                imageData: imageData, isActive: $isActive,
                 selectedTab: $selectedTab,
                 presentationMode: presentationMode
             )

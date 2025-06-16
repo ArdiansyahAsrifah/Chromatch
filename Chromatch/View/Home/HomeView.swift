@@ -88,9 +88,10 @@ struct HomeView: View {
     @State private var showExpandedPalette = false
     @Environment(\.presentationMode) var presentationMode
     
+    
     // Computed properties untuk mendapatkan data terbaru
     private var latestResult: ColorResult? {
-        historyManager.results.first // Asumsi results diurutkan dari yang terbaru
+        historyManager.results.first
     }
     
     private var displayResult: String {
@@ -99,6 +100,10 @@ struct HomeView: View {
     
     private var displayConfidence: Float {
         latestResult?.confidence ?? 0.0
+    }
+    
+    private var displayImageData: Data? {
+        latestResult?.imageData
     }
     
     var body: some View {
@@ -115,7 +120,8 @@ struct HomeView: View {
                             result: displayResult,
                             animateElements: $animateElements,
                             progressValue: $progressValue,
-                            confidence: displayConfidence
+                            confidence: displayConfidence,
+                            imageData: displayImageData
                         )
                         
                         ContentSectionsView(
