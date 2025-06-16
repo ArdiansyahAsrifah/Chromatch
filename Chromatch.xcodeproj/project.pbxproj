@@ -34,6 +34,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+				View/Home/History.swift,
 			);
 			target = A57A24C52DF67A7B00DD48EF /* Chromatch */;
 		};
@@ -409,7 +410,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Chromatch/Preview Content\"";
-				DEVELOPMENT_TEAM = YBYC479BXC;
+				DEVELOPMENT_TEAM = V2R2B23AM7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Chromatch/Info.plist;
@@ -424,7 +425,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = MLchallenge.Chromatch;
+				PRODUCT_BUNDLE_IDENTIFIER = MLC.Chromatch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -440,7 +441,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Chromatch/Preview Content\"";
-				DEVELOPMENT_TEAM = YBYC479BXC;
+				DEVELOPMENT_TEAM = V2R2B23AM7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Chromatch/Info.plist;
@@ -455,7 +456,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = MLchallenge.Chromatch;
+				PRODUCT_BUNDLE_IDENTIFIER = MLC.Chromatch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
