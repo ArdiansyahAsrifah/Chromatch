@@ -106,6 +106,8 @@
 //    }
 //}
 
+import SwiftUI
+
 class AppState: ObservableObject {
     @Published var hasShownInitialPopup = false
 }
@@ -120,6 +122,7 @@ struct NavigationView: View {
     @State private var selectedTab: AppTab = .home
     @StateObject private var historyManager = HistoryManager()
     @State private var isActive = false
+    @StateObject private var appState = AppState()
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -139,7 +142,7 @@ struct NavigationView: View {
 
             MainTabView(selectedTab: $selectedTab)
         }
-    
+        .environmentObject(appState)
         .edgesIgnoringSafeArea(.all)
     }
 }

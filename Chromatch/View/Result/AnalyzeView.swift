@@ -1,5 +1,6 @@
 import SwiftUI
 import VideoToolbox
+import SwiftData
 
 struct AnalyzeView: View {
     // MARK: - Properties
@@ -7,6 +8,7 @@ struct AnalyzeView: View {
     @StateObject private var cameraManager = CameraManager()
     @State private var capturedImageForAnalysis: UIImage?
     @EnvironmentObject var appState: AppState
+    @Environment(\.modelContext) private var modelContext
     
     @State private var predictionResult = "Ambil foto untuk prediksi"
     @State private var isAnalyzing = false
