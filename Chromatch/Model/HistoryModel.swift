@@ -11,16 +11,18 @@ import SwiftData
 
 @Model
 class AnalysisResult {
+    var id: UUID
     var date: Date
     var season: String
     var confidence: Double
-    var imageName: String
+    var imageData: Data?
 
-    init(date: Date, season: String, confidence: Double, imageName: String) {
-        self.date = date
+    init(season: String, confidence: Double, imageData: Data?) {
+        self.id = UUID()
+        self.date = Date()
         self.season = season
         self.confidence = confidence
-        self.imageName = imageName
+        self.imageData = imageData
     }
 }
 

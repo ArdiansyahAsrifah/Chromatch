@@ -14,6 +14,5 @@ struct ChromatchApp: App {
             ContentView()
             
         }
-        .modelContainer(for: AnalysisResult.self)
     }
 }

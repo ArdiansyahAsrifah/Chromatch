@@ -75,6 +75,7 @@
 //
 // Created by Muhammad Ardiansyah Asrifah on 14/06/25.
 
+import SwiftData
 import SwiftUI
 
 struct HomeView: View {

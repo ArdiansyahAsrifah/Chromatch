@@ -106,7 +106,9 @@
 //    }
 //}
 
-import SwiftUI
+class AppState: ObservableObject {
+    @Published var hasShownInitialPopup = false
+}
 
 enum AppTab {
     case home
