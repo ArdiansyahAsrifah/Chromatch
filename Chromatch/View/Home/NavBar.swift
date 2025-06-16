@@ -41,7 +41,7 @@
 ////
 ////            // Custom Tab Bar
 ////            MainTabView(selectedTab: $selectedTab)
-////            
+////
 ////        }
 ////        .edgesIgnoringSafeArea(.all)
 ////
@@ -79,7 +79,7 @@
 //    @State private var selectedTab: AppTab = .home
 //    @StateObject private var historyManager = HistoryManager()
 //    @State private var isActive = false
-//    
+//
 //    var result: String
 //    var confidence: Float
 //
@@ -97,7 +97,7 @@
 //                    HistoryView()
 //                        .environmentObject(historyManager)
 //                }
-//                
+//
 //            }
 //
 //            MainTabView(selectedTab: $selectedTab)
@@ -123,7 +123,7 @@ struct NavigationView: View {
     @StateObject private var historyManager = HistoryManager()
     @State private var isActive = false
     @StateObject private var appState = AppState()
-
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             Group {
@@ -139,8 +139,10 @@ struct NavigationView: View {
                         .environmentObject(historyManager)
                 }
             }
-
-            MainTabView(selectedTab: $selectedTab)
+            
+            if selectedTab != .scan {
+                MainTabView(selectedTab: $selectedTab)
+            }
         }
         .environmentObject(appState)
         .edgesIgnoringSafeArea(.all)

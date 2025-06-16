@@ -113,22 +113,29 @@ struct AnalyzeView: View {
                     
                     // Camera capture button
                     Button(action: capturePhoto) {
-                        ZStack {
-                            // Outer ring
-                            Circle()
-                                .stroke(Color.white.opacity(0.8), lineWidth: 4)
-                                .frame(width: 80, height: 80)
+//                        ZStack {
+//                            // Outer ring
+//                            Circle()
+//                                .stroke(Color.white.opacity(0.8), lineWidth: 4)
+//                                .frame(width: 80, height: 80)
+//                            
+//                            // Inner circle
+//                            Circle()
+//                                .fill(Color.white)
+//                                .frame(width: 60, height: 60)
+//                                .overlay(
+//                                    Circle()
+//                                        .fill(Color.black.opacity(0.1))
+//                                        .frame(width: 50, height: 50)
+//                                )
+//                        }
+                        Image("buttonIcon")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 100, height: 100)
+                            .clipShape(Circle())
+                        
                             
-                            // Inner circle
-                            Circle()
-                                .fill(Color.white)
-                                .frame(width: 60, height: 60)
-                                .overlay(
-                                    Circle()
-                                        .fill(Color.black.opacity(0.1))
-                                        .frame(width: 50, height: 50)
-                                )
-                        }
                     }
                     .disabled(!viewModel.areAllCriteriaMet)
                     .opacity(viewModel.areAllCriteriaMet ? 1.0 : 0.5)
