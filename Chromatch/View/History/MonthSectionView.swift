@@ -22,6 +22,8 @@ struct MonthSectionView: View {
                     .foregroundColor(.primary)
                 
                 Spacer()
+                
+                
             }
             .padding(.horizontal, 4)
             

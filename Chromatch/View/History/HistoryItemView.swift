@@ -81,10 +81,18 @@ struct CompactHistoryItemView: View {
             
             Spacer()
             
-            // Season Icon (Large)
-            Image(systemName: seasonIcon)
-                .font(.system(size: 24))
-                .foregroundColor(seasonColor)
+            HStack(spacing: 12) {
+                Image(systemName: seasonIcon)
+                    .font(.system(size: 24))
+                    .foregroundColor(seasonColor)
+                
+                Button(action: onDelete) {
+                    Image(systemName: "trash")
+                        .foregroundColor(.red)
+                }
+                .buttonStyle(BorderlessButtonStyle())
+            }
+
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 16)
