@@ -98,9 +98,7 @@ struct HistoryView: View {
                 Spacer()
                 if !historyManager.results.isEmpty {
                     Button("Clear All") {
-                        withAnimation(.spring()) {
-                            historyManager.clearAllResults()
-                        }
+                        showingDeleteAlert = true
                     }
                     .foregroundColor(.red)
                     .font(.system(size: 16, weight: .medium))
@@ -109,7 +107,18 @@ struct HistoryView: View {
         }
         .padding(.horizontal, 20)
         .padding(.top, 20)
+        .alert("Delete All History?", isPresented: $showingDeleteAlert) {
+            Button("Cancel", role: .cancel) { }
+            Button("Delete All", role: .destructive) {
+                withAnimation(.spring()) {
+                    historyManager.clearAllResults()
+                }
+            }
+        } message: {
+            Text("This action will permanently delete all your color analysis results.")
+        }
     }
+
 
     private var emptyStateView: some View {
         VStack(spacing: 24) {
