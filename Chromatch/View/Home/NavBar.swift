@@ -1,13 +1,110 @@
-
+////
+//////
+//////  Navigation.swift
+//////  Chromatch
+//////
+//////  Created by Felda Everyl on 12/06/25.
+//////
+////
+////import SwiftUI
+////
+////import SwiftUI
+////
+////enum AppTab {
+////    case home
+////    case scan
+////    case history
+////}
+////
+////struct NavigationView: View {
+////    @State private var selectedTab: AppTab = .home
+////    @StateObject private var historyManager = HistoryManager()
+////
+////    var body: some View {
+////        VStack(spacing: 0) {
+////
+////            Spacer()
+////
+////            // Current page
+////            Group {
+////                switch selectedTab {
+////                case .home:
+////                    HomeView()
+////                case .scan:
+////                    ResultView(selectedTab: $selectedTab)
+////                case .history:
+////                    HistoryView()
+////                }
+////            }
+////            .frame(maxWidth: .infinity, maxHeight: .infinity)
+////            .environmentObject(historyManager)
+////
+////            // Custom Tab Bar
+////            MainTabView(selectedTab: $selectedTab)
+////            
+////        }
+////        .edgesIgnoringSafeArea(.all)
+////
+////    }
+////
+//////    func navigationTitle(for tab: AppTab) -> String {
+//////        switch tab {
+//////        case .home:
+//////            return "Home"
+//////        case .scan:
+//////            return "Analyze"
+//////        case .history:
+//////            return "History"
+//////        }
+//////    }
+////}
+////
+////struct MPreviews: PreviewProvider {
+////    static var previews: some View {
+////        NavigationView()
+////    }
+////}
+////
 //
-//  Navigation.swift
-//  Chromatch
+//// NavigationRootView.swift
+//import SwiftUI
 //
-//  Created by Felda Everyl on 12/06/25.
+//enum AppTab {
+//    case home
+//    case scan
+//    case history
+//}
 //
-
-import SwiftUI
-import Combine
+//struct NavigationView: View {
+//    @State private var selectedTab: AppTab = .home
+//    @StateObject private var historyManager = HistoryManager()
+//    @State private var isActive = false
+//    
+//    var result: String
+//    var confidence: Float
+//
+//    var body: some View {
+//        VStack(spacing: 0) {
+//            Group {
+//                switch selectedTab {
+//                case .home:
+//                    HomeView(result: result, confidence: confidence, isActive: $isActive, selectedTab: $selectedTab)
+//                        .environmentObject(historyManager)
+//                case .scan:
+//                    ResultView(selectedTab: $selectedTab)
+//                        .environmentObject(historyManager)
+//                case .history:
+//                    HistoryView()
+//                        .environmentObject(historyManager)
+//                }
+//                
+//            }
+//
+//            MainTabView(selectedTab: $selectedTab)
+//        }
+//        .edgesIgnoringSafeArea(.all)
+//    }
+//}
 
 class AppState: ObservableObject {
     @Published var hasShownInitialPopup = false
@@ -21,65 +118,28 @@ enum AppTab {
 
 struct NavigationView: View {
     @State private var selectedTab: AppTab = .home
-    @State private var isActive: Bool = false
-    @StateObject private var appState = AppState()
-    
+    @StateObject private var historyManager = HistoryManager()
+    @State private var isActive = false
+
     var body: some View {
-        VStack(spacing: 0) {
-            if selectedTab != .scan {
-                HStack (alignment: .center, spacing: 2){
-                    Text(navigationTitle(for: selectedTab))
-                        .font(.body)
-                        .foregroundColor(.white)
-                }
-                .frame(width: 100, height: 40)
-                .background(.black.opacity(0.5))
-                .cornerRadius(20)
-                .padding(.horizontal, 24)
-                .padding(.top, 60)
-            }
-            
-            Spacer()
-            
-            // Current page
+        ZStack(alignment: .bottom) {
             Group {
                 switch selectedTab {
                 case .home:
-                    HomeView(isActive:$isActive, selectedTab: $selectedTab)
+                    HomeView(isActive: $isActive, selectedTab: $selectedTab)
+                        .environmentObject(historyManager)
                 case .scan:
-                    ResultView(selectedTab: $selectedTab)
+                    AnalyzeView(selectedTab: $selectedTab)
+                        .environmentObject(historyManager)
                 case .history:
                     HistoryView()
+                        .environmentObject(historyManager)
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            
-            // Custom Tab Bar
-            if selectedTab != .scan {
-                MainTabView(selectedTab: $selectedTab)
-            }
-            
+
+            MainTabView(selectedTab: $selectedTab)
         }
-        .edgesIgnoringSafeArea(.all)
-        .environmentObject(appState)
-        
-    }
     
-    func navigationTitle(for tab: AppTab) -> String {
-        switch tab {
-        case .home:
-            return "Home"
-        case .scan:
-            return "Analyze"
-        case .history:
-            return "History"
-        }
+        .edgesIgnoringSafeArea(.all)
     }
 }
-
-struct MPreviews: PreviewProvider {
-    static var previews: some View {
-        NavigationView()
-    }
-}
-

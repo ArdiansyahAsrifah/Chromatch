@@ -2,26 +2,23 @@
 //  SeasonalItemView.swift
 //  Chromatch
 //
-//  Created by Muhammad Ardiansyah Asrifah on 10/06/25.
+//  Created by Muhammad Ardiansyah Asrifah on 14/06/25.
 //
 
 import SwiftUI
 
-struct SeasonalItemView: View {
-    var imageName: String
-    var seasonName: String
-    var color: Color
+struct SeasonalItemView<Content: View>: View {
+    let icon: Content
+    let seasonName: String
     
     var body: some View {
-        VStack {
-            Image(systemName: imageName)
-                .font(.system(size: 100))
-                .foregroundColor(color)
-                .frame(height: 150)
+        VStack(spacing: 12) {
+            icon
+                .frame(width: 80, height: 80)
             
             Text(seasonName)
-                .fontWeight(.bold)
-                .foregroundColor(color)
+                .font(.system(size: 18, weight: .medium))
+                .foregroundColor(.black.opacity(0.8))
         }
     }
 }
