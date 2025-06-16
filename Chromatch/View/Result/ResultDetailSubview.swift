@@ -8,42 +8,42 @@
 import SwiftUI
 
 
-struct CustomNavigationBar: View {
-    var onBack: () -> Void
-
-    var body: some View {
-        HStack {
-            Button(action: onBack) {
-                ZStack {
-                    Circle()
-                        .fill(Color.white.opacity(0.9))
-                        .frame(width: 40, height: 40)
-
-                    Image(systemName: "chevron.left")
-                        .font(.system(size: 18, weight: .medium))
-                        .foregroundColor(.black)
-                }
-            }
-
-            Spacer()
-
-            Text("Result")
-                .font(.system(size: 18, weight: .semibold))
-                .foregroundColor(.black.opacity(0.8))
-                .padding(.horizontal, 20)
-                .padding(.vertical, 8)
-                .background(RoundedRectangle(cornerRadius: 20).fill(Color.white.opacity(0.9)))
-
-            Spacer()
-
-            Circle()
-                .fill(Color.clear)
-                .frame(width: 40, height: 40)
-        }
-        .padding(.horizontal, 20)
-        .padding(.top, 10)
-    }
-}
+//struct CustomNavigationBar: View {
+//    var onBack: () -> Void
+//
+//    var body: some View {
+//        HStack {
+//            Button(action: onBack) {
+//                ZStack {
+//                    Circle()
+//                        .fill(Color.white.opacity(0.9))
+//                        .frame(width: 40, height: 40)
+//
+//                    Image(systemName: "chevron.left")
+//                        .font(.system(size: 18, weight: .medium))
+//                        .foregroundColor(.black)
+//                }
+//            }
+//
+//            Spacer()
+//
+//            Text("Result")
+//                .font(.system(size: 18, weight: .semibold))
+//                .foregroundColor(.black.opacity(0.8))
+//                .padding(.horizontal, 20)
+//                .padding(.vertical, 8)
+//                .background(RoundedRectangle(cornerRadius: 20).fill(Color.white.opacity(0.9)))
+//
+//            Spacer()
+//
+//            Circle()
+//                .fill(Color.clear)
+//                .frame(width: 40, height: 40)
+//        }
+//        .padding(.horizontal, 20)
+//        .padding(.top, 10)
+//    }
+//}
 
 struct ProfileHeaderView: View {
     var result: String
@@ -205,33 +205,33 @@ struct SeasonalTwinsView: View {
     }
 }
 
-struct ActionButtonsView: View {
-    var onRetry: () -> Void
-    var onSave: () -> Void
-
-    var body: some View {
-        VStack(spacing: 15) {
-            Button(action: onRetry) {
-                Text("Try Again")
-                    .font(.system(size: 18, weight: .semibold))
-                    .foregroundColor(.black)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 16)
-                    .background(RoundedRectangle(cornerRadius: 25).fill(Color.white).stroke(Color.black.opacity(0.1), lineWidth: 1))
-            }
-            .buttonStyle(SpringButtonStyle())
-
-            Button(action: onSave) {
-                Text("Save to Profile")
-                    .font(.system(size: 18, weight: .semibold))
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 16)
-                    .background(RoundedRectangle(cornerRadius: 25).fill(Color.black.opacity(0.9)))
-            }
-            .buttonStyle(SpringButtonStyle())
-        }
-        .padding(.horizontal, 25)
-        .padding(.bottom, 30)
-    }
-}
+//struct ActionButtonsView: View {
+//    var onRetry: () -> Void
+//    var onSave: () -> Void
+//
+//    var body: some View {
+//        VStack(spacing: 15) {
+//            Button(action: onRetry) {
+//                Text("Try Again")
+//                    .font(.system(size: 18, weight: .semibold))
+//                    .foregroundColor(.black)
+//                    .frame(maxWidth: .infinity)
+//                    .padding(.vertical, 16)
+//                    .background(RoundedRectangle(cornerRadius: 25).fill(Color.white).stroke(Color.black.opacity(0.1), lineWidth: 1))
+//            }
+//            .buttonStyle(SpringButtonStyle())
+//
+//            Button(action: onSave) {
+//                Text("Save to Profile")
+//                    .font(.system(size: 18, weight: .semibold))
+//                    .foregroundColor(.white)
+//                    .frame(maxWidth: .infinity)
+//                    .padding(.vertical, 16)
+//                    .background(RoundedRectangle(cornerRadius: 25).fill(Color.black.opacity(0.9)))
+//            }
+//            .buttonStyle(SpringButtonStyle())
+//        }
+//        .padding(.horizontal, 25)
+//        .padding(.bottom, 30)
+//    }
+//}
