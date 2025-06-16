@@ -163,7 +163,7 @@ struct AnalyzeView: View {
                     }) {
                         Image(systemName: "questionmark.circle")
                             .font(.title3)
-                            .foregroundColor(.blue)
+                            .foregroundColor(.white)
                             .padding(12)
                             .background(Color.secondary.opacity(0.2))
                             .clipShape(Circle())
