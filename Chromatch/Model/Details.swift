@@ -155,15 +155,30 @@ func getRecommendedColorsWithNames(result: String) -> [(name: String, color: Col
 func getCelebrityNames(result: String) -> [String] {
     switch result.lowercased() {
     case "spring":
-        return ["Jessica Chastain", "Taylor Swift", "Emma Stone"]
+        return ["Brad P.", "Cameron D.", "Hayden P."]
     case "summer":
-        return ["Blake Lively", "Jennifer Aniston", "Reese Witherspoon"]
+        return ["Matt B.", "Yael S.", "Alison B."]
     case "autumn", "fall":
-        return ["Julia Roberts", "Julianne Moore", "Amy Adams"]
+        return ["Tsutsumi H.", "Beyonce", "Martin F."]
+    case "winter":
+        return ["Hilary R.", "Jason S.", "Marion C."]
+    default:
+        return ["Celebrity 1", "Celebrity 2", "Celebrity 3"]
+    }
+}
+
+func getCelebrityImage(result: String) -> [String] {
+    switch result.lowercased() {
+    case "spring":
+        return ["brad", "cameron", "hayden"]
+    case "summer":
+        return ["matt", "alisson", "yael"]
+    case "autumn", "fall":
+        return ["tsusumi", "beyonce", "martin"]
     case "winter":
         return ["Anne Hathaway", "Megan Fox", "Zooey Deschanel"]
     default:
-        return ["Celebrity 1", "Celebrity 2", "Celebrity 3"]
+        return ["person.fill", "person.fill", "person.fill"]
     }
 }
 

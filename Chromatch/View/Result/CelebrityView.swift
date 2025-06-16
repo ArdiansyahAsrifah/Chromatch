@@ -16,13 +16,11 @@ struct CelebrityView: View {
         VStack(spacing: 12) {
             // Celebrity photo placeholder
             ZStack {
-                Circle()
-                    .fill(Color.gray.opacity(0.3))
-                    .frame(width: 80, height: 80)
 
-                // You can replace this with actual celebrity images
-                Image(systemName: "person.fill")
-                    .font(.system(size: 35))
+                Image(getCelebrityImage(result: result)[index])
+                    .resizable()
+                    .frame(width: 80, height: 80)
+                    .clipShape(Circle())
                     .foregroundColor(.gray.opacity(0.7))
             }
             .scaleEffect(animateElements ? 1.0 : 0.8)
@@ -49,3 +47,5 @@ struct CelebrityView: View {
         .frame(maxWidth: .infinity)
     }
 }
+
+
