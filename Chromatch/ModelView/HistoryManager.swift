@@ -33,6 +33,11 @@ class HistoryManager: ObservableObject {
         }
     }
     
+    func clearAllResults() {
+        results.removeAll()
+        saveResults()
+    }
+    
     private func loadResults() {
         // Load dari UserDefaults
         if let data = UserDefaults.standard.data(forKey: "colorResults"),

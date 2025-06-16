@@ -11,10 +11,11 @@ struct ProfileAndProgressView: View {
     @Binding var animateElements: Bool
     @Binding var progressValue: Float
     var confidence: Float
+    let imageData: Data?
     
     var body: some View {
         HStack {
-            ProfileImageView(animateElements: $animateElements)
+            ProfileImageView(animateElements: $animateElements, imageData: imageData)
             
             Spacer()
             

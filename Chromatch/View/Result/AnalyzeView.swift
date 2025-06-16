@@ -1,6 +1,8 @@
 import SwiftUI
 import VideoToolbox
 import SwiftData
+import Vision
+import CoreML
 
 struct AnalyzeView: View {
     // MARK: - Properties
@@ -10,12 +12,14 @@ struct AnalyzeView: View {
     @EnvironmentObject var appState: AppState
     @Environment(\.modelContext) private var modelContext
     
+    @State private var capturedImageData: Data?
     @State private var predictionResult = "Ambil foto untuk prediksi"
     @State private var isAnalyzing = false
     @State private var confidence: Double = 0.0
     @State private var isInfoPopupPresented = false
     @State private var navigateToSplash = false
     @Binding var selectedTab: AppTab
+    
     
     @EnvironmentObject var historyManager: HistoryManager
     
@@ -113,22 +117,29 @@ struct AnalyzeView: View {
                     
                     // Camera capture button
                     Button(action: capturePhoto) {
-                        ZStack {
-                            // Outer ring
-                            Circle()
-                                .stroke(Color.white.opacity(0.8), lineWidth: 4)
-                                .frame(width: 80, height: 80)
+//                        ZStack {
+//                            // Outer ring
+//                            Circle()
+//                                .stroke(Color.white.opacity(0.8), lineWidth: 4)
+//                                .frame(width: 80, height: 80)
+//                            
+//                            // Inner circle
+//                            Circle()
+//                                .fill(Color.white)
+//                                .frame(width: 60, height: 60)
+//                                .overlay(
+//                                    Circle()
+//                                        .fill(Color.black.opacity(0.1))
+//                                        .frame(width: 50, height: 50)
+//                                )
+//                        }
+                        Image("buttonIcon")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 100, height: 100)
+                            .clipShape(Circle())
+                        
                             
-                            // Inner circle
-                            Circle()
-                                .fill(Color.white)
-                                .frame(width: 60, height: 60)
-                                .overlay(
-                                    Circle()
-                                        .fill(Color.black.opacity(0.1))
-                                        .frame(width: 50, height: 50)
-                                )
-                        }
                     }
                     .disabled(!viewModel.areAllCriteriaMet)
                     .opacity(viewModel.areAllCriteriaMet ? 1.0 : 0.5)
@@ -198,7 +209,7 @@ struct AnalyzeView: View {
         .environmentObject(historyManager)
         .sheet(isPresented: $navigateToSplash) {
             NavigationStack {
-                SplashView(result: predictionResult, confidence: Float(confidence), isActive: $navigateToSplash, selectedTab: $selectedTab)
+                SplashView(result: predictionResult, confidence: Float(confidence), isActive: $navigateToSplash, selectedTab: $selectedTab,  imageData: capturedImageData)
             }
         }
         .onChange(of: capturedImageForAnalysis) { _, newImage in
@@ -247,31 +258,114 @@ struct AnalyzeView: View {
         }
     }
     
-    private func runPrediction(image: UIImage) {
-        guard let resizedImage = image.resizeTo(size: CGSize(width: 299, height: 299)),
-              let bufferForModel = resizedImage.toCVPixelBuffer() else {
-            DispatchQueue.main.async { self.isAnalyzing = false }
+//    private func runPrediction(image: UIImage) {
+//        guard let resizedImage = image.resizeTo(size: CGSize(width: 299, height: 299)),
+//              let bufferForModel = resizedImage.toCVPixelBuffer() else {
+//            DispatchQueue.main.async { self.isAnalyzing = false }
+//            return
+//        }
+//
+//        DispatchQueue.global(qos: .userInteractive).async {
+//            let model = SeasonalColorClassifier()
+//            do {
+//                let input = SeasonalColorClassifierInput(image: bufferForModel)
+//                let prediction = try model.prediction(input: input)
+//
+//                DispatchQueue.main.async {
+//                    withAnimation {
+//                        self.predictionResult = prediction.target
+//                        self.confidence = Double(Float(prediction.targetProbability[prediction.target] ?? 0.0))
+//
+//                        // ✅ Convert image to Data
+//                        let imageData = image.jpegData(compressionQuality: 0.8)
+//
+//                        // ✅ Save to SwiftData
+//                        let historyItem = AnalysisResult(
+//                            season: predictionResult,
+//                            confidence: confidence,
+//                            imageData: imageData
+//                        )
+//                        modelContext.insert(historyItem)
+//
+//                        self.isAnalyzing = false
+//                        self.navigateToSplash = true
+//                    }
+//                }
+//            } catch {
+//                DispatchQueue.main.async {
+//                    self.predictionResult = "Error: \(error.localizedDescription)"
+//                    self.isAnalyzing = false
+//                }
+//            }
+//        }
+//    }
+    
+
+//    private func runPrediction(image: UIImage) {
+//        guard let resizedImage = image.resizeTo(size: CGSize(width: 299, height: 299)),
+//              let bufferForModel = resizedImage.toCVPixelBuffer() else {
+//            DispatchQueue.main.async { self.isAnalyzing = false }
+//            return
+//        }
+//
+//        DispatchQueue.global(qos: .userInteractive).async {
+//            let model = SeasonalColorClassifier()
+//            do {
+//                let input = SeasonalColorClassifierInput(image: bufferForModel)
+//                let prediction = try model.prediction(input: input)
+//
+//                DispatchQueue.main.async {
+//                    withAnimation {
+//                        self.predictionResult = prediction.target
+//                        self.confidence = Double(Float(prediction.targetProbability[prediction.target] ?? 0.0))
+//
+//                       
+//                        let imageData = image.jpegData(compressionQuality: 0.8)
+//                        self.capturedImageData = imageData
+//
+//                        let historyItem = AnalysisResult(
+//                            season: predictionResult,
+//                            confidence: confidence,
+//                            imageData: imageData
+//                        )
+//                        modelContext.insert(historyItem)
+//
+//                        self.isAnalyzing = false
+//                        self.navigateToSplash = true
+//                    }
+//                }
+//            } catch {
+//                DispatchQueue.main.async {
+//                    self.predictionResult = "Error: \(error.localizedDescription)"
+//                    self.isAnalyzing = false
+//                }
+//            }
+//        }
+//    }
+    
+    func runPrediction(image: UIImage) {
+        guard let ciImage = CIImage(image: image) else {
+            print("Unable to create CIImage")
             return
         }
 
-        DispatchQueue.global(qos: .userInteractive).async {
-            let model = SeasonalColorClassifier()
-            do {
-                let input = SeasonalColorClassifierInput(image: bufferForModel)
-                let prediction = try model.prediction(input: input)
+        do {
+            let model = try VNCoreMLModel(for: SeasonalColorClassifier().model)
 
-                DispatchQueue.main.async {
-                    withAnimation {
-                        self.predictionResult = prediction.target
-                        self.confidence = Double(Float(prediction.targetProbability[prediction.target] ?? 0.0))
+            let request = VNCoreMLRequest(model: model) { request, error in
+                if let results = request.results as? [VNClassificationObservation],
+                   let topResult = results.first {
 
-                        // ✅ Convert image to Data
+                    DispatchQueue.main.async {
+                        self.predictionResult = topResult.identifier
+                        self.confidence = Double(topResult.confidence)
+
                         let imageData = image.jpegData(compressionQuality: 0.8)
+                        self.capturedImageData = imageData
 
-                        // ✅ Save to SwiftData
                         let historyItem = AnalysisResult(
-                            season: predictionResult,
-                            confidence: confidence,
+                            season: topResult.identifier,
+                            confidence: Double(topResult.confidence),
                             imageData: imageData
                         )
                         modelContext.insert(historyItem)
@@ -280,12 +374,12 @@ struct AnalyzeView: View {
                         self.navigateToSplash = true
                     }
                 }
-            } catch {
-                DispatchQueue.main.async {
-                    self.predictionResult = "Error: \(error.localizedDescription)"
-                    self.isAnalyzing = false
-                }
             }
+
+            let handler = VNImageRequestHandler(ciImage: ciImage, options: [:])
+            try handler.perform([request])
+        } catch {
+            print("Failed to perform prediction: \(error.localizedDescription)")
         }
     }
 

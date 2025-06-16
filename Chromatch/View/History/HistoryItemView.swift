@@ -10,6 +10,7 @@ import SwiftUI
 struct CompactHistoryItemView: View {
     let result: ColorResult
     let onDelete: () -> Void
+//    let image: ColorResult
     
     var seasonColor: Color {
         switch result.result.lowercased() {
@@ -50,9 +51,17 @@ struct CompactHistoryItemView: View {
                     .fill(Color(.systemGray5))
                     .frame(width: 50, height: 50)
                     .overlay(
-                        Image(systemName: "person.fill")
-                            .font(.system(size: 20))
-                            .foregroundColor(.secondary)
+                        Group {
+                            if let data = result.imageData, let uiImage = UIImage(data: data) {
+                                   Image(uiImage: uiImage)
+                                       .resizable()
+                                       .scaledToFill()
+                               } else {
+                                   Image(systemName: "photo")
+                                       .foregroundColor(.secondary)
+                               }
+                           }
+                           .clipShape(Circle())
                     )
                 
                 // Season icon overlay
@@ -81,10 +90,18 @@ struct CompactHistoryItemView: View {
             
             Spacer()
             
-            // Season Icon (Large)
-            Image(systemName: seasonIcon)
-                .font(.system(size: 24))
-                .foregroundColor(seasonColor)
+            HStack(spacing: 12) {
+                Image(systemName: seasonIcon)
+                    .font(.system(size: 24))
+                    .foregroundColor(seasonColor)
+                
+                Button(action: onDelete) {
+                    Image(systemName: "trash")
+                        .foregroundColor(.red)
+                }
+                .buttonStyle(BorderlessButtonStyle())
+            }
+
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 16)
