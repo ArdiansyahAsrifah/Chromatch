@@ -1,73 +1,9 @@
-////
-//////
-//////  Navigation.swift
-//////  Chromatch
-//////
-//////  Created by Felda Everyl on 12/06/25.
-//////
-////
-////import SwiftUI
-////
-////import SwiftUI
-////
-////enum AppTab {
-////    case home
-////    case scan
-////    case history
-////}
-////
-////struct NavigationView: View {
-////    @State private var selectedTab: AppTab = .home
-////    @StateObject private var historyManager = HistoryManager()
-////
-////    var body: some View {
-////        VStack(spacing: 0) {
-////
-////            Spacer()
-////
-////            // Current page
-////            Group {
-////                switch selectedTab {
-////                case .home:
-////                    HomeView()
-////                case .scan:
-////                    ResultView(selectedTab: $selectedTab)
-////                case .history:
-////                    HistoryView()
-////                }
-////            }
-////            .frame(maxWidth: .infinity, maxHeight: .infinity)
-////            .environmentObject(historyManager)
-////
-////            // Custom Tab Bar
-////            MainTabView(selectedTab: $selectedTab)
-////
-////        }
-////        .edgesIgnoringSafeArea(.all)
-////
-////    }
-////
-//////    func navigationTitle(for tab: AppTab) -> String {
-//////        switch tab {
-//////        case .home:
-//////            return "Home"
-//////        case .scan:
-//////            return "Analyze"
-//////        case .history:
-//////            return "History"
-//////        }
-//////    }
-////}
-////
-////struct MPreviews: PreviewProvider {
-////    static var previews: some View {
-////        NavigationView()
-////    }
-////}
-////
 //
-//// NavigationRootView.swift
 //import SwiftUI
+//
+//class AppState: ObservableObject {
+//    @Published var hasShownInitialPopup = false
+//}
 //
 //enum AppTab {
 //    case home
@@ -75,33 +11,33 @@
 //    case history
 //}
 //
-//struct NavigationView: View {
+//struct MainContainer: View {
 //    @State private var selectedTab: AppTab = .home
 //    @StateObject private var historyManager = HistoryManager()
 //    @State private var isActive = false
-//
-//    var result: String
-//    var confidence: Float
-//
+//    @StateObject private var appState = AppState()
+//    
 //    var body: some View {
-//        VStack(spacing: 0) {
+//        ZStack(alignment: .bottom) {
 //            Group {
 //                switch selectedTab {
 //                case .home:
-//                    HomeView(result: result, confidence: confidence, isActive: $isActive, selectedTab: $selectedTab)
+//                    HomeView(isActive: $isActive, selectedTab: $selectedTab)
 //                        .environmentObject(historyManager)
 //                case .scan:
-//                    ResultView(selectedTab: $selectedTab)
+//                    AnalyzeView(selectedTab: $selectedTab)
 //                        .environmentObject(historyManager)
 //                case .history:
-//                    HistoryView()
+//                    HistoryView(isActive: $isActive, selectedTab: $selectedTab)
 //                        .environmentObject(historyManager)
 //                }
-//
 //            }
-//
-//            MainTabView(selectedTab: $selectedTab)
+//            
+//            if selectedTab != .scan {
+//                MainTabView(selectedTab: $selectedTab)
+//            }
 //        }
+//        .environmentObject(appState)
 //        .edgesIgnoringSafeArea(.all)
 //    }
 //}
@@ -118,15 +54,16 @@ enum AppTab {
     case history
 }
 
-struct NavigationView: View {
+struct MainContainer: View {
     @State private var selectedTab: AppTab = .home
     @StateObject private var historyManager = HistoryManager()
     @State private var isActive = false
     @StateObject private var appState = AppState()
+    @State private var imageData: Data? = nil
     
     var body: some View {
         ZStack(alignment: .bottom) {
-            
+  
             ZStack(alignment: .top) {
                 // Navigation Bar
                 Group {

@@ -16,6 +16,7 @@ struct ResultDetailView: View {
     @State private var progressValue: Float = 0.0
     @State private var showExpandedPalette = false
     @Environment(\.presentationMode) var presentationMode
+    let imageData: Data?
     
     var body: some View {
         GeometryReader { geometry in
@@ -26,7 +27,7 @@ struct ResultDetailView: View {
                         .edgesIgnoringSafeArea(.all)
 
                     VStack(spacing: 0) {
-                        HeaderView(result: result, animateElements: $animateElements, progressValue: $progressValue, confidence: confidence)
+                        HeaderView(result: result, animateElements: $animateElements, progressValue: $progressValue, confidence: confidence, imageData: imageData)
                         
                         ContentSectionsView(
                             result: result,
@@ -39,7 +40,7 @@ struct ResultDetailView: View {
 
                         
                         ActionButtonsView(
-                            isActive: $isActive, selectedTab: $selectedTab, result: result, confidence: confidence
+                            isActive: $isActive, selectedTab: $selectedTab, imageData: imageData, result: result, confidence: confidence
                         )
                         
                         .padding(.top, showExpandedPalette ? -650 : -1120)

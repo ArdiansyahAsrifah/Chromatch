@@ -176,7 +176,7 @@ func getCelebrityImage(result: String) -> [String] {
     case "autumn", "fall":
         return ["tsusumi", "beyonce", "martin"]
     case "winter":
-        return ["Anne Hathaway", "Megan Fox", "Zooey Deschanel"]
+        return ["hilary", "jason", "marion"]
     default:
         return ["person.fill", "person.fill", "person.fill"]
     }

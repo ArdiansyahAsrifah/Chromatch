@@ -19,6 +19,7 @@ struct SplashView: View {
     @State private var animateText = false
     @State private var animateIcon = false
     @State private var progressValue: Float = 0.0
+    let imageData: Data?
     
     var body: some View {
         GeometryReader { geometry in
@@ -100,7 +101,8 @@ struct SplashView: View {
                     result: result,
                     confidence: confidence,
                     isActive: $isActive,
-                    selectedTab: $selectedTab
+                    selectedTab: $selectedTab,
+                    imageData: imageData
                 ),
                 isActive: $goToDetail
             ) {
@@ -194,38 +196,40 @@ struct SplashView: View {
 }
 
 
-// Preview
-struct SplashView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            SplashView(
-                result: "Spring",
-                confidence: 1.0,
-                isActive: .constant(true),
-                selectedTab: .constant(.home)
-            )
-            
-            SplashView(
-                result: "Summer",
-                confidence: 0.85,
-                isActive: .constant(true),
-                selectedTab: .constant(.home)
-            )
-            
-            SplashView(
-                result: "Autumn",
-                confidence: 0.92,
-                isActive: .constant(true),
-                selectedTab: .constant(.home)
-            )
-            
-            SplashView(
-                result: "Winter",
-                confidence: 0.78,
-                isActive: .constant(true),
-                selectedTab: .constant(.home)
-            )
-        }
-    }
-}
+//// Preview
+//struct SplashView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Group {
+//            SplashView(
+//                result: "Spring",
+//                confidence: 1.0,
+//                isActive: .constant(true),
+//                selectedTab: .constant(.home),
+//                image: Image("spring")
+//            )
+//            
+//            SplashView(
+//                result: "Summer",
+//                confidence: 0.85,
+//                isActive: .constant(true),
+//                selectedTab: .constant(.home),
+//                image: Image("summer")
+//            )
+//            
+//            SplashView(
+//                result: "Autumn",
+//                confidence: 0.92,
+//                isActive: .constant(true),
+//                selectedTab: .constant(.home)
+//            )
+//            
+//            SplashView(
+//                result: "Winter",
+//                confidence: 0.78,
+//                isActive: .constant(true),
+//                selectedTab: .constant(.home)
+//            )
+//        }
+//    }
+//}
 

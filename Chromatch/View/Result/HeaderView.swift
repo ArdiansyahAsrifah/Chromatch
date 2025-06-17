@@ -10,13 +10,14 @@ struct HeaderView: View {
     @Binding var animateElements: Bool
     @Binding var progressValue: Float
     var confidence: Float
+    let imageData: Data?
     
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
-                ProfileAndProgressView(animateElements: $animateElements, progressValue: $progressValue, confidence: confidence)
+                ProfileAndProgressView(animateElements: $animateElements, progressValue: $progressValue, confidence: confidence, imageData: imageData)
                 
                 SeasonTitleAndDescriptionView(result: result, animateElements: $animateElements)
                 
@@ -26,21 +27,22 @@ struct HeaderView: View {
     }
 }
 
-struct HeaderPreviewWrapper: View {
-    @State private var animateElements = true
-    @State private var progressValue: Float = 0.85
-    
-    var body: some View {
-        HeaderView(
-            result: "Summer",
-            animateElements: $animateElements,
-            progressValue: $progressValue,
-            confidence: 0.85
-        )
-    }
-}
-
-#Preview {
-    HeaderPreviewWrapper()
-}
+//struct HeaderPreviewWrapper: View {
+//    @State private var animateElements = true
+//    @State private var progressValue: Float = 0.85
+//    
+//    var body: some View {
+//        HeaderView(
+//            result: "Summer",
+//            animateElements: $animateElements,
+//            progressValue: $progressValue,
+//            confidence: 0.85,
+//            imageData: "person.fill"
+//        )
+//    }
+//}
+//
+//#Preview {
+//    HeaderPreviewWrapper()
+//}
 

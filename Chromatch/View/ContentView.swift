@@ -14,7 +14,7 @@ struct ContentView: View {
     
     var body: some View {
         if hasCompletedOnboarding {
-            NavigationView()
+            MainContainer()
                 .modelContainer(for: AnalysisResult.self)
         } else {
             Onboarding()
