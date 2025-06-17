@@ -26,8 +26,10 @@ struct MainContainer: View {
                     switch selectedTab {
                     case .home:
                         HomeView(isActive: $isActive, selectedTab: $selectedTab)
+                            
                     case .scan:
                         AnalyzeView(selectedTab: $selectedTab)
+                           
                     case .history:
                         HistoryView(isActive: $isActive, selectedTab: $selectedTab, imageData: imageData)
                     }
