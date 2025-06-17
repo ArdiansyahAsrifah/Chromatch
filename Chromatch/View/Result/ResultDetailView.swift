@@ -57,7 +57,7 @@ struct ResultDetailView: View {
         
     }
     
-    private func startAnimations() {
+    func startAnimations() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             animateElements = true
             
@@ -81,4 +81,7 @@ struct ResultDetailView: View {
 //        )
 //    }
 //}
+
+
+
 

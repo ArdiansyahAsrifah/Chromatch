@@ -45,10 +45,10 @@ struct OnboardPageSecondView: View {
                     .padding(.top,20)
                     
                     LazyVGrid(columns: columns, spacing: 40) {
-                        SeasonalItemView(icon: SpringOnboardIcon(), seasonName: "Spring")
-                        SeasonalItemView(icon: SummerOnboardIcon(), seasonName: "Summer")
-                        SeasonalItemView(icon: AutumnOnboardIcon(), seasonName: "Autumn")
-                        SeasonalItemView(icon: WinterOnboardIcon(), seasonName: "Winter")
+                        SeasonalItemView(image: "Spring-O", seasonName: "Spring")
+                        SeasonalItemView(image: "Summer-O", seasonName: "Summer")
+                        SeasonalItemView(image: "Autumn-O", seasonName: "Autumn")
+                        SeasonalItemView(image: "Winter-O", seasonName: "Winter")
                     }
                     
                     Spacer()

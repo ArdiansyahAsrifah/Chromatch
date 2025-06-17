@@ -46,6 +46,7 @@ struct RoundedCorner: Shape {
     }
 }
 
+<<<<<<< HEAD
 func getSeasonalBackground(result: String) -> some View {
     switch result.lowercased() {
     case "spring":
@@ -84,6 +85,25 @@ func getSeasonalLogo(result: String) -> Image {
         return Image("WinterLogo")
     default:
         return Image("")
+=======
+
+func getSeasonalBackground(result: String) -> some View{
+    switch result.lowercased() {
+    case "spring":
+        return Image("Spring-BG")
+
+    case "summer":
+        return Image("Summer-BG")
+        
+    case "autumn", "fall":
+        return Image("Autumn-BG")
+        
+    case "winter":
+        return Image("Winter-BG")
+        
+    default:
+        return Image("Default-BG")
+>>>>>>> main
     }
 }
 

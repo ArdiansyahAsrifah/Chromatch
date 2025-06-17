@@ -7,14 +7,16 @@
 
 import SwiftUI
 
-struct SeasonalItemView<Content: View>: View {
-    let icon: Content
+struct SeasonalItemView: View {
+    let image: String
     let seasonName: String
     
     var body: some View {
         VStack(spacing: 12) {
-            icon
-                .frame(width: 80, height: 80)
+            Image(image)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 96, height: 96)
             
             Text(seasonName)
                 .font(.custom("Urbanist-Regular", size: 24).weight(.medium))

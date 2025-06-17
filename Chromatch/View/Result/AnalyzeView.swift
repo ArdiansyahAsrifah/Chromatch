@@ -20,72 +20,76 @@ struct AnalyzeView: View {
     @State private var navigateToSplash = false
     @Binding var selectedTab: AppTab
     
-    
     @EnvironmentObject var historyManager: HistoryManager
     
     // MARK: - Body
     var body: some View {
-        ZStack {
-            if let image = capturedImageForAnalysis {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .clipped()
-                    .ignoresSafeArea()
-
-            } else {
-                // jika belum ada gambar, munculin kamera
-                if cameraManager.isPermissionGranted {
-                    CameraPreview(cameraManager: cameraManager)
+        NavigationStack {
+            ZStack {
+                if let image = capturedImageForAnalysis {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .clipped()
                         .ignoresSafeArea()
                 } else {
-                    Color.black.edgesIgnoringSafeArea(.all)
-                    Text("Camera permission is required.").foregroundColor(.white)
-                }
-            }
-            
-            // Overlay UI
-            VStack {
-                if capturedImageForAnalysis == nil {
-                    Spacer()
-                    
-                    // Face detection oval outline
-                    ZStack {
-                        // Oval outline with dashed border
-                        Ellipse()
-                            .stroke(style: StrokeStyle(lineWidth: 3, dash: [8, 6]))
-                            .frame(width: 280, height: 350)
-                            .foregroundColor(viewModel.areAllCriteriaMet ? .green : .white)
-                            .animation(.easeInOut(duration: 0.3), value: viewModel.areAllCriteriaMet)
+                    if cameraManager.isPermissionGranted {
+                        CameraPreview(cameraManager: cameraManager)
+                            .ignoresSafeArea()
+                    } else {
+                        Color.black.edgesIgnoringSafeArea(.all)
+                        Text("Camera permission is required.")
+                            .foregroundColor(.white)
                     }
-                    .padding(.top, 100)
-                    
-                    Spacer()
-                    
-                    // Status message
-                    VStack(spacing: 15) {
+                }
+
+                // NavigationLink to SplashView
+                NavigationLink(
+                    destination: SplashView(
+                        result: predictionResult,
+                        confidence: Float(confidence),
+                        isActive: $navigateToSplash,
+                        selectedTab: $selectedTab,
+                        imageData: capturedImageData
+                    ),
+                    isActive: $navigateToSplash
+                ) {
+                    EmptyView()
+                }
+                .hidden()
+                
+                // Overlay UI
+                VStack {
+                    if capturedImageForAnalysis == nil {
+                        Spacer()
                         
-                        // Warning
-                        if let warningText = viewModel.lightingState.warningText {
-                            HStack(spacing: 8) {
-                                Image(systemName: "lightbulb.slash.fill")
-                                    .foregroundColor(.yellow)
-                                Text(warningText)
-                                    .font(.custom("Urbanist-Regular", size: 14).weight(.medium))
-                                    .foregroundColor(.yellow)
-                            }
-                            .font(.subheadline)
-                            .fontWeight(.medium)
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 8)
-                            .background(
-                                RoundedRectangle(cornerRadius: 16)
-                                    .fill(Color.black.opacity(0.6))
-                            )
-                        } else {
-                            if viewModel.areAllCriteriaMet {
-                                // "You're all set!" message
+                        // Oval Face Outline
+                        ZStack {
+                            Ellipse()
+                                .stroke(style: StrokeStyle(lineWidth: 3, dash: [8, 6]))
+                                .frame(width: 280, height: 350)
+                                .foregroundColor(viewModel.areAllCriteriaMet ? .green : .white)
+                                .animation(.easeInOut(duration: 0.3), value: viewModel.areAllCriteriaMet)
+                        }
+                        .padding(.top, 100)
+                        
+                        Spacer()
+                        
+                        // Instructions / Warnings
+                        VStack(spacing: 15) {
+                            if let warningText = viewModel.lightingState.warningText {
+                                HStack(spacing: 8) {
+                                    Image(systemName: "lightbulb.slash.fill")
+                                        .foregroundColor(.yellow)
+                                    Text(warningText)
+                                        .font(.custom("Urbanist-Regular", size: 14).weight(.medium))
+                                        .foregroundColor(.yellow)
+                                }
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 8)
+                                .background(RoundedRectangle(cornerRadius: 16).fill(Color.black.opacity(0.6)))
+                            } else if viewModel.areAllCriteriaMet {
                                 Text("You're all set!")
                                     .font(.custom("Urbanist-Regular", size: 14).weight(.medium))
                                     .foregroundColor(.white)
@@ -93,10 +97,9 @@ struct AnalyzeView: View {
                                     .padding(.vertical, 4)
                                     .background(
                                         RoundedRectangle(cornerRadius: 24)
-                                            .fill(Color(red: 0.2, green: 0.78, blue: 0.35).opacity(0.75))
+                                            .fill(Color.green.opacity(0.75))
                                     )
                             } else {
-                                // Instruction text
                                 Text(viewModel.facePositionState.instructionText)
                                     .font(.custom("Urbanist-Regular", size: 14).weight(.medium))
                                     .foregroundColor(.white)
@@ -109,134 +112,109 @@ struct AnalyzeView: View {
                                     )
                             }
                         }
-                    }
-                    .animation(.easeInOut(duration: 0.3), value: viewModel.areAllCriteriaMet)
-                    
-                    // Camera capture button
-                    Button(action: capturePhoto) {
-//                        ZStack {
-//                            // Outer ring
-//                            Circle()
-//                                .stroke(Color.white.opacity(0.8), lineWidth: 4)
-//                                .frame(width: 80, height: 80)
-//                            
-//                            // Inner circle
-//                            Circle()
-//                                .fill(Color.white)
-//                                .frame(width: 60, height: 60)
-//                                .overlay(
-//                                    Circle()
-//                                        .fill(Color.black.opacity(0.1))
-//                                        .frame(width: 50, height: 50)
-//                                )
-//                        }
-                        Image("buttonIcon")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 72, height: 72)
-                            .clipShape(Circle())
+                        .animation(.easeInOut(duration: 0.3), value: viewModel.areAllCriteriaMet)
                         
-                            
+                        // Capture Button
+                        Button(action: capturePhoto) {
+                            Image("buttonIcon")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 72, height: 72)
+                                .clipShape(Circle())
+                        }
+                        .disabled(!viewModel.areAllCriteriaMet)
+                        .opacity(viewModel.areAllCriteriaMet ? 1.0 : 0.5)
+                        .scaleEffect(viewModel.areAllCriteriaMet ? 1.0 : 0.9)
+                        .animation(.easeInOut(duration: 0.3), value: viewModel.areAllCriteriaMet)
+                        .padding(.bottom, 50)
                     }
-                    .disabled(!viewModel.areAllCriteriaMet)
-                    .opacity(viewModel.areAllCriteriaMet ? 1.0 : 0.5)
-                    .scaleEffect(viewModel.areAllCriteriaMet ? 1.0 : 0.9)
-                    .animation(.easeInOut(duration: 0.3), value: viewModel.areAllCriteriaMet)
-                    .padding(.bottom, 50)
+                }
+
+                // Top Bar Buttons
+                VStack {
+                    HStack {
+                        Button(action: {
+                            selectedTab = .home
+                        }) {
+                            Image(systemName: "chevron.left")
+                                .font(.title3)
+                                .foregroundColor(.black)
+                                .padding(12)
+                                .background(Color.secondary.opacity(0.2))
+                                .clipShape(Circle())
+                        }
+                        .padding(.leading, 24)
+                        .padding(.top, 60)
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            withAnimation {
+                                isInfoPopupPresented = true
+                            }
+                        }) {
+                            Image(systemName: "questionmark.circle")
+                                .font(.title3)
+                                .foregroundColor(.white)
+                                .padding(12)
+                                .background(Color.secondary.opacity(0.2))
+                                .clipShape(Circle())
+                        }
+                        .padding(.trailing, 24)
+                        .padding(.top, 60)
+                    }
+                    Spacer()
+                }
+                .edgesIgnoringSafeArea(.top)
+
+                // Loading overlay
+                if isAnalyzing {
+                    Color.black.opacity(0.7).edgesIgnoringSafeArea(.all)
+                    VStack(spacing: 20) {
+                        ProgressView()
+                            .scaleEffect(1.8)
+                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                        Text("Menganalisis...")
+                            .font(.title2)
+                            .fontWeight(.medium)
+                            .foregroundColor(.white)
+                    }
+                }
+
+                // Info popup
+                if isInfoPopupPresented {
+                    PopupInfo(isPresented: $isInfoPopupPresented)
+                        .transition(.opacity)
                 }
             }
-            
-            //Button for navigation and help
-            VStack {
-                HStack {
-                    Button(action: {
-                        selectedTab = .home
-                    }) {
-                        Image(systemName: "chevron.left")
-                            .font(.title3)
-                            .foregroundColor(.black)
-                            .padding(12)
-                            .background(Color.secondary.opacity(0.2))
-                            .clipShape(Circle())
-                    }
-                    .padding(.leading, 24)
-                    .padding(.top, 60)   // Indent from the top to avoid the notch
-                    
-                    Spacer() // Pushes the button to the left
-                    
-                    Button(action: {
-                        withAnimation(.easeInOut(duration: 0.2)) {
+            .environmentObject(historyManager)
+            .onChange(of: capturedImageForAnalysis) { _, newImage in
+                if let imageToAnalyze = newImage {
+                    self.isAnalyzing = true
+                    self.runPrediction(image: imageToAnalyze)
+                }
+            }
+            .onChange(of: navigateToSplash) { _, newValue in
+                if !newValue {
+                    self.capturedImageForAnalysis = nil
+                    self.cameraManager.startSession()
+                }
+            }
+            .onAppear {
+                if !appState.hasShownInitialPopup {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        withAnimation(.easeInOut) {
                             isInfoPopupPresented = true
                         }
-                    }) {
-                        Image(systemName: "questionmark.circle")
-                            .font(.title3)
-                            .foregroundColor(.white)
-                            .padding(12)
-                            .background(Color.secondary.opacity(0.2))
-                            .clipShape(Circle())
+                        appState.hasShownInitialPopup = true
                     }
-                    .padding(.trailing, 24) // Indent from the right edge
-                    .padding(.top, 60)   // Indent from the top to avoid the notch
-                    
                 }
-                Spacer() // Pushes the HStack to the top
+                cameraManager.viewModel = viewModel
+                cameraManager.startSession()
             }
-            .edgesIgnoringSafeArea(.top)
-            
-            // Loading overlay
-            if isAnalyzing {
-                Color.black.opacity(0.7).edgesIgnoringSafeArea(.all)
-                VStack(spacing: 20) {
-                    ProgressView()
-                        .scaleEffect(1.8)
-                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                    Text("Menganalisis...")
-                        .font(.title2)
-                        .fontWeight(.medium)
-                        .foregroundColor(.white)
-                }
+            .onDisappear {
+                cameraManager.stopSession()
             }
-            
-            if isInfoPopupPresented {
-                PopupInfo(isPresented: $isInfoPopupPresented)
-                    .transition(.opacity)
-            }
-        }
-        .environmentObject(historyManager)
-        .sheet(isPresented: $navigateToSplash) {
-            NavigationStack {
-                SplashView(result: predictionResult, confidence: Float(confidence), isActive: $navigateToSplash, selectedTab: $selectedTab,  imageData: capturedImageData)
-            }
-        }
-        .onChange(of: capturedImageForAnalysis) { _, newImage in
-            if let imageToAnalyze = newImage {
-                self.isAnalyzing = true
-                self.runPrediction(image: imageToAnalyze)
-            }
-        }
-        .onChange(of: navigateToSplash) { _, newValue in
-            if !newValue {
-                self.capturedImageForAnalysis = nil
-                self.cameraManager.startSession()
-            }
-        }
-        .onAppear {
-            if !appState.hasShownInitialPopup {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    withAnimation(.easeInOut) {
-                        isInfoPopupPresented = true
-                        
-                    }
-                    appState.hasShownInitialPopup = true
-                }
-            }
-            
-            cameraManager.viewModel = viewModel
-            cameraManager.startSession()
-        }
-        .onDisappear {
-            cameraManager.stopSession()
         }
     }
     
@@ -248,12 +226,13 @@ struct AnalyzeView: View {
                   let image = imageFromPixelBuffer(buffer) else { return }
             
             DispatchQueue.main.async {
-                // Stop the session first, lalu set the image.
                 self.cameraManager.stopSession()
                 self.capturedImageForAnalysis = image
             }
         }
     }
+
+
     
 //    private func runPrediction(image: UIImage) {
 //        guard let resizedImage = image.resizeTo(size: CGSize(width: 299, height: 299)),
@@ -316,7 +295,7 @@ struct AnalyzeView: View {
 //                        self.predictionResult = prediction.target
 //                        self.confidence = Double(Float(prediction.targetProbability[prediction.target] ?? 0.0))
 //
-//                       
+//
 //                        let imageData = image.jpegData(compressionQuality: 0.8)
 //                        self.capturedImageData = imageData
 //
