@@ -1,6 +1,6 @@
 # Chromatch: Your Personal Color & Makeup Assistant
 
-![App Screenshot/GIF](https://place-hold.it/800x400)
+![App Screenshot/GIF](AppImage.jpeg)
 <br/><br/> <b>Chromatch</b> helps you discover your personal color season, empowering you to choose makeup and clothing that truly complement your natural beauty. Say goodbye to uncertainty and hello to confident purchasing decisions!
 
 ---
