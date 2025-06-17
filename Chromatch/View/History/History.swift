@@ -12,11 +12,15 @@ struct HistoryView: View {
     @State private var showingDeleteSingleItemAlert = false
     @State private var showingClearAllAlert = false
     
+    @State private var selectedResult: ColorResult? = nil
+
     @State private var itemToDelete: ColorResult?
     @State private var selectedMonthFilter: String = "All"
     @Binding var isActive: Bool
     @Binding var selectedTab: AppTab
     let imageData: Data?
+    
+    
 
     var filteredResults: [ColorResult] {
         if selectedMonthFilter == "All" {
@@ -71,6 +75,8 @@ struct HistoryView: View {
                                     onDelete: { result in
                                         itemToDelete = result
                                         showingDeleteSingleItemAlert = true
+                                    }, onSelect: { result in
+                                        selectedResult = result
                                     }
                                 )
                             }
@@ -92,7 +98,11 @@ struct HistoryView: View {
                     }
                 }
             }
+        }.sheet(item: $selectedResult) { result in
+            HistoryDetailView(result: result, isActive: $isActive, selectedTab: $selectedTab)
+        
         }
+
     }
 
     private var headerView: some View {
@@ -130,7 +140,7 @@ struct HistoryView: View {
                 + Text("selfie").bold()
                 
                 )
-            //Subject to Change
+ 
               .font(.custom("Urbanist-Regular", size: 20))
               .foregroundColor(.black)
               .frame(maxWidth: .infinity, alignment: .top)
@@ -142,3 +152,4 @@ struct HistoryView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
+

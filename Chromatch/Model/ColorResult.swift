@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ColorResult: Identifiable, Codable {
+struct ColorResult: Identifiable, Codable, Equatable {
     let id: UUID
     let result: String
     let confidence: Float
