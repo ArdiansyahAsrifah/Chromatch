@@ -44,7 +44,7 @@ struct SpringPaletteView: View {
                                 }
                                 Spacer()
                                 
-                                NavigationLink(destination: SpringHomeView()){
+                                NavigationLink(destination: SpringHomeView(selectedaTab: .home)){
                                     ZStack{
                                         Circle()
                                             .opacity(0.1)

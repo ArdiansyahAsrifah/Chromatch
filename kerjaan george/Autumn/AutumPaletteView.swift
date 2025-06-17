@@ -44,7 +44,7 @@ struct AutumPaletteView: View {
                                 }
                                 Spacer()
                                 
-                                NavigationLink(destination: AutumnHomeView()){
+                                NavigationLink(destination: AutumnHomeView(selectedTab: .home)){
                                     ZStack{
                                         Circle()
                                             .opacity(0.1)

@@ -46,54 +46,44 @@ struct RoundedCorner: Shape {
     }
 }
 
-func getSeasonalBackground(result: String) -> LinearGradient {
+func getSeasonalBackground(result: String) -> some View {
     switch result.lowercased() {
     case "spring":
-        return LinearGradient(
-            colors: [
-                Color(red: 0.85, green: 0.95, blue: 0.85),
-                Color(red: 0.75, green: 0.88, blue: 0.75),
-                Color(red: 0.65, green: 0.80, blue: 0.65)
-            ],
-            startPoint: .top,
-            endPoint: .bottom
-        )
+        return Image("SpringBG")
+            .resizable()
+            .aspectRatio(contentMode: .fill)
     case "summer":
-        return LinearGradient(
-            colors: [
-                Color(red: 0.95, green: 0.85, blue: 0.85),
-                Color(red: 0.88, green: 0.75, blue: 0.75),
-                Color(red: 0.80, green: 0.65, blue: 0.65)
-            ],
-            startPoint: .top,
-            endPoint: .bottom
-        )
+        return Image("SummerBG")
+            .resizable()
+            .aspectRatio(contentMode: .fill)
     case "autumn", "fall":
-        return LinearGradient(
-            colors: [
-                Color(red: 0.95, green: 0.90, blue: 0.80),
-                Color(red: 0.90, green: 0.80, blue: 0.70),
-                Color(red: 0.85, green: 0.70, blue: 0.60)
-            ],
-            startPoint: .top,
-            endPoint: .bottom
-        )
+        return Image("AutumnBG")
+            .resizable()
+            .aspectRatio(contentMode: .fill)
     case "winter":
-        return LinearGradient(
-            colors: [
-                Color(red: 0.85, green: 0.90, blue: 0.95),
-                Color(red: 0.75, green: 0.80, blue: 0.88),
-                Color(red: 0.65, green: 0.70, blue: 0.80)
-            ],
-            startPoint: .top,
-            endPoint: .bottom
-        )
+        return Image("WinterBG")
+          
+            .resizable()
+            .aspectRatio(contentMode: .fill)
     default:
-        return LinearGradient(
-            colors: [Color.gray.opacity(0.3), Color.gray.opacity(0.5)],
-            startPoint: .top,
-            endPoint: .bottom
-        )
+        return Image("BlankBG")
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+    }
+}
+
+func getSeasonalLogo(result: String) -> Image {
+    switch result.lowercased() {
+    case "spring":
+        return Image("SpringLogo")
+    case "summer":
+        return Image("SummerLogo")
+    case "autumn", "fall":
+        return Image("AutumnLogo")
+    case "winter":
+        return Image("WinterLogo")
+    default:
+        return Image("")
     }
 }
 

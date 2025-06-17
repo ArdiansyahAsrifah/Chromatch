@@ -116,13 +116,14 @@ struct HomeView: View {
 
                     VStack(spacing: 0) {
                         Spacer(minLength: 50)
+                     
                         HeaderView(
                             result: displayResult,
                             animateElements: $animateElements,
                             progressValue: $progressValue,
                             confidence: displayConfidence,
                             imageData: displayImageData
-                        )
+                            )
                         
                         ContentSectionsView(
                             result: displayResult,
@@ -136,7 +137,7 @@ struct HomeView: View {
             }
             .animation(.spring(response: 0.6, dampingFraction: 0.8), value: showExpandedPalette)
         }
-        .navigationBarHidden(true)
+            
         .onAppear {
             startAnimations()
         }

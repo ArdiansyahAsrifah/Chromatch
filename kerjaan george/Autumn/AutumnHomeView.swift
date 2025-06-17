@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AutumnHomeView: View {
+    @State var selectedTab: AppTab
     var body: some View {
         NavigationStack{
             ZStack{
@@ -43,7 +44,7 @@ struct AutumnHomeView: View {
                         
                     }
                     .frame(width: 361, height: 64)
-                    .padding(.top, 21)
+                    .padding(.top, 4)
                     .padding(.horizontal, 16)
                     
                     HStack{
@@ -273,7 +274,7 @@ struct AutumnHomeView: View {
                     .frame(width: 377, height: 176)
                     
                     //panggil navbar disini
-                    
+                    MainTabView(selectedTab: $selectedTab)
                     
                     
                 }// akhir dari VStack
@@ -281,10 +282,10 @@ struct AutumnHomeView: View {
             
             }
         }
-        
+        .navigationBarBackButtonHidden(true)
     }
 }
 
 #Preview {
-    AutumnHomeView()
+    AutumnHomeView(selectedTab: .home)
 }

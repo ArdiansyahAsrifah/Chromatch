@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SummerHomeView: View {
+    @State var selectedTab: AppTab
     var body: some View {
         NavigationStack{
             ZStack{
@@ -43,7 +44,7 @@ struct SummerHomeView: View {
                         
                     }
                     .frame(width: 361, height: 64)
-                    .padding(.top, 21)
+                    .padding(.top, 4)
                     .padding(.horizontal, 16)
                     
                     HStack{
@@ -273,6 +274,7 @@ struct SummerHomeView: View {
                     .frame(width: 377, height: 176)
                     
                     //panggil navbar disini
+                    MainTabView(selectedTab: $selectedTab)
                     
                     
                     
@@ -287,5 +289,5 @@ struct SummerHomeView: View {
 }
 
 #Preview {
-    SummerHomeView()
+    SummerHomeView(selectedTab: .home)
 }

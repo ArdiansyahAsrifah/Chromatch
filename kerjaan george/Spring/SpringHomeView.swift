@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SpringHomeView: View {
+    @State var selectedaTab : AppTab
     var body: some View {
         NavigationStack{
             ZStack{
@@ -43,7 +44,7 @@ struct SpringHomeView: View {
                         
                     }
                     .frame(width: 361, height: 64)
-                    .padding(.top, 21)
+                    .padding(.top, 4)
                     .padding(.horizontal, 16)
                     
                     HStack{
@@ -275,7 +276,8 @@ struct SpringHomeView: View {
                     .frame(width: 377, height: 176)
                     
                     //panggil navbar disini
-                    
+                    MainTabView(selectedTab: $selectedaTab)
+                        
                     
                     
                 }// akhir dari VSstack
@@ -288,5 +290,5 @@ struct SpringHomeView: View {
 }
 
 #Preview {
-    SpringHomeView()
+    SpringHomeView(selectedaTab: .home)
 }
