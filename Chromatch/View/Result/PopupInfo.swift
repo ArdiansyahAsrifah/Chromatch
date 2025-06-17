@@ -19,7 +19,8 @@ struct PopupInfo: View {
     private let items: [InfoItem] = [
         InfoItem(iconName: "info.circle", text: "Fit your face to the border"),
         InfoItem(iconName: "info.circle", text: "Ensure enough lighting"),
-        InfoItem(iconName: "info.circle", text: "Have an undistracting background")
+        InfoItem(iconName: "info.circle", text: "Have an undistracting background"),
+        InfoItem(iconName: "info.circle", text: "Remove makeup for better results.")
     ]
     
     var body: some View {
@@ -66,7 +67,7 @@ struct PopupInfo: View {
                 
             }
             .padding(EdgeInsets(top: 30, leading: 20, bottom: 25, trailing: 20))
-            .frame(width: 350, height: 350)
+            .frame(width: 350, height: 400)
             .background(.regularMaterial)
             .cornerRadius(25)
             //            .shadow(radius: 10)

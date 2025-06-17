@@ -109,8 +109,6 @@ struct AnalyzeView: View {
                     }
                     .animation(.easeInOut(duration: 0.3), value: viewModel.areAllCriteriaMet)
                     
-                    Spacer()
-                    
                     // Camera capture button
                     Button(action: capturePhoto) {
 //                        ZStack {
@@ -141,7 +139,7 @@ struct AnalyzeView: View {
                     .opacity(viewModel.areAllCriteriaMet ? 1.0 : 0.5)
                     .scaleEffect(viewModel.areAllCriteriaMet ? 1.0 : 0.9)
                     .animation(.easeInOut(duration: 0.3), value: viewModel.areAllCriteriaMet)
-                    .padding(.bottom, 150)
+                    .padding(.bottom, 50)
                 }
             }
             
