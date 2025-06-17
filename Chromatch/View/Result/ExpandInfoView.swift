@@ -20,17 +20,17 @@ struct ExpandedColorInfoView: View {
                 .frame(height: 100)
             
             // Color info overlay on the color rectangle
-            VStack(alignment: .leading, spacing: 2) {
-                Text(colorInfo.name)
-                    .font(.system(size: 14, weight: .medium))
-                    .foregroundColor(.white)
-                    .shadow(color: .black.opacity(0.3), radius: 1, x: 0, y: 1)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(colorInfo.name)
+                        .font(.custom("Urbanist-Regular", size: 16).weight(.medium))
+                        .foregroundColor(.white)
+                        .shadow(color: .black.opacity(0.3), radius: 1, x: 0, y: 1)
 
-                Text(colorInfo.hex)
-                    .font(.system(size: 12, weight: .regular, design: .monospaced))
-                    .foregroundColor(.white.opacity(0.9))
-                    .shadow(color: .black.opacity(0.3), radius: 1, x: 0, y: 1)
-            }
+                    Text(colorInfo.hex)
+                        .font(.custom("Urbanist-Regular", size: 14).weight(.medium)) //Nunito
+                        .foregroundColor(.white.opacity(0.9))
+                        .shadow(color: .black.opacity(0.3), radius: 1, x: 0, y: 1)
+                }
             .padding(.horizontal, 12)
             .padding(.vertical, 10)
             .frame(maxWidth: .infinity, alignment: .leading)

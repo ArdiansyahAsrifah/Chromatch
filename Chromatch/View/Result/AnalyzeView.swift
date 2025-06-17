@@ -72,6 +72,7 @@ struct AnalyzeView: View {
                                 Image(systemName: "lightbulb.slash.fill")
                                     .foregroundColor(.yellow)
                                 Text(warningText)
+                                    .font(.custom("Urbanist-Regular", size: 14).weight(.medium))
                                     .foregroundColor(.yellow)
                             }
                             .font(.subheadline)
@@ -86,26 +87,24 @@ struct AnalyzeView: View {
                             if viewModel.areAllCriteriaMet {
                                 // "You're all set!" message
                                 Text("You're all set!")
-                                    .font(.title2)
-                                    .fontWeight(.semibold)
+                                    .font(.custom("Urbanist-Regular", size: 14).weight(.medium))
                                     .foregroundColor(.white)
-                                    .padding(.horizontal, 20)
-                                    .padding(.vertical, 12)
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 4)
                                     .background(
-                                        Capsule()
-                                            .fill(Color.green)
+                                        RoundedRectangle(cornerRadius: 24)
+                                            .fill(Color(red: 0.2, green: 0.78, blue: 0.35).opacity(0.75))
                                     )
                             } else {
                                 // Instruction text
                                 Text(viewModel.facePositionState.instructionText)
-                                    .font(.headline)
-                                    .fontWeight(.medium)
+                                    .font(.custom("Urbanist-Regular", size: 14).weight(.medium))
                                     .foregroundColor(.white)
                                     .multilineTextAlignment(.center)
-                                    .padding(.horizontal, 20)
-                                    .padding(.vertical, 12)
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 4)
                                     .background(
-                                        RoundedRectangle(cornerRadius: 20)
+                                        RoundedRectangle(cornerRadius: 24)
                                             .fill(Color.black.opacity(0.6))
                                     )
                             }
@@ -134,7 +133,7 @@ struct AnalyzeView: View {
                         Image("buttonIcon")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 100, height: 100)
+                            .frame(width: 72, height: 72)
                             .clipShape(Circle())
                         
                             

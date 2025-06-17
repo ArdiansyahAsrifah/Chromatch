@@ -17,7 +17,7 @@ struct SeasonalItemView<Content: View>: View {
                 .frame(width: 80, height: 80)
             
             Text(seasonName)
-                .font(.system(size: 18, weight: .medium))
+                .font(.custom("Urbanist-Regular", size: 24).weight(.medium))
                 .foregroundColor(.black.opacity(0.8))
         }
     }

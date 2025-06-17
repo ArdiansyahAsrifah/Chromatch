@@ -20,32 +20,41 @@ struct OnboardPageSecondView: View {
                 .ignoresSafeArea()
                 .foregroundStyle(.idleBTEnd)
                 .opacity(0.2)
-            
-            VStack(spacing: 40) {
+            VStack{
+                ProgressBar(currentPage: 1)
                 
-                Spacer()
-            
-                LazyVGrid(columns: columns, spacing: 40) {
-                    SeasonalItemView(icon: SpringOnboardIcon(), seasonName: "Spring")
-                    SeasonalItemView(icon: SummerOnboardIcon(), seasonName: "Summer")
-                    SeasonalItemView(icon: AutumnOnboardIcon(), seasonName: "Autumn")
-                    SeasonalItemView(icon: WinterOnboardIcon(), seasonName: "Winter")
-                }
+                Spacer().frame(height: 24)
                 
-                VStack(spacing: 16) {
-                    Text("Everyone has natural tones that look best\nin certain colors.")
-                        .font(.system(size: 16, weight: .regular))
-                        .multilineTextAlignment(.center)
-                        .foregroundColor(.black.opacity(0.7))
+                
+                
+                VStack(spacing: 40) {
                     
-                    Text("We group them into \(Text("4 palettes").fontWeight(.semibold)).")
-                        .font(.system(size: 16, weight: .regular))
-                        .foregroundColor(.black.opacity(0.7))
+                    VStack(spacing: 8) {
+                        Text("Discover your season")
+                            .font(.custom("Urbanist-Regular", size: 28).weight(.semibold))
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity, alignment: .top)
+                        
+                        Text("We'll match you to one of four seasonal color palettes based on your unique features.")
+                            .font(.custom("Urbanist-Regular", size: 20))
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity, alignment: .top)
+                    }
+                    .padding(.top,20)
+                    
+                    LazyVGrid(columns: columns, spacing: 40) {
+                        SeasonalItemView(icon: SpringOnboardIcon(), seasonName: "Spring")
+                        SeasonalItemView(icon: SummerOnboardIcon(), seasonName: "Summer")
+                        SeasonalItemView(icon: AutumnOnboardIcon(), seasonName: "Autumn")
+                        SeasonalItemView(icon: WinterOnboardIcon(), seasonName: "Winter")
+                    }
+                    
+                    Spacer()
                 }
-                
-                Spacer()
+                .padding(.horizontal, 16)
             }
-            .padding(.horizontal, 20)
         }
     }
 }
