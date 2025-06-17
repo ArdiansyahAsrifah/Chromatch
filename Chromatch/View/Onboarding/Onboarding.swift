@@ -42,7 +42,7 @@ struct Onboarding: View {
                     }
                 }) {
                     Text(currentPageIndex == totalPages - 1 ? "Continue to Home" : "Continue")
-                        .fontWeight(.semibold)
+                        .font(.custom("Urbanist-Regular", size: 18).weight(.medium))
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(.black)

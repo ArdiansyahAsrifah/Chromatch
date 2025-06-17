@@ -14,20 +14,33 @@ struct OnboardPageFirstView: View {
                 .ignoresSafeArea()
                 .foregroundStyle(.idleBTEnd)
                 .opacity(0.2)
-            
-        
-                Text("Welcome to your personal color journey!\n\nWe’re here to help identify the seasonal color palette that most likely suits you best.")
-                    .font(.system(size: 18, weight: .light, design: .rounded))
-                    .foregroundColor(.black)
-                    .opacity(0.9)
-                    .padding(.horizontal, 30)
-                    .padding(.top, 400)
-                    .multilineTextAlignment(.center)
-           
+
+            VStack{
+                ProgressBar(currentPage: 0)
+                
+                Spacer().frame(height: 24)
+                
+                
+                GeometryReader { geometry in
+                    VStack(spacing: 8) {
+                        Text("Welcome to Chromatch")
+                            .font(.custom("Urbanist-Regular", size: 28).weight(.semibold))
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity, alignment: .top)
+                        
+                        Text("Everyone has natural tones that look best in certain colors. We’re here to help you identify it.")
+                            .font(.custom("Urbanist-Regular", size: 20))
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(Color(red: 0.09, green: 0.02, blue: 0.08))
+                            .frame(maxWidth: .infinity, alignment: .top)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.top, 20)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                }
+            }
         }
-        .ignoresSafeArea()
-        
-        
     }
 }
 

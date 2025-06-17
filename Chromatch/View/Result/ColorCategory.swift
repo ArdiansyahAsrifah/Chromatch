@@ -15,7 +15,7 @@ struct ColorCategorySection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(category.title)
-                .font(.system(size: 18, weight: .semibold))
+                .font(.custom("Urbanist-Regular", size: 16).weight(.medium))
                 .foregroundColor(.black.opacity(0.9))
             
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 2), spacing: 12) {

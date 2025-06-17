@@ -17,9 +17,10 @@ struct PopupInfo: View {
     }
     
     private let items: [InfoItem] = [
-        InfoItem(iconName: "info.circle", text: "Fit your face to the border"),
-        InfoItem(iconName: "info.circle", text: "Ensure enough lighting"),
-        InfoItem(iconName: "info.circle", text: "Have an undistracting background")
+        InfoItem(iconName: "info.circle", text: "Center your face in the frame"),
+        InfoItem(iconName: "info.circle", text: "Use natural lighting"),
+        InfoItem(iconName: "info.circle", text: "Find a plain background"),
+        InfoItem(iconName: "info.circle", text: "Remove makeup for better results.")
     ]
     
     var body: some View {
@@ -31,9 +32,22 @@ struct PopupInfo: View {
                     }
                 }
             VStack(spacing: 20) {
+                VStack(spacing:4){
+                    Text("Get the best results")
+                        .font(.custom("Urbanist-Regular", size: 16).weight(.semibold))
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(Color(red: 0.09, green: 0.02, blue: 0.08))
+                        .frame(maxWidth: .infinity, alignment: .top)
+                    
+                    Text("Follow these tips for better results")
+                        .font(.custom("Urbanist-Regular", size: 12)) //Nunito
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(Color(red: 0.09, green: 0.02, blue: 0.08))
+                        .frame(maxWidth: .infinity, alignment: .top)
+                }
                 
                 // Instructions list
-                VStack(alignment: .leading, spacing: 35) {
+                VStack(alignment: .leading, spacing: 29) {
                     ForEach(items) { item in
                         HStack(spacing: 15) {
                             Image(systemName:(item.iconName))
@@ -42,21 +56,18 @@ struct PopupInfo: View {
                                 .frame(width: 30, height: 30)
                             
                             Text(item.text)
-                                .font(.callout)
+                                .font(.custom("Urbanist-Regular", size: 14).weight(.medium)) //Nunito
                                 .foregroundColor(.primary)
                         }
                     }
                 }
-                .padding(.top, 30)
-                
-                Spacer()
+                .padding(.top, 20)
                 
                 Button(action: {
                     isPresented = false
                 }) {
-                    Text("I Understand")
-                        .font(.headline)
-                        .fontWeight(.semibold)
+                    Text("Got it!")
+                        .font(.custom("Urbanist-Regular", size: 16).weight(.medium))
                         .foregroundColor(.white)
                         .padding()
                         .frame(maxWidth: .infinity)
@@ -66,7 +77,7 @@ struct PopupInfo: View {
                 
             }
             .padding(EdgeInsets(top: 30, leading: 20, bottom: 25, trailing: 20))
-            .frame(width: 350, height: 350)
+            .frame(width: 300, height: 400)
             .background(.regularMaterial)
             .cornerRadius(25)
             //            .shadow(radius: 10)

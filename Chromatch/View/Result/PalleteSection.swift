@@ -17,12 +17,13 @@ struct YourPaletteSection: View {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Your Palette")
-                        .font(.system(size: 24, weight: .semibold))
+                        .font(.custom("Urbanist-Regular", size: 20)
+                        .weight(.medium))
                         .foregroundColor(.black.opacity(0.9))
                     
                     if showExpandedPalette {
                         Text("Colors that flatter your tone")
-                            .font(.system(size: 14, weight: .regular))
+                            .font(.custom("Urbanist-Regular", size: 12).weight(.light)) //Nunito
                             .foregroundColor(.black.opacity(0.6))
                     }
                 }

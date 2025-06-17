@@ -46,8 +46,8 @@ struct SplashView: View {
                     
                     // Text Section
                     VStack(spacing: 8) {
-                        Text("You're most likely a")
-                            .font(.system(size: 20, weight: .regular))
+                        (Text("You're ") + Text("most likely").underline() + Text(" a"))
+                            .font(.custom("Urbanist-Regular", size: 16))
                             .foregroundColor(.black.opacity(0.7))
                             .opacity(animateText ? 1.0 : 0.0)
                             .offset(y: animateText ? 0 : 20)
@@ -58,7 +58,7 @@ struct SplashView: View {
                             )
                         
                         Text(result)
-                            .font(.system(size: 48, weight: .light, design: .default))
+                            .font(.custom("Urbanist-Regular", size: 48).weight(.medium))
                             .foregroundColor(.black.opacity(0.9))
                             .opacity(animateText ? 1.0 : 0.0)
                             .offset(y: animateText ? 0 : 30)

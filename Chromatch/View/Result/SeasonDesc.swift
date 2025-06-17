@@ -15,7 +15,7 @@ struct SeasonTitleAndDescriptionView: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text(result)
-                    .font(.system(size: 48, weight: .regular, design: .rounded))
+                    .font(.custom("Urbanist-Regular", size: 48).weight(.medium))
                     .foregroundColor(.black.opacity(0.9))
                     .opacity(animateElements ? 1.0 : 0.0)
                     .offset(x: animateElements ? 0 : -30)
@@ -29,7 +29,7 @@ struct SeasonTitleAndDescriptionView: View {
             
             HStack {
                 Text(getSeasonDescription(result: result))
-                    .font(.system(size: 16, weight: .regular))
+                    .font(.custom("Urbanist-Regular", size: 16))
                     .foregroundColor(.black.opacity(0.7))
                     .opacity(animateElements ? 1.0 : 0.0)
                     .offset(x: animateElements ? 0 : -30)

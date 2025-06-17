@@ -40,7 +40,7 @@ struct SaveButton: View {
             }
         }) {
             Text("Save to Profile")
-                .font(.system(size: 18, weight: .semibold))
+                .font(.custom("Urbanist-Regular", size: 18).weight(.medium))
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 16)

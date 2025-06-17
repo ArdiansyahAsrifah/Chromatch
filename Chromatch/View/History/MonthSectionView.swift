@@ -16,8 +16,7 @@ struct MonthSectionView: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
                 Text(monthName)
-                    .font(.title2)
-                    .fontWeight(.semibold)
+                    .font(.custom("Urbanist-Regular", size: 24).weight(.medium))
                     .foregroundColor(.primary)
                 Spacer()
             }
