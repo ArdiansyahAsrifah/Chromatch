@@ -8,7 +8,10 @@ import SwiftUI
 
 struct HistoryView: View {
     @EnvironmentObject var historyManager: HistoryManager
-    @State private var showingDeleteAlert = false
+    
+    @State private var showingDeleteSingleItemAlert = false
+    @State private var showingClearAllAlert = false
+    
     @State private var itemToDelete: ColorResult?
     @State private var selectedMonthFilter: String = "All"
     @Binding var isActive: Bool
@@ -27,21 +30,21 @@ struct HistoryView: View {
         }
     }
 
-    var groupedResults: [(String, [ColorResult])] {
-        let calendar = Calendar.current
+    var groupedResults: [MonthGroup] {
         let grouped = Dictionary(grouping: filteredResults) { result in
-            let components = calendar.dateComponents([.year, .month], from: result.timestamp)
-            let date = calendar.date(from: components) ?? result.timestamp
-            return date
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MMMM"
+            return formatter.string(from: result.timestamp)
         }
-
         return grouped
-            .sorted { $0.key > $1.key }
-            .map { (date, results) in
-                let formatter = DateFormatter()
-                formatter.dateFormat = "MMMM"
-                let monthName = formatter.string(from: date)
-                return (monthName, results.sorted { $0.timestamp > $1.timestamp })
+            .map { (monthName, results) in
+                MonthGroup(id: monthName, results: results.sorted { $0.timestamp > $1.timestamp })
+            }
+            .sorted {
+                guard let firstDate = $0.results.first?.timestamp, let secondDate = $1.results.first?.timestamp else {
+                    return false
+                }
+                return firstDate > secondDate
             }
     }
 
@@ -61,13 +64,13 @@ struct HistoryView: View {
                 } else {
                     ScrollView {
                         LazyVStack(spacing: 24) {
-                            ForEach(groupedResults, id: \.0) { monthGroup in
+                            ForEach(groupedResults) { monthGroup in
                                 MonthSectionView(
-                                    monthName: monthGroup.0,
-                                    results: monthGroup.1,
+                                    monthName: monthGroup.monthName,
+                                    results: monthGroup.results,
                                     onDelete: { result in
                                         itemToDelete = result
-                                        showingDeleteAlert = true
+                                        showingDeleteSingleItemAlert = true
                                     }
                                 )
                             }
@@ -80,7 +83,7 @@ struct HistoryView: View {
             }
         }
         .navigationBarHidden(true)
-        .alert("Delete Result", isPresented: $showingDeleteAlert) {
+        .alert("Delete Result", isPresented: $showingDeleteSingleItemAlert) {
             Button("Cancel", role: .cancel) { }
             Button("Delete", role: .destructive) {
                 if let item = itemToDelete {
@@ -98,7 +101,7 @@ struct HistoryView: View {
                 Spacer()
                 if !historyManager.results.isEmpty {
                     Button("Clear All") {
-                        showingDeleteAlert = true
+                        showingClearAllAlert = true
                     }
                     .foregroundColor(.red)
                     .font(.system(size: 16, weight: .medium))
@@ -107,7 +110,7 @@ struct HistoryView: View {
         }
         .padding(.horizontal, 20)
         .padding(.top, 20)
-        .alert("Delete All History?", isPresented: $showingDeleteAlert) {
+        .alert("Delete All History?", isPresented: $showingClearAllAlert) {
             Button("Cancel", role: .cancel) { }
             Button("Delete All", role: .destructive) {
                 withAnimation(.spring()) {
