@@ -16,7 +16,7 @@ struct SeasonalTwinsSection: View {
             // Header
             HStack {
                 Text("Seasonal Twins")
-                    .font(.system(size: 24, weight: .semibold))
+                    .font(.custom("Urbanist-Regular", size: 20).weight(.medium))
                     .foregroundColor(.black.opacity(0.9))
                 Spacer()
             }

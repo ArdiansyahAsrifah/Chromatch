@@ -79,12 +79,11 @@ struct CompactHistoryItemView: View {
             // Result Info
             VStack(alignment: .leading, spacing: 2) {
                 Text(result.result)
-                    .font(.headline)
-                    .fontWeight(.semibold)
+                    .font(.custom("Urbanist-Regular", size: 20).weight(.medium))
                     .foregroundColor(.primary)
                 
                 Text(formatDate(result.timestamp))
-                    .font(.subheadline)
+                    .font(.custom("Urbanist-Regular", size: 12).weight(.light))
                     .foregroundColor(.secondary)
             }
             

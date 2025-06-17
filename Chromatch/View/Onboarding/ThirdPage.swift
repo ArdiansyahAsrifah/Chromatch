@@ -16,13 +16,18 @@ struct OnboardPageThirdView: View {
                 .opacity(0.2)
             
             VStack(alignment: .leading, spacing: 20) {
-                Text("Ready to unlock the colors that were made for you?\n\nLet's start with a selfie.")
-                    .font(.system(size: 18, weight: .light, design: .rounded))
-                    .foregroundColor(.black)
-                    .opacity(0.9)
-                    .padding(.horizontal, 30)
-                    .padding(.top, -80)
-                    .multilineTextAlignment(.center)
+                (
+                    Text("Ready to unlock the colors that were made for you?\n\nLet's start with a ")
+                    + Text("selfie").bold()
+                    
+                    )
+                //Subject to Change
+                  .font(.custom("Urbanist-Regular", size: 20))
+                  .foregroundColor(.black)
+                  .frame(maxWidth: .infinity, alignment: .top)
+                  .padding(.horizontal, 30)
+                  .padding(.top, -80)
+                  .multilineTextAlignment(.center)
                 
             }
             

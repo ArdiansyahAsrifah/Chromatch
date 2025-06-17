@@ -124,20 +124,20 @@ struct HistoryView: View {
 
 
     private var emptyStateView: some View {
-        VStack(spacing: 24) {
-            Spacer()
-            Image(systemName: "clock.arrow.circlepath")
-                .font(.system(size: 64))
-                .foregroundColor(.secondary)
-            Text("No History Yet")
-                .font(.title2)
-                .fontWeight(.semibold)
-                .foregroundColor(.primary)
-            Text("Your color analysis results will appear here")
-                .font(.body)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-            Spacer()
+        VStack(alignment: .leading, spacing: 20) {
+            (
+                Text("Ready to unlock the colors that were made for you?\n\nLet's start with a ")
+                + Text("selfie").bold()
+                
+                )
+            //Subject to Change
+              .font(.custom("Urbanist-Regular", size: 20))
+              .foregroundColor(.black)
+              .frame(maxWidth: .infinity, alignment: .top)
+              .padding(.horizontal, 30)
+              .padding(.top, -80)
+              .multilineTextAlignment(.center)
+            
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }

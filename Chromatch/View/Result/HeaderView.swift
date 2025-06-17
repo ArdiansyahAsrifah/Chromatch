@@ -26,23 +26,3 @@ struct HeaderView: View {
         }
     }
 }
-
-//struct HeaderPreviewWrapper: View {
-//    @State private var animateElements = true
-//    @State private var progressValue: Float = 0.85
-//    
-//    var body: some View {
-//        HeaderView(
-//            result: "Summer",
-//            animateElements: $animateElements,
-//            progressValue: $progressValue,
-//            confidence: 0.85,
-//            imageData: "person.fill"
-//        )
-//    }
-//}
-//
-//#Preview {
-//    HeaderPreviewWrapper()
-//}
-
