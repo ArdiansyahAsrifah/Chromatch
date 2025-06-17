@@ -16,7 +16,7 @@ struct ColorInfoView: View {
         VStack(alignment: .leading, spacing: 0) {
             // Color rectangle
             RoundedRectangle(cornerRadius: 12)
-                .fill(colorInfo.color)
+                .fill(Color(hex: colorInfo.color))
                 .frame(height: 80)
             
             // Color info overlay on the color rectangle
@@ -50,7 +50,7 @@ struct ColorInfoView: View {
         }
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .fill(colorInfo.color)
+                .fill(Color(hex: colorInfo.color))
         )
         .scaleEffect(animateElements ? 1.0 : 0.9)
         .opacity(animateElements ? 1.0 : 0.0)
