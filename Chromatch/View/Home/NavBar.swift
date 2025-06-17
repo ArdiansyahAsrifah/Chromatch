@@ -16,7 +16,7 @@
 //    @StateObject private var historyManager = HistoryManager()
 //    @State private var isActive = false
 //    @StateObject private var appState = AppState()
-//    
+//
 //    var body: some View {
 //        ZStack(alignment: .bottom) {
 //            Group {
@@ -32,7 +32,7 @@
 //                        .environmentObject(historyManager)
 //                }
 //            }
-//            
+//
 //            if selectedTab != .scan {
 //                MainTabView(selectedTab: $selectedTab)
 //            }
@@ -63,17 +63,19 @@ struct MainContainer: View {
     
     var body: some View {
         ZStack(alignment: .bottom) {
-  
+            
             ZStack(alignment: .top) {
                 // Navigation Bar
                 Group {
                     switch selectedTab {
                     case .home:
                         HomeView(isActive: $isActive, selectedTab: $selectedTab)
+                            
                     case .scan:
                         AnalyzeView(selectedTab: $selectedTab)
+                           
                     case .history:
-                        HistoryView()
+                        HistoryView(isActive: $isActive, selectedTab: $selectedTab, imageData: imageData)
                     }
                 }
                 .environmentObject(historyManager)
