@@ -29,8 +29,7 @@ struct SplashView: View {
                     .ignoresSafeArea()
                 
                 VStack(spacing: 0) {
-                    Spacer()
-                    
+
                     // Seasonal Icon
                     getSeasonalIcon()
                         .scaleEffect(animateIcon ? 1.0 : 0.8)
@@ -41,8 +40,8 @@ struct SplashView: View {
                             value: animateIcon
                         )
                     
-                    Spacer()
-                        .frame(height: 80)
+                        .padding(.top,200)
+                        .padding(.bottom,16)
                     
                     // Text Section
                     VStack(spacing: 8) {
@@ -170,15 +169,15 @@ struct SplashView: View {
     func getSeasonalIcon() -> some View {
         switch result.lowercased() {
         case "spring":
-            SpringIcon()
+            Image("Spring-S")
         case "summer":
-            SummerIcon()
+            Image("Summer-S")
         case "autumn":
-            AutumnIcon()
+            Image("Autumn-S")
         case "winter":
-            WinterIcon()
+            Image("Winter-S")
         default:
-            SpringIcon()
+            Image("Spring-S")
         }
     }
     

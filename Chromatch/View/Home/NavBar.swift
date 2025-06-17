@@ -44,7 +44,7 @@ struct MainContainer: View {
                     .background(.thinMaterial)
                     .clipShape(Capsule())
                     .shadow(color: .black.opacity(0.1), radius: 5, y: 5)
-                    .padding(.top, 62)
+                    .padding(.top, 65)
             }
             
             if selectedTab != .scan {
