@@ -11,6 +11,8 @@ struct HeaderView: View {
     var confidence: Float
     let imageData: Data?
     
+
+    
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
@@ -22,12 +24,12 @@ struct HeaderView: View {
                 SeasonTitleAndDescriptionView(result: result)
                     .padding(.bottom,20)
                 
-                Text("Tips : You shine in bold, high contrast colors.")
+                Text(gettipseasonal(result: result))
                     .font(.custom("Urbanist-Regular", size: 14))
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(10)
-                    .background(Color(red: 58/255, green: 66/255, blue: 110/255))
+                    .background(Color(hex: getcolortipbackround(result: result)) ?? .gray)
                     .cornerRadius(16)
                     .shadow(color: .black.opacity(0.15), radius: 5, x: 0, y: 2)
                     .padding(.bottom, 8)
