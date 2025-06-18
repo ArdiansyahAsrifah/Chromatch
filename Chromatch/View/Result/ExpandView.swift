@@ -11,6 +11,8 @@ struct ExpandedColorView: View {
     var result: String
     @Binding var selectedTab: AppTab
     @Binding var isShowingExpandedPalette: Bool
+    @Environment(\.dismiss) private var dismiss
+    
 
     private var colorCategories: [ColorCategory] {
         return getColorCategories(for: result)
@@ -21,7 +23,7 @@ struct ExpandedColorView: View {
             // Tombol back di bagian atas
             HStack {
                 Button(action: {
-                    isShowingExpandedPalette = false
+                    dismiss()
                     
                 }) {
                     Image(systemName: "chevron.left")

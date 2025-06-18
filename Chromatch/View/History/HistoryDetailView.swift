@@ -12,7 +12,7 @@ struct HistoryDetailView: View {
     
     @Binding var isActive: Bool
     @Binding var selectedTab: AppTab
-    
+    @State private var selectedResult: ColorResult? = nil
     @State private var progressValue: Float = 0.0
     @State private var showExpandedPalette = false
     @Environment(\.presentationMode) var presentationMode
@@ -39,7 +39,10 @@ struct HistoryDetailView: View {
                     .padding(.top)
                     
                 }.frame(width: geometry.size.width, height: geometry.size.height)
+//            }.sheet(item: $selectedResult) { result in
+//                ExpandedColorView(result: result.result, selectedTab: $selectedTab, isShowingExpandedPalette: $showExpandedPalette)
             }
+            
         }
         
         
@@ -48,3 +51,4 @@ struct HistoryDetailView: View {
     }
     
 }
+

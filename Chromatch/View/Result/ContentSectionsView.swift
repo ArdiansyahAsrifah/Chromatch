@@ -14,6 +14,7 @@ struct ContentSectionsView: View {
     var result: String
     @Binding var showExpandedPalette: Bool
     @Binding var selectedTab: AppTab
+    @State var isExpandedPalette: Bool = false
 
     var body: some View {
         VStack(spacing: 8) {

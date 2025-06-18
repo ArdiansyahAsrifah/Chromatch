@@ -26,14 +26,14 @@ struct ResultDetailView: View {
                 
                 VStack(spacing: 0) {
                     HeaderView(result: result, progressValue: $progressValue, confidence: confidence, imageData: imageData)
-                    ScrollView{
+                    
                         ContentSectionsView(
                             result: result,
                             showExpandedPalette: $showExpandedPalette,
                             selectedTab: $selectedTab
                         )
                         .padding(.top)
-                    }
+                    
 
                     
                     Spacer()

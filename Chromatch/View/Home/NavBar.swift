@@ -15,6 +15,7 @@ struct MainContainer: View {
     @StateObject private var historyManager = HistoryManager()
     @State private var isActive = false
     @StateObject private var appState = AppState()
+    @State private var isShowingExpandedColorView = false
     @State private var imageData: Data? = nil
     
     var body: some View {
@@ -48,9 +49,10 @@ struct MainContainer: View {
                     .padding(.top, 65)
             }
             
-            if selectedTab != .scan {
+            if selectedTab != .scan && !isShowingExpandedColorView {
                 MainTabView(selectedTab: $selectedTab)
             }
+
             
         }
         .environmentObject(appState)
@@ -69,3 +71,4 @@ struct MainContainer: View {
         }
     }
 }
+
