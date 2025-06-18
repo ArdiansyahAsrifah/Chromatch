@@ -46,16 +46,70 @@ struct SplashView: View {
                     
                     // Text Section
                     VStack(spacing: 8) {
-                        (Text("You're ") + Text("most likely").underline() + Text(" a"))
-                            .font(.custom("Urbanist-Regular", size: 16))
-                            .foregroundColor(.black.opacity(0.7))
-                            .opacity(animateText ? 1.0 : 0.0)
-                            .offset(y: animateText ? 0 : 20)
-                            .animation(
-                                Animation.easeOut(duration: 0.8)
-                                    .delay(1.5),
-                                value: animateText
-                            )
+                        switch result.lowercased(){
+                            case "spring":
+                            return AnyView((Text("Your skin has ") + Text("warm undertones").underline() + Text(" with ")
+                                            + Text("light, clear").underline() + Text(" features. ")
+                                            + Text("You're most likely a").fontWeight(.semibold))
+                                           
+                                .font(.custom("Urbanist-Regular", size: 16))
+                                .foregroundColor(.black.opacity(0.7))
+                                .opacity(animateText ? 1.0 : 0.0)
+                                .offset(y: animateText ? 0 : 20)
+                                .animation(
+                                    Animation.easeOut(duration: 0.8)
+                                        .delay(1.5),
+                                    value: animateText
+                                ))
+                            
+                            case "summer":
+                            return AnyView((Text("Your skin has ") + Text("cool undertones").underline() + Text(" with ")
+                                            + Text("soft, muted").underline() + Text("features.")
+                                            + Text(" You're most likely a").fontWeight(.semibold))
+                                .font(.custom("Urbanist-Regular", size: 16))
+                                .foregroundColor(.black.opacity(0.7))
+                                .opacity(animateText ? 1.0 : 0.0)
+                                .offset(y: animateText ? 0 : 20)
+                                .animation(
+                                    Animation.easeOut(duration: 0.8)
+                                        .delay(1.5),
+                                    value: animateText
+                                ))
+                            
+                            case "autumn", "fall":
+                            return AnyView((Text("Your skin is ") + Text("warm and rich").underline() + Text(" with ")
+                                            + Text("deep, earthy").underline() + Text(" tones.")
+                                            + Text("You're most likely an").fontWeight(.semibold))
+                                .font(.custom("Urbanist-Regular", size: 16))
+                                .foregroundColor(.black.opacity(0.7))
+                                .opacity(animateText ? 1.0 : 0.0)
+                                .offset(y: animateText ? 0 : 20)
+                                .animation(
+                                    Animation.easeOut(duration: 0.8)
+                                        .delay(1.5),
+                                    value: animateText
+                                ))
+                            
+                            case "winter":
+                            return AnyView((Text("You have ") + Text("cool").underline() + Text(" undertones with ")
+                                            + Text("high contrast").underline() + Text(" features.")
+                                            + Text("You're most likely a").fontWeight(.semibold))
+                                .font(.custom("Urbanist-Regular", size: 16))
+                                .foregroundColor(.black.opacity(0.7))
+                                .opacity(animateText ? 1.0 : 0.0)
+                                .offset(y: animateText ? 0 : 20)
+                                .animation(
+                                    Animation.easeOut(duration: 0.8)
+                                        .delay(1.5),
+                                    value: animateText
+                                ))
+                                
+                            
+                            default:
+                                return AnyView(Text(""))
+                            
+                        }
+                        
                         
                         Text(result)
                             .font(.custom("Urbanist-Regular", size: 48).weight(.medium))
