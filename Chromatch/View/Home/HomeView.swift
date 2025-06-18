@@ -34,28 +34,32 @@ struct HomeView: View {
     }
     
     var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                getSeasonalBackground(result: displayResult)
-                    .frame(width: 400)
-                    .frame(width: geometry.size.width, height: geometry.size.height)
-                
-                VStack(spacing: 0) {
-                    Spacer(minLength: 50)
-                    HeaderView(
-                        result: displayResult,
-                        progressValue: $progressValue,
-                        confidence: displayConfidence,
-                        imageData: displayImageData
-                    )
+        NavigationStack {
+            GeometryReader { geometry in
+                ZStack {
+                    getSeasonalBackground(result: displayResult)
+                        .frame(width: 400)
+                        .frame(width: geometry.size.width, height: geometry.size.height)
                     
-                    ContentSectionsView(
-                        result: displayResult,
-                        showExpandedPalette: $showExpandedPalette
-                    )
-                }.frame(width: geometry.size.width, height: geometry.size.height)
+                    VStack(spacing: 0) {
+                        Spacer(minLength: 50)
+                        HeaderView(
+                            result: displayResult,
+                            progressValue: $progressValue,
+                            confidence: displayConfidence,
+                            imageData: displayImageData
+                        )
+                        
+                        ContentSectionsView(
+                            result: displayResult,
+                            showExpandedPalette: $showExpandedPalette,
+                            selectedTab: $selectedTab
+                        )
+                    }.frame(width: geometry.size.width, height: geometry.size.height)
+                }
             }
         }
+        
             
         
     }

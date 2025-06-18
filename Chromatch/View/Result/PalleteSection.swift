@@ -10,6 +10,7 @@ import SwiftUI
 struct YourPaletteSection: View {
     var result: String
     @Binding var showExpandedPalette: Bool
+    @Binding var selectedTab: AppTab
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -30,9 +31,7 @@ struct YourPaletteSection: View {
                 Spacer()
 
                 Button(action: {
-                    withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-                        showExpandedPalette.toggle()
-                    }
+                    showExpandedPalette = true
                 }) {
                     Image(systemName: showExpandedPalette ? "xmark" : "arrow.up.right")
                         .font(.system(size: 16, weight: .medium))
@@ -50,7 +49,7 @@ struct YourPaletteSection: View {
             
             // Color content
             if showExpandedPalette {
-                ExpandedColorView(result: result)
+                ExpandedColorView(result: result, selectedTab: $selectedTab, isShowingExpandedPalette: $showExpandedPalette)
             } else {
                 ColorGridView(result: result)
                     .padding(.horizontal, 20)

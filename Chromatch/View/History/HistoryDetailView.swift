@@ -33,7 +33,8 @@ struct HistoryDetailView: View {
                     
                     ContentSectionsView(
                         result: result.result,
-                        showExpandedPalette: $showExpandedPalette
+                        showExpandedPalette: $showExpandedPalette,
+                        selectedTab: $selectedTab
                     )
                     .padding(.top)
                     

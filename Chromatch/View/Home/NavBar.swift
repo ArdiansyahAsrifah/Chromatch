@@ -26,6 +26,7 @@ struct MainContainer: View {
                     switch selectedTab {
                     case .home:
                         HomeView(isActive: $isActive, selectedTab: $selectedTab)
+                        
                             
                     case .scan:
                         AnalyzeView(selectedTab: $selectedTab)
@@ -50,6 +51,7 @@ struct MainContainer: View {
             if selectedTab != .scan {
                 MainTabView(selectedTab: $selectedTab)
             }
+            
         }
         .environmentObject(appState)
         .ignoresSafeArea()

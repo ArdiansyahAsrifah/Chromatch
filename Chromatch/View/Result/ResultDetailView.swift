@@ -28,7 +28,8 @@ struct ResultDetailView: View {
                     ScrollView{
                         ContentSectionsView(
                             result: result,
-                            showExpandedPalette: $showExpandedPalette
+                            showExpandedPalette: $showExpandedPalette,
+                            selectedTab: $selectedTab
                         )
                         .padding(.top)
                     }
