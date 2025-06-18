@@ -10,7 +10,7 @@ struct ResultDetailView: View {
     var confidence: Float
     
     @Binding var selectedTab: AppTab
-
+    
     @State private var progressValue: Float = 0.0
     @State private var showExpandedPalette = false
     @Environment(\.presentationMode) var presentationMode
@@ -25,12 +25,14 @@ struct ResultDetailView: View {
                 
                 VStack(spacing: 0) {
                     HeaderView(result: result, progressValue: $progressValue, confidence: confidence, imageData: imageData)
+                    ScrollView{
+                        ContentSectionsView(
+                            result: result,
+                            showExpandedPalette: $showExpandedPalette
+                        )
+                        .padding(.top)
+                    }
                     
-                    ContentSectionsView(
-                        result: result,
-                        showExpandedPalette: $showExpandedPalette
-                    )
-                    .padding(.top)
                     
                     Spacer()
                     

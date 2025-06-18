@@ -38,3 +38,4 @@ struct ExpandedColorInfoView: View {
         .padding(.bottom, 16)
     }
 }
+
