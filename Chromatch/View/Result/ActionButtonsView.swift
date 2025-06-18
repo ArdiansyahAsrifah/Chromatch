@@ -7,7 +7,6 @@ import SwiftUI
 
 struct ActionButtonsView: View {
    
-    @Binding var isActive: Bool
     @Binding var selectedTab: AppTab
     @EnvironmentObject var historyManager: HistoryManager
 
@@ -21,7 +20,7 @@ struct ActionButtonsView: View {
             SaveButton(
                 result: result,
                 confidence: confidence,
-                imageData: imageData, isActive: $isActive,
+                imageData: imageData,
                 selectedTab: $selectedTab,
                 presentationMode: presentationMode
             )

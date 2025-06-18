@@ -9,7 +9,7 @@ struct ResultDetailView: View {
     var result: String
     var confidence: Float
     
-    @Binding var isActive: Bool
+//    @Binding var isActive: Bool
     @Binding var selectedTab: AppTab
     
     @State private var animateElements = false
@@ -19,14 +19,18 @@ struct ResultDetailView: View {
     let imageData: Data?
     
     var body: some View {
-        GeometryReader { geometry in
-            ScrollView {
-                ZStack {
-                    getSeasonalBackground(result: result)
-                        .frame(width: 400, height: showExpandedPalette ? 2500 : 2000)
-                        .edgesIgnoringSafeArea(.all)
+            // 1. Use a ZStack for layering the background and the scrollable content.
+            ZStack {
+                // The background sits on the bottom layer and fills the screen.
+                getSeasonalBackground(result: result)
+                    .ignoresSafeArea()
 
-                    VStack(spacing: 0) {
+                // 2. Use a ScrollView to make your content scrollable.
+                // It sits on top of the background.
+                ScrollView {
+                    // 3. Place your content in a VStack with natural spacing.
+                    // REMOVE all the large negative paddings.
+                    VStack(spacing: 20) { // Add some spacing for a cleaner look
                         HeaderView(result: result, animateElements: $animateElements, progressValue: $progressValue, confidence: confidence, imageData: imageData)
                         
                         ContentSectionsView(
@@ -34,27 +38,23 @@ struct ResultDetailView: View {
                             animateElements: $animateElements,
                             showExpandedPalette: $showExpandedPalette
                         )
-                        .padding(.top, showExpandedPalette ? -1000 : -750)
                         
-                        
-
-                        
+                        // The action buttons will now appear at the end of the
+                        // scrollable content, which is the correct behavior.
                         ActionButtonsView(
-                            isActive: $isActive, selectedTab: $selectedTab, imageData: imageData, result: result, confidence: confidence
+                            selectedTab: $selectedTab, imageData: imageData, result: result, confidence: confidence
                         )
-                        
-                        .padding(.top, showExpandedPalette ? -650 : -1120)
+                        .padding(.bottom, 40) // Add some padding at the very bottom
                     }
                 }
             }
+            // Animate the content changes when the palette expands/collapses.
             .animation(.spring(response: 0.6, dampingFraction: 0.8), value: showExpandedPalette)
+            .toolbar(.hidden, for: .navigationBar) // Use the modern way to hide the navigation bar
+            .onAppear {
+                startAnimations()
+            }
         }
-        .navigationBarHidden(true)
-        .onAppear {
-            startAnimations()
-        }
-        
-    }
     
     private func startAnimations() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {

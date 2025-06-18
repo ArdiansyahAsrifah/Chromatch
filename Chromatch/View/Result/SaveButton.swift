@@ -12,7 +12,6 @@ struct SaveButton: View {
     var confidence: Float
     var imageData: Data?
     
-    @Binding var isActive: Bool
     @Binding var selectedTab: AppTab
     @EnvironmentObject var historyManager: HistoryManager
     var presentationMode: Binding<PresentationMode>
