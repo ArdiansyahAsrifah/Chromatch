@@ -86,12 +86,20 @@ struct SplashView: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden(true)
+        .onTapGesture {
+            // A check to prevent this from running if navigation has already started
+            if !self.goToDetail {
+                self.goToDetail = true
+            }
+        }
         .onAppear {
             startAnimations()
-        }
-        .onTapGesture {
-            withAnimation(.easeInOut(duration: 0.1)) {
-                goToDetail = true
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+                if !self.goToDetail {
+                    self.goToDetail = true
+                }
             }
         }
         .background(
