@@ -27,8 +27,8 @@ struct SplashView: View {
             ZStack {
                 // Dynamic Background based on result
                 getBackgroundGradient(result:result)
-                    .frame(width: 400)
-                    .ignoresSafeArea()
+                    .resizable()
+                    .edgesIgnoringSafeArea(.all)
                 
                 VStack(spacing: 0) {
 
@@ -120,7 +120,7 @@ struct SplashView: View {
         )
     }
     
-    func getBackgroundGradient(result:String) -> some View{
+    func getBackgroundGradient(result:String) -> Image{
         switch result.lowercased() {
         case "spring":
             return Image("Spring-BG")

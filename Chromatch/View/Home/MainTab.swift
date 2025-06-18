@@ -28,7 +28,7 @@ struct MainTabView: View {
                 }
                 .frame(width: 180, height: 60)
                 .padding(.horizontal, 20)
-                .background(.black.opacity(0.3))
+                .background(.white.opacity(0.5))
                 .cornerRadius(50)
                 .padding(.bottom, 20)
 
