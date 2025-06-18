@@ -27,16 +27,12 @@ struct ResultDetailView: View {
                 VStack(spacing: 0) {
                     HeaderView(result: result, progressValue: $progressValue, confidence: confidence, imageData: imageData)
                     
-                        ContentSectionsView(
-                            result: result,
-                            showExpandedPalette: $showExpandedPalette,
-                            selectedTab: $selectedTab
-                        )
-                        .padding(.top)
-                    
-
-                    
-                    Spacer()
+                    ContentSectionsView(
+                        result: result,
+                        showExpandedPalette: $showExpandedPalette,
+                        selectedTab: $selectedTab
+                    )
+                    .padding(.top)
                     
                     ActionButtonsView(
                         selectedTab: $selectedTab,
@@ -45,7 +41,8 @@ struct ResultDetailView: View {
                         confidence: confidence,
                         onRetry: onRetry
                     )
-                    .padding(.top)
+                    .padding(.bottom, 30)
+                    .padding(.horizontal, 20)
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height)
             }

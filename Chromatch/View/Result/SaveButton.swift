@@ -44,7 +44,7 @@ struct SaveButton: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 16)
                 .background(
-                    RoundedRectangle(cornerRadius: 25)
+                    RoundedRectangle(cornerRadius: 16)
                         .fill(Color.black.opacity(0.9))
                 )
         }

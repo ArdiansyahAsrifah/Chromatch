@@ -18,18 +18,14 @@ struct ActionButtonsView: View {
     var onRetry: (() -> Void)?
     
     var body: some View {
-        HStack(spacing: 15) {
+        HStack{
             if let onRetry = onRetry {
                 Button(action: onRetry) { // Use the unwrapped action
-                    HStack {
-                        Image(systemName: "arrow.clockwise")
-                    }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 50)
-                    .background(Color.secondary.opacity(0.3))
-                    .foregroundColor(.primary)
-                    .cornerRadius(12)
-                    .font(.headline)
+                    Image(systemName: "arrow.counterclockwise")
+                        .foregroundColor(.primary)
+                        .frame(width: 60, height: 60)
+                        .background(.white)
+                        .clipShape(Circle())
                 }
             }
             
@@ -41,12 +37,8 @@ struct ActionButtonsView: View {
                 presentationMode: presentationMode
             )
             .environmentObject(historyManager)
-            .frame(maxWidth: .infinity)
 
         }
-        .padding(.horizontal, 25)
-        .padding(.bottom, 30)
     }
 }
-
 
