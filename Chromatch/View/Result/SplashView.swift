@@ -41,7 +41,7 @@ struct SplashView: View {
                             value: animateIcon
                         )
                     
-                        .padding(.top,150)
+                        .padding(.top,100)
                         .padding(.bottom,16)
                     
                     // Text Section

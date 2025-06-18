@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ColorGridView: View {
     var result: String
-    @Binding var animateElements: Bool
 
     var body: some View {
         VStack(spacing: 12) {
@@ -18,7 +17,7 @@ struct ColorGridView: View {
                     ForEach(0..<2) { columnIndex in
                         let index = rowIndex * 2 + columnIndex
                         let colorInfo = getTopRecommendedColors(result: result)[index]
-                        ColorInfoView(colorInfo: colorInfo, animateElements: $animateElements, index: index)
+                        ColorInfoView(colorInfo: colorInfo, index: index)
                     }
                 }
             }
