@@ -10,8 +10,9 @@ import SwiftUI
 struct SplashView: View {
     var result: String
     var confidence: Float
-    
+
     @Binding var selectedTab: AppTab
+
     @State private var goToDetail = false
     @State private var animateProgress = false
     @State private var animateText = false
@@ -20,51 +21,69 @@ struct SplashView: View {
     let imageData: Data?
     
     var body: some View {
-        ZStack {
-            // Dynamic Background based on result
-            getBackgroundGradient()
-                .ignoresSafeArea()
-            
-            VStack(spacing: 0) {
+        GeometryReader { geometry in
+            ZStack {
+                // Dynamic Background based on result
+                getBackgroundGradient(result:result)
+                    .frame(width: 400)
+                    .ignoresSafeArea()
                 
-                // Seasonal Icon
-                getSeasonalIcon()
-                    .scaleEffect(animateIcon ? 1.0 : 0.8)
-                    .opacity(animateIcon ? 1.0 : 0.0)
-                    .animation(
-                        Animation.spring(response: 0.8, dampingFraction: 0.6)
-                            .delay(0.5),
-                        value: animateIcon
-                    )
-                
-                    .padding(.top,200)
-                    .padding(.bottom,16)
-                
-                // Text Section
-                VStack(spacing: 8) {
-                    (Text("You're ") + Text("most likely").underline() + Text(" a"))
-                        .font(.custom("Urbanist-Regular", size: 16))
-                        .foregroundColor(.black.opacity(0.7))
-                        .opacity(animateText ? 1.0 : 0.0)
-                        .offset(y: animateText ? 0 : 20)
+                VStack(spacing: 0) {
+
+                    // Seasonal Icon
+                    getSeasonalIcon()
+                        .scaleEffect(animateIcon ? 1.0 : 0.8)
+                        .opacity(animateIcon ? 1.0 : 0.0)
                         .animation(
-                            Animation.easeOut(duration: 0.8)
-                                .delay(1.5),
-                            value: animateText
+                            Animation.spring(response: 0.8, dampingFraction: 0.6)
+                                .delay(0.5),
+                            value: animateIcon
                         )
-                    Text(result)
-                        .font(.custom("Urbanist-Regular", size: 48).weight(.medium))
-                        .foregroundColor(.black.opacity(0.9))
-                        .opacity(animateText ? 1.0 : 0.0)
-                        .offset(y: animateText ? 0 : 30)
-                        .animation(
-                            Animation.easeOut(duration: 0.8)
-                                .delay(1.8),
-                            value: animateText
-                        )
+                    
+                        .padding(.top,100)
+                        .padding(.bottom,16)
+                    
+                    // Text Section
+                    VStack(spacing: 8) {
+                        (Text("You're ") + Text("most likely").underline() + Text(" a"))
+                            .font(.custom("Urbanist-Regular", size: 16))
+                            .foregroundColor(.black.opacity(0.7))
+                            .opacity(animateText ? 1.0 : 0.0)
+                            .offset(y: animateText ? 0 : 20)
+                            .animation(
+                                Animation.easeOut(duration: 0.8)
+                                    .delay(1.5),
+                                value: animateText
+                            )
+                        
+                        Text(result)
+                            .font(.custom("Urbanist-Regular", size: 48).weight(.medium))
+                            .foregroundColor(.black.opacity(0.9))
+                            .opacity(animateText ? 1.0 : 0.0)
+                            .offset(y: animateText ? 0 : 30)
+                            .animation(
+                                Animation.easeOut(duration: 0.8)
+                                    .delay(1.8),
+                                value: animateText
+                            )
+                    }
+                    
+                    Spacer()
+                    
+                    // Hidden Detail Button (tap anywhere to navigate)
+                    Button(action: {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            goToDetail = true
+                        }
+                    }) {
+                        Rectangle()
+                            .fill(Color.clear)
+                            .frame(width: geometry.size.width, height: 100)
+                    }
+                    
+                    Spacer()
+                        .frame(height: 100)
                 }
-                Spacer()
-                
             }
         }
         .onAppear {
@@ -75,29 +94,19 @@ struct SplashView: View {
                 goToDetail = true
             }
         }
-        // Add the navigationDestination for ResultDetailView
-        .navigationDestination(isPresented: $goToDetail) {
-            ResultDetailView(
-                result: result,
-                confidence: confidence,
-                selectedTab: $selectedTab,
-                imageData: imageData
-            )
-        }
-        //        .background(
-        //            NavigationLink(
-        //                destination: ResultDetailView(
-        //                    result: result,
-        //                    confidence: confidence,
-        //                    isActive: $isActive,
-        //                    selectedTab: $selectedTab,
-        //                    imageData: imageData
-        //                ),
-        //                isActive: $goToDetail
-        //            ) {
-        //                EmptyView()
-        //            }
-        //        )
+        .background(
+            NavigationLink(
+                destination: ResultDetailView(
+                    result: result,
+                    confidence: confidence,
+                    selectedTab: $selectedTab,
+                    imageData: imageData
+                ),
+                isActive: $goToDetail
+            ) {
+                EmptyView()
+            }
+        )
     }
     
     func getBackgroundGradient(result:String) -> some View{
@@ -160,7 +169,7 @@ struct SplashView: View {
 //                selectedTab: .constant(.home),
 //                image: Image("spring")
 //            )
-//            
+//
 //            SplashView(
 //                result: "Summer",
 //                confidence: 0.85,
@@ -168,14 +177,14 @@ struct SplashView: View {
 //                selectedTab: .constant(.home),
 //                image: Image("summer")
 //            )
-//            
+//
 //            SplashView(
 //                result: "Autumn",
 //                confidence: 0.92,
 //                isActive: .constant(true),
 //                selectedTab: .constant(.home)
 //            )
-//            
+//
 //            SplashView(
 //                result: "Winter",
 //                confidence: 0.78,
@@ -185,4 +194,3 @@ struct SplashView: View {
 //        }
 //    }
 //}
-
