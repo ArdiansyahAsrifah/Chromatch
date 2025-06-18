@@ -15,6 +15,7 @@ struct ResultDetailView: View {
     @State private var showExpandedPalette = false
     @Environment(\.presentationMode) var presentationMode
     let imageData: Data?
+    var onRetry: (() -> Void)?
     
     var body: some View {
         GeometryReader { geometry in
@@ -32,7 +33,7 @@ struct ResultDetailView: View {
                         )
                         .padding(.top)
                     }
-                    
+
                     
                     Spacer()
                     
@@ -40,7 +41,8 @@ struct ResultDetailView: View {
                         selectedTab: $selectedTab,
                         imageData: imageData,
                         result: result,
-                        confidence: confidence
+                        confidence: confidence,
+                        onRetry: onRetry
                     )
                     .padding(.top)
                 }

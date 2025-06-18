@@ -20,6 +20,8 @@ struct SplashView: View {
     @State private var progressValue: Float = 0.0
     let imageData: Data?
     
+    var onRetry: (() -> Void)?
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -48,7 +50,7 @@ struct SplashView: View {
                         (Text("You're ") + Text("most likely").underline() + Text(" a"))
                             .font(.custom("Urbanist-Regular", size: 16))
                             .foregroundColor(.black.opacity(0.7))
-                            .opacity(animateText ? 1.0 : 0.0)
+                            .opacity(animateText ? 0.5 : 0.0)
                             .offset(y: animateText ? 0 : 20)
                             .animation(
                                 Animation.easeOut(duration: 0.8)
@@ -59,7 +61,7 @@ struct SplashView: View {
                         Text(result)
                             .font(.custom("Urbanist-Regular", size: 48).weight(.medium))
                             .foregroundColor(.black.opacity(0.9))
-                            .opacity(animateText ? 1.0 : 0.0)
+                            .opacity(animateText ? 0.5 : 0.0)
                             .offset(y: animateText ? 0 : 30)
                             .animation(
                                 Animation.easeOut(duration: 0.8)
@@ -108,7 +110,8 @@ struct SplashView: View {
                     result: result,
                     confidence: confidence,
                     selectedTab: $selectedTab,
-                    imageData: imageData
+                    imageData: imageData,
+                    onRetry: onRetry
                 ),
                 isActive: $goToDetail
             ) {
@@ -159,7 +162,7 @@ struct SplashView: View {
         }
         
         // Start text animation
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             animateText = true
         }
     }
