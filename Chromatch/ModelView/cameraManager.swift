@@ -6,8 +6,9 @@ import Vision
 
 // This class now controls the live video feed and analysis.
 class CameraManager: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleBufferDelegate {
-
-    @Published var isPermissionGranted = false
+    
+    @Published var permissionStatus: AVAuthorizationStatus = .notDetermined
+    
     let captureSession = AVCaptureSession()
     
     weak var viewModel: FaceScannerViewModel?
@@ -20,17 +21,26 @@ class CameraManager: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleB
     
     // A one-time closure for capturing a single frame.
     private var onCaptureFrame: ((CVPixelBuffer?) -> Void)?
-
+    
     override init() {
         super.init()
         setupCamera()
-        requestPermission()
     }
     
-    func requestPermission() {
-        AVCaptureDevice.requestAccess(for: .video) { granted in
-            DispatchQueue.main.async {
-                self.isPermissionGranted = granted
+    func checkAndRequestPermission() {
+        let currentStatus = AVCaptureDevice.authorizationStatus(for: .video)
+        
+        // Update status on the main thread
+        DispatchQueue.main.async {
+            self.permissionStatus = currentStatus
+        }
+        
+        // If not determined, trigger the system prompt
+        if currentStatus == .notDetermined {
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                DispatchQueue.main.async {
+                    self.permissionStatus = granted ? .authorized : .denied
+                }
             }
         }
     }
@@ -56,10 +66,9 @@ class CameraManager: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleB
     }
     
     func startSession() {
-        if !captureSession.isRunning {
-            DispatchQueue.global(qos: .userInitiated).async {
-                self.captureSession.startRunning()
-            }
+        guard permissionStatus == .authorized, !captureSession.isRunning else { return }
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.captureSession.startRunning()
         }
     }
     
@@ -79,8 +88,8 @@ class CameraManager: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleB
     // method untuk live capture video
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
-
-    
+        
+        
         if let completion = self.onCaptureFrame {
             completion(pixelBuffer)
             self.onCaptureFrame = nil // Clear the request
@@ -89,8 +98,8 @@ class CameraManager: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleB
         let currentTime = CACurrentMediaTime()
         guard currentTime - lastAnalysisTime > analysisInterval else { return }
         lastAnalysisTime = currentTime
-
-
+        
+        
         let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
         let filter = CIFilter(name: "CIAreaAverage", parameters: [kCIInputImageKey: ciImage, kCIInputExtentKey: CIVector(cgRect: ciImage.extent)])!
         let outputImage = filter.outputImage!

@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct ProfileHeaderView: View {
     var result: String
     var confidence: Float
@@ -168,33 +167,3 @@ struct SeasonalTwinsView: View {
     }
 }
 
-//struct ActionButtonsView: View {
-//    var onRetry: () -> Void
-//    var onSave: () -> Void
-//
-//    var body: some View {
-//        VStack(spacing: 15) {
-//            Button(action: onRetry) {
-//                Text("Try Again")
-//                    .font(.system(size: 18, weight: .semibold))
-//                    .foregroundColor(.black)
-//                    .frame(maxWidth: .infinity)
-//                    .padding(.vertical, 16)
-//                    .background(RoundedRectangle(cornerRadius: 25).fill(Color.white).stroke(Color.black.opacity(0.1), lineWidth: 1))
-//            }
-//            .buttonStyle(SpringButtonStyle())
-//
-//            Button(action: onSave) {
-//                Text("Save to Profile")
-//                    .font(.system(size: 18, weight: .semibold))
-//                    .foregroundColor(.white)
-//                    .frame(maxWidth: .infinity)
-//                    .padding(.vertical, 16)
-//                    .background(RoundedRectangle(cornerRadius: 25).fill(Color.black.opacity(0.9)))
-//            }
-//            .buttonStyle(SpringButtonStyle())
-//        }
-//        .padding(.horizontal, 25)
-//        .padding(.bottom, 30)
-//    }
-//}

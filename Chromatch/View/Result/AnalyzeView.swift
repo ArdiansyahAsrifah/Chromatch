@@ -1,3 +1,7 @@
+//
+// AnalyzeView.swift
+//
+
 import SwiftUI
 import VideoToolbox
 import SwiftData
@@ -22,209 +26,231 @@ struct AnalyzeView: View {
     
     @EnvironmentObject var historyManager: HistoryManager
     
+    @State private var showPermissionAlert = false
+
     // MARK: - Body
     var body: some View {
         NavigationStack {
             ZStack {
-                if let image = capturedImageForAnalysis {
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .clipped()
-                        .ignoresSafeArea()
-                } else {
-                    if cameraManager.isPermissionGranted {
-                        CameraPreview(cameraManager: cameraManager)
+                switch cameraManager.permissionStatus {
+                case .authorized:
+                    if let image = capturedImageForAnalysis {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .clipped()
                             .ignoresSafeArea()
                     } else {
-                        Color.black.edgesIgnoringSafeArea(.all)
-                        Text("Camera permission is required.")
-                            .foregroundColor(.white)
+                        CameraPreview(cameraManager: cameraManager)
+                            .ignoresSafeArea()
                     }
+                case .denied:
+                    permissionDeniedView
+                case .notDetermined:
+                    Color.black.edgesIgnoringSafeArea(.all)
+                    Text("Requesting Camera Permission...")
+                        .foregroundColor(.white)
+                default:
+                    Color.black.edgesIgnoringSafeArea(.all)
+                    Text("Camera access is restricted for this device.")
+                        .foregroundColor(.white)
                 }
 
-                // NavigationLink to SplashView
-                NavigationLink(
-                    destination: SplashView(
-                        result: predictionResult,
-                        confidence: Float(confidence),
-                        isActive: $navigateToSplash,
-                        selectedTab: $selectedTab,
-                        imageData: capturedImageData
-                    ),
-                    isActive: $navigateToSplash
-                ) {
-                    EmptyView()
-                }
-                .hidden()
-                
-                // Overlay UI
-                VStack {
-                    if capturedImageForAnalysis == nil {
-                        Spacer()
-                        
-                        // Oval Face Outline
-                        ZStack {
-                            Ellipse()
-                                .stroke(style: StrokeStyle(lineWidth: 3, dash: [8, 6]))
-                                .frame(width: 280, height: 350)
-                                .foregroundColor(viewModel.areAllCriteriaMet ? .green : .white)
-                                .animation(.easeInOut(duration: 0.3), value: viewModel.areAllCriteriaMet)
-                        }
-                        .padding(.top, 100)
-                        
-                        Spacer()
-                        
-                        // Instructions / Warnings
-                        VStack(spacing: 15) {
-                            if let warningText = viewModel.lightingState.warningText {
-                                HStack(spacing: 8) {
-                                    Image(systemName: "lightbulb.slash.fill")
-                                        .foregroundColor(.yellow)
-                                    Text(warningText)
-                                        .font(.custom("Urbanist-Regular", size: 14).weight(.medium))
-                                        .foregroundColor(.yellow)
-                                }
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 8)
-                                .background(RoundedRectangle(cornerRadius: 16).fill(Color.black.opacity(0.6)))
-                            } else if viewModel.areAllCriteriaMet {
-                                Text("You're all set!")
-                                    .font(.custom("Urbanist-Regular", size: 14).weight(.medium))
-                                    .foregroundColor(.white)
-                                    .padding(.horizontal, 16)
-                                    .padding(.vertical, 4)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 24)
-                                            .fill(Color.green.opacity(0.75))
-                                    )
-                            } else {
-                                Text(viewModel.facePositionState.instructionText)
-                                    .font(.custom("Urbanist-Regular", size: 14).weight(.medium))
-                                    .foregroundColor(.white)
-                                    .multilineTextAlignment(.center)
-                                    .padding(.horizontal, 16)
-                                    .padding(.vertical, 4)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 24)
-                                            .fill(Color.black.opacity(0.6))
-                                    )
-                            }
-                        }
-                        .animation(.easeInOut(duration: 0.3), value: viewModel.areAllCriteriaMet)
-                        
-                        // Capture Button
-                        Button(action: capturePhoto) {
-                            Image("buttonIcon")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 72, height: 72)
-                                .clipShape(Circle())
-                        }
-                        .disabled(!viewModel.areAllCriteriaMet)
-                        .opacity(viewModel.areAllCriteriaMet ? 1.0 : 0.5)
-                        .scaleEffect(viewModel.areAllCriteriaMet ? 1.0 : 0.9)
-                        .animation(.easeInOut(duration: 0.3), value: viewModel.areAllCriteriaMet)
-                        .padding(.bottom, 50)
-                    }
-                }
-
-                // Top Bar Buttons
-                VStack {
-                    HStack {
-                        Button(action: {
-                            selectedTab = .home
-                        }) {
-                            Image(systemName: "chevron.left")
-                                .font(.title3)
-                                .foregroundColor(.black)
-                                .padding(12)
-                                .background(Color.secondary.opacity(0.2))
-                                .clipShape(Circle())
-                        }
-                        .padding(.leading, 24)
-                        .padding(.top, 60)
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            withAnimation {
-                                isInfoPopupPresented = true
-                            }
-                        }) {
-                            Image(systemName: "questionmark.circle")
-                                .font(.title3)
-                                .foregroundColor(.white)
-                                .padding(12)
-                                .background(Color.secondary.opacity(0.2))
-                                .clipShape(Circle())
-                        }
-                        .padding(.trailing, 24)
-                        .padding(.top, 60)
-                    }
-                    Spacer()
-                }
-                .edgesIgnoringSafeArea(.top)
-
-                // Loading overlay
-                if isAnalyzing {
-                    Color.black.opacity(0.7).edgesIgnoringSafeArea(.all)
-                    VStack(spacing: 20) {
-                        ProgressView()
-                            .scaleEffect(1.8)
-                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                        Text("Menganalisis...")
-                            .font(.title2)
-                            .fontWeight(.medium)
-                            .foregroundColor(.white)
-                    }
-                }
-
-                // Info popup
-                if isInfoPopupPresented {
-                    PopupInfo(isPresented: $isInfoPopupPresented)
-                        .transition(.opacity)
+                if cameraManager.permissionStatus == .authorized {
+                    cameraOverlayView
                 }
             }
             .environmentObject(historyManager)
+            .toolbar(.hidden, for: .navigationBar)
+            .onAppear {
+                cameraManager.checkAndRequestPermission()
+            }
+            .onDisappear {
+                cameraManager.stopSession()
+//                navigateToSplash = false
+            }
+            
+            .onChange(of: cameraManager.permissionStatus) { _, newStatus in
+                if newStatus == .authorized {
+                    cameraManager.viewModel = viewModel
+                    cameraManager.startSession()
+                } else if newStatus == .denied {
+                    showPermissionAlert = true
+                }
+            }
+            .alert("Camera Access Required", isPresented: $showPermissionAlert) {
+                Button("Go to Settings") {
+                    if let url = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(url) {
+                        UIApplication.shared.open(url)
+                    }
+                }
+                Button("Cancel", role: .cancel) {
+                    selectedTab = .home
+                }
+            } message: {
+                Text("To continue, please allow camera access in your device settings.")
+            }
+            .navigationDestination(isPresented: $navigateToSplash) {
+                 SplashView(result: predictionResult, confidence: Float(confidence), selectedTab: $selectedTab, imageData: capturedImageData)
+            }
             .onChange(of: capturedImageForAnalysis) { _, newImage in
                 if let imageToAnalyze = newImage {
                     self.isAnalyzing = true
                     self.runPrediction(image: imageToAnalyze)
                 }
             }
-            .onChange(of: navigateToSplash) { _, newValue in
-                if !newValue {
-                    self.capturedImageForAnalysis = nil
-                    self.cameraManager.startSession()
-                }
-            }
-            .onAppear {
-                if !appState.hasShownInitialPopup {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        withAnimation(.easeInOut) {
-                            isInfoPopupPresented = true
-                        }
-                        appState.hasShownInitialPopup = true
+        }
+    }
+
+    // MARK: - Subviews
+    
+    private var cameraOverlayView: some View {
+        Group {
+            VStack {
+                HStack {
+                    Button(action: { selectedTab = .home }) {
+                        Image(systemName: "chevron.left")
+                            .font(.title3).foregroundColor(.white).padding(12)
+                            .background(Color.secondary.opacity(0.2)).clipShape(Circle())
+                    }
+                    Spacer()
+                    Button(action: { isInfoPopupPresented = true }) {
+                        Image(systemName: "questionmark.circle")
+                            .font(.title3)
+                            .foregroundColor(.white)
+                            .padding(12)
+                            .background(Color.secondary.opacity(0.2))
+                            .clipShape(Circle())
                     }
                 }
-                cameraManager.viewModel = viewModel
-                cameraManager.startSession()
+                .padding(.horizontal, 24).padding(.top, 60)
+                Spacer()
             }
-            .onDisappear {
-                cameraManager.stopSession()
+            .edgesIgnoringSafeArea(.top)
+            
+            if capturedImageForAnalysis == nil {
+                VStack {
+                    Spacer()
+                    ZStack {
+                        Ellipse()
+                            .stroke(style: StrokeStyle(lineWidth: 3, dash: [8, 6]))
+                            .frame(width: 280, height: 350)
+                            .foregroundColor(viewModel.areAllCriteriaMet ? .green : .white)
+                            .animation(.easeInOut(duration: 0.3), value: viewModel.areAllCriteriaMet)
+                    }
+                    .padding(.top, 100)
+                    Spacer()
+                    VStack(spacing: 15) {
+                        if let warningText = viewModel.lightingState.warningText {
+                            HStack(spacing: 8) {
+                                Image(systemName: "lightbulb.slash.fill")
+                                    .foregroundColor(.yellow)
+                                Text(warningText)
+                                    .font(.custom("Urbanist-Regular", size: 14)
+                                        .weight(.medium))
+                                    .foregroundColor(.yellow)
+                            }
+                            .font(.subheadline)
+                            .fontWeight(.medium)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .background(RoundedRectangle(cornerRadius: 16).fill(Color.black.opacity(0.6)))
+                        } else if viewModel.areAllCriteriaMet {
+                            Text("You're all set!")
+                                .font(.custom("Urbanist-Regular", size: 14)
+                                    .weight(.medium))
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 4)
+                                .background(RoundedRectangle(cornerRadius: 24).fill(Color(red: 0.2, green: 0.78, blue: 0.35).opacity(0.75)))
+                        } else {
+                            Text(viewModel.facePositionState.instructionText)
+                                .font(.custom("Urbanist-Regular", size: 14).weight(.medium))
+                                .foregroundColor(.white)
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 4)
+                                .background(RoundedRectangle(cornerRadius: 24).fill(Color.black.opacity(0.6)))
+                        }
+                    }
+                    .animation(.easeInOut(duration: 0.3), value: viewModel.areAllCriteriaMet)
+                    Button(action: capturePhoto) {
+                        Image("buttonIcon")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 72, height: 72)
+                            .clipShape(Circle())
+                    }
+                }
+            }
+            
+            if isAnalyzing {
+                Color.black.opacity(0.7).edgesIgnoringSafeArea(.all)
+                VStack(spacing: 20) {
+                    ProgressView()
+                        .scaleEffect(1.8)
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                    Text("Menganalisis...")
+                        .font(.title2)
+                        .fontWeight(.medium)
+                        .foregroundColor(.white)
+                }
+            }
+            if isInfoPopupPresented {
+                PopupInfo(isPresented: $isInfoPopupPresented).transition(.opacity)
             }
         }
     }
-    
-    // MARK: - Functions
+
+    private var permissionDeniedView: some View {
+        ZStack {
+            Color.black.edgesIgnoringSafeArea(.all)
+            VStack(spacing: 16) {
+                Image(systemName: "camera.slash.fill")
+                    .font(.system(size: 60))
+                    .foregroundColor(.white.opacity(0.7))
+                Text("Camera Access Denied")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
+                Text("Chromatch requires camera access to analyze your personal color. Please enable it in your device settings.")
+                    .font(.body)
+                    .foregroundColor(.gray)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 30)
+                Button("Go to Settings") {
+                    if let url = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(url) {
+                        UIApplication.shared.open(url)
+                    }
+                }
+                .font(.headline).padding(.horizontal, 20).padding(.vertical, 12)
+                .background(Color.blue).foregroundColor(.white).cornerRadius(12).padding(.top)
+            }
+            
+            VStack {
+                HStack {
+                    Button(action: { selectedTab = .home }) {
+                        Image(systemName: "chevron.left")
+                            .font(.title3)
+                            .foregroundColor(.white)
+                            .padding(12)
+                            .background(Color.secondary.opacity(0.2))
+                            .clipShape(Circle())
+                    }
+                    Spacer()
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 60)
+                Spacer()
+            }
+            .edgesIgnoringSafeArea(.top)
+        }
+    }
     
     private func capturePhoto() {
         cameraManager.captureCurrentImage { pixelBuffer in
-            guard let buffer = pixelBuffer,
-                  let image = imageFromPixelBuffer(buffer) else { return }
-            
+            guard let buffer = pixelBuffer, let image = imageFromPixelBuffer(buffer) else { return }
             DispatchQueue.main.async {
                 self.cameraManager.stopSession()
                 self.capturedImageForAnalysis = image
@@ -232,134 +258,31 @@ struct AnalyzeView: View {
         }
     }
 
-
-    
-//    private func runPrediction(image: UIImage) {
-//        guard let resizedImage = image.resizeTo(size: CGSize(width: 299, height: 299)),
-//              let bufferForModel = resizedImage.toCVPixelBuffer() else {
-//            DispatchQueue.main.async { self.isAnalyzing = false }
-//            return
-//        }
-//
-//        DispatchQueue.global(qos: .userInteractive).async {
-//            let model = SeasonalColorClassifier()
-//            do {
-//                let input = SeasonalColorClassifierInput(image: bufferForModel)
-//                let prediction = try model.prediction(input: input)
-//
-//                DispatchQueue.main.async {
-//                    withAnimation {
-//                        self.predictionResult = prediction.target
-//                        self.confidence = Double(Float(prediction.targetProbability[prediction.target] ?? 0.0))
-//
-//                        // ✅ Convert image to Data
-//                        let imageData = image.jpegData(compressionQuality: 0.8)
-//
-//                        // ✅ Save to SwiftData
-//                        let historyItem = AnalysisResult(
-//                            season: predictionResult,
-//                            confidence: confidence,
-//                            imageData: imageData
-//                        )
-//                        modelContext.insert(historyItem)
-//
-//                        self.isAnalyzing = false
-//                        self.navigateToSplash = true
-//                    }
-//                }
-//            } catch {
-//                DispatchQueue.main.async {
-//                    self.predictionResult = "Error: \(error.localizedDescription)"
-//                    self.isAnalyzing = false
-//                }
-//            }
-//        }
-//    }
-    
-
-//    private func runPrediction(image: UIImage) {
-//        guard let resizedImage = image.resizeTo(size: CGSize(width: 299, height: 299)),
-//              let bufferForModel = resizedImage.toCVPixelBuffer() else {
-//            DispatchQueue.main.async { self.isAnalyzing = false }
-//            return
-//        }
-//
-//        DispatchQueue.global(qos: .userInteractive).async {
-//            let model = SeasonalColorClassifier()
-//            do {
-//                let input = SeasonalColorClassifierInput(image: bufferForModel)
-//                let prediction = try model.prediction(input: input)
-//
-//                DispatchQueue.main.async {
-//                    withAnimation {
-//                        self.predictionResult = prediction.target
-//                        self.confidence = Double(Float(prediction.targetProbability[prediction.target] ?? 0.0))
-//
-//
-//                        let imageData = image.jpegData(compressionQuality: 0.8)
-//                        self.capturedImageData = imageData
-//
-//                        let historyItem = AnalysisResult(
-//                            season: predictionResult,
-//                            confidence: confidence,
-//                            imageData: imageData
-//                        )
-//                        modelContext.insert(historyItem)
-//
-//                        self.isAnalyzing = false
-//                        self.navigateToSplash = true
-//                    }
-//                }
-//            } catch {
-//                DispatchQueue.main.async {
-//                    self.predictionResult = "Error: \(error.localizedDescription)"
-//                    self.isAnalyzing = false
-//                }
-//            }
-//        }
-//    }
-    
     func runPrediction(image: UIImage) {
-        guard let ciImage = CIImage(image: image) else {
-            print("Unable to create CIImage")
-            return
-        }
-
+        guard let ciImage = CIImage(image: image) else { return }
         do {
             let model = try VNCoreMLModel(for: SeasonalColorClassifier().model)
-
             let request = VNCoreMLRequest(model: model) { request, error in
-                if let results = request.results as? [VNClassificationObservation],
-                   let topResult = results.first {
-
+                if let results = request.results as? [VNClassificationObservation], let topResult = results.first {
                     DispatchQueue.main.async {
                         self.predictionResult = topResult.identifier
                         self.confidence = Double(topResult.confidence)
-
                         let imageData = image.jpegData(compressionQuality: 0.8)
                         self.capturedImageData = imageData
-
-                        let historyItem = AnalysisResult(
-                            season: topResult.identifier,
-                            confidence: Double(topResult.confidence),
-                            imageData: imageData
-                        )
+                        let historyItem = AnalysisResult(season: topResult.identifier, confidence: Double(topResult.confidence), imageData: imageData)
                         modelContext.insert(historyItem)
-
                         self.isAnalyzing = false
                         self.navigateToSplash = true
                     }
                 }
             }
-
             let handler = VNImageRequestHandler(ciImage: ciImage, options: [:])
             try handler.perform([request])
         } catch {
             print("Failed to perform prediction: \(error.localizedDescription)")
         }
     }
-
-
+    
     private func imageFromPixelBuffer(_ pixelBuffer: CVPixelBuffer) -> UIImage? {
         var cgImage: CGImage?
         VTCreateCGImageFromCVPixelBuffer(pixelBuffer, options: nil, imageOut: &cgImage)
