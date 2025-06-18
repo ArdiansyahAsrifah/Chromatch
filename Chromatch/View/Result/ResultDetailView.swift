@@ -17,30 +17,34 @@ struct ResultDetailView: View {
     let imageData: Data?
     
     var body: some View {
-            ScrollView {
-                ZStack {
-                    getSeasonalBackground(result: result)
-                        .frame(width: 400)
-                        .edgesIgnoringSafeArea(.all)
-
-                    VStack(spacing: 0) {
-                        HeaderView(result: result, progressValue: $progressValue, confidence: confidence, imageData: imageData)
-                        
-                        ContentSectionsView(
-                            result: result,
-
-                            showExpandedPalette: $showExpandedPalette
-                        )
-                        .padding(.top)
-                        
-                        ActionButtonsView(
-                            selectedTab: $selectedTab, imageData: imageData, result: result, confidence: confidence
-                        )
-                        
-                        .padding(.top)
-                    }
+        GeometryReader { geometry in
+            ZStack {
+                getSeasonalBackground(result: result)
+                    .edgesIgnoringSafeArea(.all)
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                
+                VStack(spacing: 0) {
+                    HeaderView(result: result, progressValue: $progressValue, confidence: confidence, imageData: imageData)
+                    
+                    ContentSectionsView(
+                        result: result,
+                        showExpandedPalette: $showExpandedPalette
+                    )
+                    .padding(.top)
+                    
+                    Spacer()
+                    
+                    ActionButtonsView(
+                        selectedTab: $selectedTab,
+                        imageData: imageData,
+                        result: result,
+                        confidence: confidence
+                    )
+                    .padding(.top)
                 }
+                .frame(width: geometry.size.width, height: geometry.size.height)
             }
+        }
         .navigationBarHidden(true)
     }
 }

@@ -17,31 +17,33 @@ struct HistoryDetailView: View {
     @State private var showExpandedPalette = false
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
-            ScrollView {
-                ZStack {
-                    getSeasonalBackground(result: result.result)
-                        .frame(width: 400)
-                        .edgesIgnoringSafeArea(.all)
-
-                    VStack(spacing: 0) {
-                        HeaderView(
-                            result: result.result,
-                            progressValue: $progressValue,
-                            confidence: result.confidence,
-                            imageData: result.imageData
-                        )
-                        
-                        ContentSectionsView(
-                            result: result.result,
-                            showExpandedPalette: $showExpandedPalette
-                        )
-                        .padding(.top)
-
-                    }
-                }
+        GeometryReader { geometry in
+            ZStack {
+                getSeasonalBackground(result: result.result)
+                    .frame(width: 400)
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                
+                VStack(spacing: 0) {
+                    HeaderView(
+                        result: result.result,
+                        progressValue: $progressValue,
+                        confidence: result.confidence,
+                        imageData: result.imageData
+                    )
+                    
+                    ContentSectionsView(
+                        result: result.result,
+                        showExpandedPalette: $showExpandedPalette
+                    )
+                    .padding(.top)
+                    
+                }.frame(width: geometry.size.width, height: geometry.size.height)
             }
+        }
+        
+        
         .navigationBarHidden(true)
-
+        
     }
-
+    
 }

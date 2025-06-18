@@ -266,7 +266,7 @@ struct AnalyzeView: View {
     func runPrediction(image: UIImage) {
         guard let ciImage = CIImage(image: image) else { return }
         do {
-            let model = try VNCoreMLModel(for: SeasonalColorClassifier().model)
+            let model = try VNCoreMLModel(for: SeasonalClassifier().model)
             let request = VNCoreMLRequest(model: model) { request, error in
                 if let results = request.results as? [VNClassificationObservation], let topResult = results.first {
                     DispatchQueue.main.async {
