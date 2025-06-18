@@ -21,18 +21,18 @@ struct ResultDetailView: View {
         GeometryReader { geometry in
             ZStack {
                 getSeasonalBackground(result: result)
+                    .resizable()
                     .edgesIgnoringSafeArea(.all)
-                    .frame(width: geometry.size.width, height: geometry.size.height)
                 
                 VStack(spacing: 0) {
                     HeaderView(result: result, progressValue: $progressValue, confidence: confidence, imageData: imageData)
+                        .padding(.top,65)
                     
                     ContentSectionsView(
                         result: result,
                         showExpandedPalette: $showExpandedPalette,
                         selectedTab: $selectedTab
                     )
-                    .padding(.top)
                     
                     ActionButtonsView(
                         selectedTab: $selectedTab,

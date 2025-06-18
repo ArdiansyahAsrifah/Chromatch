@@ -46,7 +46,7 @@ struct RoundedCorner: Shape {
 }
 
 
-func getSeasonalBackground(result: String) -> some View{
+func getSeasonalBackground(result: String) -> Image{
     switch result.lowercased() {
     case "spring":
         return Image("Spring-BG")

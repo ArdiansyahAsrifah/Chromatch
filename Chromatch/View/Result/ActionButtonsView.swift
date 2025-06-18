@@ -23,7 +23,7 @@ struct ActionButtonsView: View {
                 Button(action: onRetry) { // Use the unwrapped action
                     Image(systemName: "arrow.counterclockwise")
                         .foregroundColor(.primary)
-                        .frame(width: 60, height: 60)
+                        .frame(width: 56, height: 56)
                         .background(.white)
                         .clipShape(Circle())
                 }

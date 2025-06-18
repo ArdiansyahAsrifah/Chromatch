@@ -57,8 +57,8 @@ struct ExpandedPaletteView: View {
     var body: some View {
         ZStack {
             getSeasonalBackground(result: result)
-                ignoresSafeArea()
-
+                .resizable()
+                .edgesIgnoringSafeArea(.all)
         }
     }
 }

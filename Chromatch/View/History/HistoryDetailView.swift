@@ -20,8 +20,8 @@ struct HistoryDetailView: View {
         GeometryReader { geometry in
             ZStack {
                 getSeasonalBackground(result: result.result)
-                    .frame(width: 400)
-                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    .resizable()
+                    .edgesIgnoringSafeArea(.all)
                 
                 VStack(spacing: 0) {
                     HeaderView(
@@ -30,6 +30,7 @@ struct HistoryDetailView: View {
                         confidence: result.confidence,
                         imageData: result.imageData
                     )
+                    .padding(.top,30)
                     
                     ContentSectionsView(
                         result: result.result,

@@ -26,6 +26,7 @@ struct ContentSectionsView: View {
             }
             .hidden()
             
+            
             YourPaletteSection(
                 result: result,
                 showExpandedPalette: $showExpandedPalette,

@@ -23,6 +23,6 @@ func getSeasonalIcon(result: String) -> some View{
         return Image("Winter")
         
     default:
-        return Image("Default")
+        return Image("Spring")
     }
 }

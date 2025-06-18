@@ -21,11 +21,11 @@ struct YourPaletteSection: View {
                         .weight(.medium))
                         .foregroundColor(.black.opacity(0.9))
                     
-                    if showExpandedPalette {
-                        Text("Colors that flatter your tone")
-                            .font(.custom("Urbanist-Regular", size: 12).weight(.light)) //Nunito
-                            .foregroundColor(.black.opacity(0.6))
-                    }
+//                    if showExpandedPalette {
+//                        Text("Colors that flatter your tone")
+//                            .font(.custom("Urbanist-Regular", size: 12).weight(.light)) //Nunito
+//                            .foregroundColor(.black.opacity(0.6))
+//                    }
                 }
 
                 Spacer()
