@@ -21,7 +21,6 @@ struct SpringButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
-            .animation(.spring(response: 0.2, dampingFraction: 0.5), value: configuration.isPressed)
     }
 }
 
@@ -46,54 +45,23 @@ struct RoundedCorner: Shape {
     }
 }
 
-func getSeasonalBackground(result: String) -> LinearGradient {
+
+func getSeasonalBackground(result: String) -> some View{
     switch result.lowercased() {
     case "spring":
-        return LinearGradient(
-            colors: [
-                Color(red: 0.85, green: 0.95, blue: 0.85),
-                Color(red: 0.75, green: 0.88, blue: 0.75),
-                Color(red: 0.65, green: 0.80, blue: 0.65)
-            ],
-            startPoint: .top,
-            endPoint: .bottom
-        )
+        return Image("Spring-BG")
+
     case "summer":
-        return LinearGradient(
-            colors: [
-                Color(red: 0.95, green: 0.85, blue: 0.85),
-                Color(red: 0.88, green: 0.75, blue: 0.75),
-                Color(red: 0.80, green: 0.65, blue: 0.65)
-            ],
-            startPoint: .top,
-            endPoint: .bottom
-        )
+        return Image("Summer-BG")
+        
     case "autumn", "fall":
-        return LinearGradient(
-            colors: [
-                Color(red: 0.95, green: 0.90, blue: 0.80),
-                Color(red: 0.90, green: 0.80, blue: 0.70),
-                Color(red: 0.85, green: 0.70, blue: 0.60)
-            ],
-            startPoint: .top,
-            endPoint: .bottom
-        )
+        return Image("Autumn-BG")
+        
     case "winter":
-        return LinearGradient(
-            colors: [
-                Color(red: 0.85, green: 0.90, blue: 0.95),
-                Color(red: 0.75, green: 0.80, blue: 0.88),
-                Color(red: 0.65, green: 0.70, blue: 0.80)
-            ],
-            startPoint: .top,
-            endPoint: .bottom
-        )
+        return Image("Winter-BG")
+        
     default:
-        return LinearGradient(
-            colors: [Color.gray.opacity(0.3), Color.gray.opacity(0.5)],
-            startPoint: .top,
-            endPoint: .bottom
-        )
+        return Image("Default-BG")
     }
 }
 

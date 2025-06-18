@@ -52,7 +52,6 @@ struct SplashView: View {
                                 .delay(1.5),
                             value: animateText
                         )
-                    
                     Text(result)
                         .font(.custom("Urbanist-Regular", size: 48).weight(.medium))
                         .foregroundColor(.black.opacity(0.9))
@@ -101,58 +100,22 @@ struct SplashView: View {
         //        )
     }
     
-    func getBackgroundGradient() -> LinearGradient {
+    func getBackgroundGradient(result:String) -> some View{
         switch result.lowercased() {
         case "spring":
-            return LinearGradient(
-                colors: [
-                    Color(red: 0.92, green: 0.96, blue: 0.88),  // Light mint
-                    Color(red: 0.85, green: 0.93, blue: 0.82),  // Medium mint
-                    Color(red: 0.78, green: 0.90, blue: 0.76)   // Darker mint
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
+            return Image("Spring-BG")
+
         case "summer":
-            return LinearGradient(
-                colors: [
-                    Color(red: 0.94, green: 0.92, blue: 0.98),  // Light lavender
-                    Color(red: 0.88, green: 0.84, blue: 0.95),  // Medium lavender
-                    Color(red: 0.82, green: 0.76, blue: 0.92)   // Darker lavender
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-        case "autumn":
-            return LinearGradient(
-                colors: [
-                    Color(red: 0.98, green: 0.94, blue: 0.88),  // Light peach
-                    Color(red: 0.95, green: 0.88, blue: 0.78),  // Medium peach
-                    Color(red: 0.92, green: 0.82, blue: 0.68)   // Darker peach
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
+            return Image("Summer-BG")
+            
+        case "autumn", "fall":
+            return Image("Autumn-BG")
+            
         case "winter":
-            return LinearGradient(
-                colors: [
-                    Color(red: 0.92, green: 0.94, blue: 0.96),  // Light blue-gray
-                    Color(red: 0.85, green: 0.88, blue: 0.92),  // Medium blue-gray
-                    Color(red: 0.78, green: 0.82, blue: 0.88)   // Darker blue-gray
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
+            return Image("Winter-BG")
+            
         default:
-            return LinearGradient(
-                colors: [
-                    Color(red: 0.85, green: 0.95, blue: 0.85),
-                    Color(red: 0.75, green: 0.88, blue: 0.75),
-                    Color(red: 0.65, green: 0.80, blue: 0.65)
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
+            return Image("Default-BG")
         }
     }
     

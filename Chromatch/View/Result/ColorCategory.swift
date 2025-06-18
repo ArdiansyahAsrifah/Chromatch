@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ColorCategorySection: View {
     var category: ColorCategory
-    @Binding var animateElements: Bool
     var categoryIndex: Int
 
     var body: some View {
@@ -22,7 +21,6 @@ struct ColorCategorySection: View {
                 ForEach(Array(category.colors.enumerated()), id: \.offset) { colorIndex, colorInfo in
                     ExpandedColorInfoView(
                         colorInfo: colorInfo,
-                        animateElements: $animateElements,
                         index: categoryIndex * 4 + colorIndex
                     )
                 }

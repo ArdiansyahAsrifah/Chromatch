@@ -11,6 +11,7 @@ struct MonthSectionView: View {
     let monthName: String
     let results: [ColorResult]
     let onDelete: (ColorResult) -> Void
+    var onSelect: (ColorResult) -> Void 
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -28,6 +29,9 @@ struct MonthSectionView: View {
                         result: result,
                         onDelete: { onDelete(result) }
                     )
+                    .onTapGesture {
+                        onSelect(result)  
+                    }
                     .buttonStyle(PlainButtonStyle())
 
                     if index < results.count - 1 {
@@ -35,6 +39,7 @@ struct MonthSectionView: View {
                             .padding(.leading, 68)
                     }
                 }
+
             }
             .background(Color(.systemBackground))
             .cornerRadius(16)

@@ -182,11 +182,6 @@ struct AnalyzeView: View {
                             .frame(width: 72, height: 72)
                             .clipShape(Circle())
                     }
-                    .disabled(!viewModel.areAllCriteriaMet)
-                    .opacity(viewModel.areAllCriteriaMet ? 1.0 : 0.5)
-                    .scaleEffect(viewModel.areAllCriteriaMet ? 1.0 : 0.9)
-                    .animation(.easeInOut(duration: 0.3), value: viewModel.areAllCriteriaMet)
-                    .padding(.bottom, 50)
                 }
             }
             
@@ -262,7 +257,7 @@ struct AnalyzeView: View {
             }
         }
     }
-    
+
     func runPrediction(image: UIImage) {
         guard let ciImage = CIImage(image: image) else { return }
         do {

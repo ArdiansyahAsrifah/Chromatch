@@ -1,0 +1,24 @@
+<svg width="121" height="120" viewBox="0 0 121 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M59.2653 120L49.1279 102.441C40.6261 87.7159 45.6714 68.8864 60.3969 60.3846L70.5344 77.9432C79.0362 92.6687 73.9908 111.498 59.2653 120Z" fill="url(#paint0_radial_709_381)"/>
+<path d="M61.7346 0L71.872 17.5585C80.3738 32.2841 75.3285 51.1136 60.603 59.6154L50.4655 42.0568C41.9637 27.3313 47.0091 8.5018 61.7346 0Z" fill="url(#paint1_radial_709_381)"/>
+<path d="M0.5 58.7656L18.0585 48.6282C32.7841 40.1264 51.6136 45.1717 60.1154 59.8972L42.5568 70.0347C27.8313 78.5365 9.0018 73.4911 0.5 58.7656Z" fill="url(#paint2_radial_709_381)"/>
+<path d="M120.5 61.2349L102.941 71.3723C88.2159 79.8741 69.3864 74.8288 60.8846 60.1032L78.4432 49.9658C93.1687 41.464 111.998 46.5094 120.5 61.2349Z" fill="url(#paint3_radial_709_381)"/>
+<defs>
+<radialGradient id="paint0_radial_709_381" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(61.256 59.8639) rotate(-180) scale(67.8175 73.2419)">
+<stop stop-color="#48A810" stop-opacity="0.65"/>
+<stop offset="1" stop-color="#6BC047" stop-opacity="0.25"/>
+</radialGradient>
+<radialGradient id="paint1_radial_709_381" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(61.256 59.8639) rotate(-180) scale(67.8175 73.2419)">
+<stop stop-color="#48A810" stop-opacity="0.65"/>
+<stop offset="1" stop-color="#6BC047" stop-opacity="0.25"/>
+</radialGradient>
+<radialGradient id="paint2_radial_709_381" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(61.256 59.8639) rotate(-180) scale(67.8175 73.2419)">
+<stop stop-color="#48A810" stop-opacity="0.65"/>
+<stop offset="1" stop-color="#6BC047" stop-opacity="0.25"/>
+</radialGradient>
+<radialGradient id="paint3_radial_709_381" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(61.256 59.8639) rotate(-180) scale(67.8175 73.2419)">
+<stop stop-color="#48A810" stop-opacity="0.65"/>
+<stop offset="1" stop-color="#6BC047" stop-opacity="0.25"/>
+</radialGradient>
+</defs>
+</svg>

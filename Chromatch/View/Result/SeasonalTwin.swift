@@ -9,7 +9,6 @@ import SwiftUI
 
 struct SeasonalTwinsSection: View {
     var result: String
-    @Binding var animateElements: Bool
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -21,13 +20,12 @@ struct SeasonalTwinsSection: View {
                 Spacer()
             }
             .padding(.horizontal, 20)
-            .padding(.top, 20)
-            .padding(.bottom, 16)
-
+            .padding(.vertical, 16)
+            
             // Celebrity grid
             HStack(spacing: 20) {
                 ForEach(0..<3) { index in
-                    CelebrityView(result: result, index: index, animateElements: $animateElements)
+                    CelebrityView(result: result, index: index)
                 }
             }
             .padding(.horizontal, 20)
@@ -35,14 +33,7 @@ struct SeasonalTwinsSection: View {
         }
         .background(
             RoundedRectangle(cornerRadius: 20)
-                .fill(Color.black.opacity(0.05))
-        )
-        .scaleEffect(animateElements ? 1.0 : 0.95)
-        .opacity(animateElements ? 1.0 : 0.0)
-        .animation(
-            Animation.spring(response: 0.7, dampingFraction: 0.8)
-                .delay(1.2),
-            value: animateElements
+                .fill(.white.opacity(0.5))
         )
     }
 }

@@ -11,14 +11,14 @@ struct ResultDetailView: View {
     
 //    @Binding var isActive: Bool
     @Binding var selectedTab: AppTab
-    
-    @State private var animateElements = false
+
     @State private var progressValue: Float = 0.0
     @State private var showExpandedPalette = false
     @Environment(\.presentationMode) var presentationMode
     let imageData: Data?
     
     var body: some View {
+
             // 1. Use a ZStack for layering the background and the scrollable content.
             ZStack {
                 // The background sits on the bottom layer and fills the screen.
@@ -32,10 +32,11 @@ struct ResultDetailView: View {
                     // REMOVE all the large negative paddings.
                     VStack(spacing: 20) { // Add some spacing for a cleaner look
                         HeaderView(result: result, animateElements: $animateElements, progressValue: $progressValue, confidence: confidence, imageData: imageData)
+
                         
                         ContentSectionsView(
                             result: result,
-                            animateElements: $animateElements,
+
                             showExpandedPalette: $showExpandedPalette
                         )
                         
@@ -79,4 +80,7 @@ struct ResultDetailView: View {
 //        )
 //    }
 //}
+
+
+
 

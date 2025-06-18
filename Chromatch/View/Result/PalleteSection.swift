@@ -9,7 +9,6 @@ import SwiftUI
 
 struct YourPaletteSection: View {
     var result: String
-    @Binding var animateElements: Bool
     @Binding var showExpandedPalette: Bool
 
     var body: some View {
@@ -46,28 +45,21 @@ struct YourPaletteSection: View {
                 }
             }
             .padding(.horizontal, 20)
-            .padding(.top, 20)
+            .padding(.top, 16)
             .padding(.bottom, 16)
             
             // Color content
             if showExpandedPalette {
-                ExpandedColorView(result: result, animateElements: $animateElements)
+                ExpandedColorView(result: result)
             } else {
-                ColorGridView(result: result, animateElements: $animateElements)
+                ColorGridView(result: result)
                     .padding(.horizontal, 20)
                     .padding(.bottom, 20)
             }
         }
         .background(
             RoundedRectangle(cornerRadius: 20)
-                .fill(Color.black.opacity(0.05))
-        )
-        .scaleEffect(animateElements ? 1.0 : 0.95)
-        .opacity(animateElements ? 1.0 : 0.0)
-        .animation(
-            Animation.spring(response: 0.7, dampingFraction: 0.8)
-                .delay(0.8),
-            value: animateElements
+                .fill(.white.opacity(0.5))
         )
     }
 }

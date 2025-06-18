@@ -19,11 +19,11 @@ struct MainTabView: View {
                 // Background bar
                 HStack (alignment: .center, spacing: 20){
                     Spacer()
-                    tabBarItem(icon: "house.fill", tab: .home)
+                    tabBarItem(image: "HOME", tab: .home)
                     Spacer()
                     Spacer() // For center button space
                     Spacer()
-                    tabBarItem(icon: "clock.fill", tab: .history)
+                    tabBarItem(image: "HISTORY", tab: .history)
                     Spacer()
                 }
                 .frame(width: 180, height: 60)
@@ -36,11 +36,11 @@ struct MainTabView: View {
                 Button(action: {
                     selectedTab = .scan
                 }) {
-                    Image(systemName: "plus")
+                    Image("CAMERA")
                         .font(.system(size: 24))
-                        .foregroundColor(.black)
+                        .foregroundColor(.white)
                         .frame(width: 60, height: 56)
-                        .background(Color.white)
+                        .background(Color.black)
                         .clipShape(Circle())
 //                        .shadow(radius: 5)
                 }
@@ -49,14 +49,16 @@ struct MainTabView: View {
         }
     }
 
-    // Helper function for tab icons
-    func tabBarItem(icon: String, tab: AppTab) -> some View {
-        Button(action: {
+    func tabBarItem(image: String, tab: AppTab) -> some View {
+        let isSelected = selectedTab == tab
+        let iconName = isSelected ? "\(image)-FILLED" : image
+        
+        return Button(action: {
             selectedTab = tab
         }) {
-            Image(systemName: icon)
+            Image(iconName)
                 .font(.system(size: 24))
-                .foregroundColor(selectedTab == tab ? .white : .gray)
+                .foregroundColor(isSelected ? .white : .gray)
         }
     }
     func navigationTitle(for tab: AppTab) -> String {

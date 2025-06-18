@@ -17,10 +17,10 @@ struct PopupInfo: View {
     }
     
     private let items: [InfoItem] = [
-        InfoItem(iconName: "info.circle", text: "Center your face in the frame"),
-        InfoItem(iconName: "info.circle", text: "Use natural lighting"),
-        InfoItem(iconName: "info.circle", text: "Find a plain background"),
-        InfoItem(iconName: "info.circle", text: "Remove makeup for better results.")
+        InfoItem(iconName: "Center", text: "Center your face in the frame"),
+        InfoItem(iconName: "Natural", text: "Use natural lighting"),
+        InfoItem(iconName: "Background", text: "Find a plain background"),
+        InfoItem(iconName: "Makeup", text: "Avoid wearing makeup")
     ]
     
     var body: some View {
@@ -47,21 +47,29 @@ struct PopupInfo: View {
                 }
                 
                 // Instructions list
-                VStack(alignment: .leading, spacing: 29) {
-                    ForEach(items) { item in
+                VStack(alignment: .leading, spacing: 0) {
+                    ForEach(items.indices, id: \.self) { index in
                         HStack(spacing: 15) {
-                            Image(systemName:(item.iconName))
+                            Image(items[index].iconName)
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 30, height: 30)
-                            
-                            Text(item.text)
-                                .font(.custom("Urbanist-Regular", size: 14).weight(.medium)) //Nunito
+
+                            Text(items[index].text)
+                                .font(.custom("Urbanist-Regular", size: 14).weight(.medium))
                                 .foregroundColor(.primary)
+                        }
+                        .padding(.vertical, 10)
+
+                        if index < items.count - 1 {
+                            Divider()
+                                .background(Color.gray.opacity(0.4)) // light gray
+                                .padding(.leading, 45) // aligns with text
                         }
                     }
                 }
                 .padding(.top, 20)
+
                 
                 Button(action: {
                     isPresented = false
