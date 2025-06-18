@@ -11,7 +11,6 @@ struct SplashView: View {
     var result: String
     var confidence: Float
 
-    @Binding var isActive: Bool
     @Binding var selectedTab: AppTab
 
     @State private var goToDetail = false
@@ -41,7 +40,7 @@ struct SplashView: View {
                             value: animateIcon
                         )
                     
-                        .padding(.top,150)
+                        .padding(.top,100)
                         .padding(.bottom,16)
                     
                     // Text Section
@@ -141,12 +140,20 @@ struct SplashView: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden(true)
+        .onTapGesture {
+            // A check to prevent this from running if navigation has already started
+            if !self.goToDetail {
+                self.goToDetail = true
+            }
+        }
         .onAppear {
             startAnimations()
-        }
-        .onTapGesture {
-            withAnimation(.easeInOut(duration: 0.1)) {
-                goToDetail = true
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+                if !self.goToDetail {
+                    self.goToDetail = true
+                }
             }
         }
         .background(
@@ -154,7 +161,6 @@ struct SplashView: View {
                 destination: ResultDetailView(
                     result: result,
                     confidence: confidence,
-                    isActive: $isActive,
                     selectedTab: $selectedTab,
                     imageData: imageData
                 ),
@@ -225,7 +231,7 @@ struct SplashView: View {
 //                selectedTab: .constant(.home),
 //                image: Image("spring")
 //            )
-//            
+//
 //            SplashView(
 //                result: "Summer",
 //                confidence: 0.85,
@@ -233,14 +239,14 @@ struct SplashView: View {
 //                selectedTab: .constant(.home),
 //                image: Image("summer")
 //            )
-//            
+//
 //            SplashView(
 //                result: "Autumn",
 //                confidence: 0.92,
 //                isActive: .constant(true),
 //                selectedTab: .constant(.home)
 //            )
-//            
+//
 //            SplashView(
 //                result: "Winter",
 //                confidence: 0.78,
@@ -250,4 +256,3 @@ struct SplashView: View {
 //        }
 //    }
 //}
-

@@ -8,7 +8,6 @@ import SwiftUI
 
 struct HistoryDetailWrapperView: View {
     let colorResult: ColorResult
-    @Binding var isActive: Bool
     @Binding var selectedTab: AppTab
     let imageData: Data?
 
@@ -16,7 +15,6 @@ struct HistoryDetailWrapperView: View {
         ResultDetailView(
             result: colorResult.result,
             confidence: colorResult.confidence,
-            isActive: $isActive,
             selectedTab: $selectedTab,
             imageData: imageData
         )

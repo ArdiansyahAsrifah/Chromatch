@@ -12,7 +12,6 @@ struct HomeView: View {
     
     @EnvironmentObject var historyManager: HistoryManager
     
-    @State private var animateElements = false
     @State private var progressValue: Float = 0.0
     @State private var showExpandedPalette = false
     @Environment(\.presentationMode) var presentationMode
@@ -37,65 +36,29 @@ struct HomeView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            ScrollView {
-                ZStack {
-                    getSeasonalBackground(result: displayResult)
-                        .frame(width: 400, height: showExpandedPalette ? 2500 : 2000)
-                        .edgesIgnoringSafeArea(.all)
-
-                    VStack(spacing: 0) {
-                        Spacer(minLength: 50)
-                     
-                        HeaderView(
-                            result: displayResult,
-                            animateElements: $animateElements,
-                            progressValue: $progressValue,
-                            confidence: displayConfidence,
-                            imageData: displayImageData
-                            )
-                        
-                        ContentSectionsView(
-                            result: displayResult,
-                            animateElements: $animateElements,
-                            showExpandedPalette: $showExpandedPalette
-                        )
-                        .padding(.top, showExpandedPalette ? -1000 : -750)
-                    }
+            ZStack {
+                getSeasonalBackground(result: displayResult)
+                    .frame(width: 400)
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                
+                VStack(spacing: 0) {
+                    Spacer(minLength: 50)
+                    HeaderView(
+                        result: displayResult,
+                        progressValue: $progressValue,
+                        confidence: displayConfidence,
+                        imageData: displayImageData
+                    )
                     
-                }
+                    ContentSectionsView(
+                        result: displayResult,
+                        showExpandedPalette: $showExpandedPalette
+                    )
+                }.frame(width: geometry.size.width, height: geometry.size.height)
             }
-            .animation(.spring(response: 0.6, dampingFraction: 0.8), value: showExpandedPalette)
         }
             
-        .onAppear {
-            startAnimations()
-        }
-        .onChange(of: selectedTab) { newTab in
-            // Reset animasi ketika tab berubah ke home
-            if newTab == .home {
-                resetAndStartAnimations()
-            }
-        }
-    }
-    
-    private func startAnimations() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            animateElements = true
-            
-            // Animate progress value
-            withAnimation(.easeInOut(duration: 2.0).delay(0.5)) {
-                progressValue = displayConfidence
-            }
-        }
-    }
-    
-    private func resetAndStartAnimations() {
-        // Reset animasi
-        animateElements = false
-        progressValue = 0.0
         
-        // Mulai animasi lagi
-        startAnimations()
     }
 }
 

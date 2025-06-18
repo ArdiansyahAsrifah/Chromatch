@@ -72,9 +72,16 @@ struct SaveButton: View {
                 }
                 .buttonStyle(SpringButtonStyle())
             }
-            .frame(width: 377, height: 56)
-            
-            
+        }) {
+            Text("Save")
+                .font(.custom("Urbanist-Regular", size: 18).weight(.medium))
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
+                .background(
+                    RoundedRectangle(cornerRadius: 25)
+                        .fill(Color.black.opacity(0.9))
+                )
         }
         
     }

@@ -9,15 +9,10 @@ import SwiftUI
 
 struct ExpandedColorInfoView: View {
     var colorInfo: ColorInfo
-    @Binding var animateElements: Bool
     var index: Int
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            // Color rectangle
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color(hex: colorInfo.color))
-                .frame(height: 100)
             
             // Color info overlay on the color rectangle
                 VStack(alignment: .leading, spacing: 2) {
@@ -34,30 +29,13 @@ struct ExpandedColorInfoView: View {
             .padding(.horizontal, 12)
             .padding(.vertical, 10)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(
-                        LinearGradient(
-                            colors: [
-                                Color.clear,
-                                Color.black.opacity(0.4)
-                            ],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
-            )
         }
         .background(
             RoundedRectangle(cornerRadius: 12)
                 .fill(Color(hex: colorInfo.color))
+                .frame(height:70)
         )
-        .scaleEffect(animateElements ? 1.0 : 0.9)
-        .opacity(animateElements ? 1.0 : 0.0)
-        .animation(
-            Animation.spring(response: 0.6, dampingFraction: 0.8)
-                .delay(0.3 + Double(index) * 0.05),
-            value: animateElements
-        )
+        .padding(.bottom, 16)
     }
 }
+

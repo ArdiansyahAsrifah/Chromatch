@@ -12,18 +12,16 @@ import SwiftUI
 
 struct ContentSectionsView: View {
     var result: String
-    @Binding var animateElements: Bool
     @Binding var showExpandedPalette: Bool
 
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 8) {
             YourPaletteSection(
                 result: result,
-                animateElements: $animateElements,
                 showExpandedPalette: $showExpandedPalette
             )
             if !showExpandedPalette {
-                SeasonalTwinsSection(result: result, animateElements: $animateElements)
+                SeasonalTwinsSection(result: result)
             }
             Spacer()
         }

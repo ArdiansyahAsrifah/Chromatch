@@ -9,39 +9,16 @@ import SwiftUI
 
 struct SeasonTitleAndDescriptionView: View {
     var result: String
-    @Binding var animateElements: Bool
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Text(result)
-                    .font(.custom("Urbanist-Regular", size: 48).weight(.medium))
-                    .foregroundColor(.black.opacity(0.9))
-                    .opacity(animateElements ? 1.0 : 0.0)
-                    .offset(x: animateElements ? 0 : -30)
-                    .animation(
-                        Animation.easeOut(duration: 0.8)
-                            .delay(0.6),
-                        value: animateElements
-                    )
-                //                Spacer()
-            }
+        VStack(alignment: .leading, spacing: 4) {
+            Text(result)
+                .font(.custom("Urbanist-Regular", size: 48).weight(.medium))
+                .foregroundColor(.black.opacity(0.9))
             
-            HStack {
-                Text(getSeasonDescription(result: result))
-                    .font(.custom("Urbanist-Regular", size: 16))
-                    .foregroundColor(.black.opacity(0.7))
-                    .opacity(animateElements ? 1.0 : 0.0)
-                    .offset(x: animateElements ? 0 : -30)
-                    .animation(
-                        Animation.easeOut(duration: 0.8)
-                            .delay(0.8),
-                        value: animateElements
-                    )
-                Spacer()
-            }
+            Text(getSeasonDescription(result: result))
+                .font(.custom("Urbanist-Regular", size: 16))
+                .foregroundColor(.black.opacity(0.7))
         }
-        .padding(.horizontal, 30)
-        .padding(.top, 20)
     }
 }

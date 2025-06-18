@@ -10,7 +10,6 @@ import SwiftUI
 struct CelebrityView: View {
     var result: String
     var index: Int
-    @Binding var animateElements: Bool
 
     var body: some View {
         VStack(spacing: 12) {
@@ -23,13 +22,6 @@ struct CelebrityView: View {
                     .clipShape(Circle())
                     .foregroundColor(.gray.opacity(0.7))
             }
-            .scaleEffect(animateElements ? 1.0 : 0.8)
-            .opacity(animateElements ? 1.0 : 0.0)
-            .animation(
-                Animation.spring(response: 0.6, dampingFraction: 0.7)
-                    .delay(1.5 + Double(index) * 0.1),
-                value: animateElements
-            )
 
             // Celebrity name
             Text(getCelebrityNames(result: result)[index])
@@ -37,12 +29,7 @@ struct CelebrityView: View {
                 .foregroundColor(.black.opacity(0.8))
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
-                .opacity(animateElements ? 1.0 : 0.0)
-                .animation(
-                    Animation.easeOut(duration: 0.6)
-                        .delay(1.6 + Double(index) * 0.1),
-                    value: animateElements
-                )
+
         }
         .frame(maxWidth: .infinity)
     }
