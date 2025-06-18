@@ -16,7 +16,7 @@ struct YourPaletteSection: View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Your Palette")
+                    Text("Signature Colors")
                         .font(.custom("Urbanist-Regular", size: 20)
                         .weight(.medium))
                         .foregroundColor(.black.opacity(0.9))
