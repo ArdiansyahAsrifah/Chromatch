@@ -10,37 +10,43 @@ struct ResultDetailView: View {
     var confidence: Float
     
     @Binding var selectedTab: AppTab
-
+    
     @State private var progressValue: Float = 0.0
     @State private var showExpandedPalette = false
     @Environment(\.presentationMode) var presentationMode
     let imageData: Data?
     
     var body: some View {
-            ScrollView {
-                ZStack {
-                    getSeasonalBackground(result: result)
-                        .frame(width: 400)
-                        .edgesIgnoringSafeArea(.all)
-
-                    VStack(spacing: 0) {
-                        HeaderView(result: result, progressValue: $progressValue, confidence: confidence, imageData: imageData)
-                        
+        GeometryReader { geometry in
+            ZStack {
+                getSeasonalBackground(result: result)
+                    .edgesIgnoringSafeArea(.all)
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                
+                VStack(spacing: 0) {
+                    HeaderView(result: result, progressValue: $progressValue, confidence: confidence, imageData: imageData)
+                    ScrollView{
                         ContentSectionsView(
                             result: result,
-
                             showExpandedPalette: $showExpandedPalette
                         )
                         .padding(.top)
-                        
-                        ActionButtonsView(
-                            selectedTab: $selectedTab, imageData: imageData, result: result, confidence: confidence
-                        )
-                        
-                        .padding(.top)
                     }
+                    
+                    
+                    Spacer()
+                    
+                    ActionButtonsView(
+                        selectedTab: $selectedTab,
+                        imageData: imageData,
+                        result: result,
+                        confidence: confidence
+                    )
+                    .padding(.top)
                 }
+                .frame(width: geometry.size.width, height: geometry.size.height)
             }
+        }
         .navigationBarHidden(true)
     }
 }

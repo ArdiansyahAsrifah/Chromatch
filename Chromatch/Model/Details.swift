@@ -120,6 +120,21 @@ func getRecommendedColorsWithNames(result: String) -> [(name: String, color: Col
     }
 }
 
+func getcolortipbackround(result: String) -> String {
+    switch result.lowercased() {
+    case "spring":
+        return "#2D5200"
+    case "summer":
+        return "#00075C"
+    case "autumn", "fall":
+        return "#643700"
+    case "winter":
+        return "#000A56"
+    default:
+        return "#FFFFF"
+    }
+}
+
 func getCelebrityNames(result: String) -> [String] {
     switch result.lowercased() {
     case "spring":
@@ -150,3 +165,18 @@ func getCelebrityImage(result: String) -> [String] {
     }
 }
 
+
+func gettipseasonal(result: String) -> String {
+    switch result.lowercased() {
+    case "spring":
+        return "Tips : You glow in warm, vibrant shades."
+    case "summer":
+        return "Tips : You shine in cool and muted colors."
+    case "autumn", "fall":
+        return "Tips : You glow in warm, earthy tones."
+    case "winter":
+        return "Tips : You shine in bold, high contrast colors."
+    default:
+        return "Get Your Result"
+    }
+}

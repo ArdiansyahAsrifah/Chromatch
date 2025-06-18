@@ -34,11 +34,11 @@ struct HomeView: View {
     }
     
     var body: some View {
-        ScrollView {
+        GeometryReader { geometry in
             ZStack {
                 getSeasonalBackground(result: displayResult)
                     .frame(width: 400)
-                    .edgesIgnoringSafeArea(.all)
+                    .frame(width: geometry.size.width, height: geometry.size.height)
                 
                 VStack(spacing: 0) {
                     Spacer(minLength: 50)
@@ -53,9 +53,11 @@ struct HomeView: View {
                         result: displayResult,
                         showExpandedPalette: $showExpandedPalette
                     )
-                }
+                }.frame(width: geometry.size.width, height: geometry.size.height)
             }
         }
+            
+        
     }
 }
 
