@@ -138,13 +138,13 @@ func getcolortipbackround(result: String) -> String {
 func getCelebrityNames(result: String) -> [String] {
     switch result.lowercased() {
     case "spring":
-        return ["Brad P.", "Cameron D.", "Hayden P."]
+        return ["Sophie Turner", "Sadie Sink", "Yoona"]
     case "summer":
-        return ["Matt B.", "Yael S.", "Alison B."]
+        return ["Emily Blunt", "Liu Yifei", "Yael Shelbia"]
     case "autumn", "fall":
-        return ["Tsutsumi H.", "Beyonce", "Martin F."]
+        return ["Beyonce", "Jessica Alba", "Jennie Kim"]
     case "winter":
-        return ["Hilary R.", "Jason S.", "Marion C."]
+        return ["Megan Fox", "Kim Jisoo", "Brooke Shields"]
     default:
         return ["Celebrity 1", "Celebrity 2", "Celebrity 3"]
     }
@@ -157,7 +157,7 @@ func getCelebrityImage(result: String) -> [String] {
     case "summer":
         return ["matt", "alisson", "yael"]
     case "autumn", "fall":
-        return ["tsusumi", "beyonce", "martin"]
+        return ["beyonce", "martin", "tsusumi"]
     case "winter":
         return ["hilary", "jason", "marion"]
     default:
