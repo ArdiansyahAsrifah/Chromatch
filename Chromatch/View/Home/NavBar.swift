@@ -2,6 +2,7 @@ import SwiftUI
 
 class AppState: ObservableObject {
     @Published var hasShownInitialPopup = false
+    @Published var isTabBarHidden = false
 }
 
 enum AppTab {
@@ -49,7 +50,7 @@ struct MainContainer: View {
                     .padding(.top, 65)
             }
             
-            if selectedTab != .scan && !isShowingExpandedColorView {
+            if selectedTab != .scan && !isShowingExpandedColorView && !appState.isTabBarHidden {
                 MainTabView(selectedTab: $selectedTab)
             }
 

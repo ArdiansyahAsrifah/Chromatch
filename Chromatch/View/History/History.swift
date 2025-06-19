@@ -53,55 +53,60 @@ struct HistoryView: View {
     }
 
     var body: some View {
-        ZStack {
-            Rectangle()
-                .ignoresSafeArea()
-                .foregroundStyle(.activeBTEnd)
-                .opacity(0.2)
+        NavigationStack {
+            ZStack {
+                Rectangle()
+                    .ignoresSafeArea()
+                    .foregroundStyle(.activeBTEnd)
+                    .opacity(0.2)
 
-            VStack(spacing: 0) {
-                Spacer(minLength: 50)
-                headerView
+                VStack(spacing: 0) {
+                    Spacer(minLength: 50)
+                    headerView
 
-                if filteredResults.isEmpty {
-                    emptyStateView
-                } else {
-                    ScrollView {
-                        LazyVStack(spacing: 24) {
-                            ForEach(groupedResults) { monthGroup in
-                                MonthSectionView(
-                                    monthName: monthGroup.monthName,
-                                    results: monthGroup.results,
-                                    onDelete: { result in
-                                        itemToDelete = result
-                                        showingDeleteSingleItemAlert = true
-                                    }, onSelect: { result in
-                                        selectedResult = result
-                                    }
-                                )
+                    if filteredResults.isEmpty {
+                        emptyStateView
+                    } else {
+                        ScrollView {
+                            LazyVStack(spacing: 24) {
+                                ForEach(groupedResults) { monthGroup in
+                                    MonthSectionView(
+                                        monthName: monthGroup.monthName,
+                                        results: monthGroup.results,
+                                        onDelete: { result in
+                                            itemToDelete = result
+                                            showingDeleteSingleItemAlert = true
+                                        }, onSelect: { result in
+                                            selectedResult = result
+                                        }
+                                    )
+                                }
                             }
+                            .padding(.horizontal, 20)
+                            .padding(.top, 20)
+                            .padding(.bottom, 100)
                         }
-                        .padding(.horizontal, 20)
-                        .padding(.top, 20)
-                        .padding(.bottom, 100)
                     }
                 }
             }
-        }
-        .navigationBarHidden(true)
-        .alert("Delete Result", isPresented: $showingDeleteSingleItemAlert) {
-            Button("Cancel", role: .cancel) { }
-            Button("Delete", role: .destructive) {
-                if let item = itemToDelete {
-                    withAnimation(.spring()) {
-                        historyManager.removeResult(item)
+            .navigationBarHidden(true)
+            .alert("Delete Result", isPresented: $showingDeleteSingleItemAlert) {
+                Button("Cancel", role: .cancel) { }
+                Button("Delete", role: .destructive) {
+                    if let item = itemToDelete {
+                        withAnimation(.spring()) {
+                            historyManager.removeResult(item)
+                        }
                     }
                 }
             }
-        }.sheet(item: $selectedResult) { result in
-            HistoryDetailView(result: result, isActive: $isActive, selectedTab: $selectedTab)
-        
+            .navigationDestination(item: $selectedResult) { result in
+                HistoryDetailView(result: result, isActive: $isActive, selectedTab: $selectedTab)
+            }
         }
+//        .sheet(item: $selectedResult) { result in
+//            HistoryDetailView(result: result, isActive: $isActive, selectedTab: $selectedTab)
+//        }
     }
 
     private var headerView: some View {
