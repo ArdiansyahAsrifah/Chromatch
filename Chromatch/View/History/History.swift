@@ -83,11 +83,11 @@ struct HistoryView: View {
                                 }
                             }
                             .padding(.horizontal, 20)
-                            .padding(.top, 20)
+                            .padding(.top, -5)
                             .padding(.bottom, 100)
                         }
                     }
-                }
+                }.padding(.top, -10)
             }
             .navigationBarHidden(true)
             .alert("Delete Result", isPresented: $showingDeleteSingleItemAlert) {

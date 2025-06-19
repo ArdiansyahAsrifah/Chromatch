@@ -9,10 +9,11 @@ import SwiftUI
 
 @main
 struct ChromatchApp: App {
+    @StateObject var historyManager = HistoryManager()
     
     var body: some Scene {
         WindowGroup {
-            Onboarding()
+            ContentView()
         }
     }
 }

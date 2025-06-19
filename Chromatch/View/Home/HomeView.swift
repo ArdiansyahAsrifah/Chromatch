@@ -44,7 +44,7 @@ struct HomeView: View {
                         .opacity(0.2)
                     VStack {
                         emptyStateView
-                        // Add button to navigate to camera
+                        
                         
                     }
                 }

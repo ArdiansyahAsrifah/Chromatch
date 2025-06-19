@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct OnboardPageThirdView: View {
-   
+    @State private var isActive = false
+//    @State var selectedTab: AppTab
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -32,7 +34,7 @@ struct OnboardPageThirdView: View {
                     .multilineTextAlignment(.center)
                     
                     
-                    NavigationLink(destination: AnalyzeView(selectedTab: .constant(.scan))){
+                    NavigationLink(destination: HomeView(isActive: $isActive, selectedTab: .constant(.home))){
                         ZStack{
                             Circle()
                                 .fill(Color.black)
@@ -58,7 +60,7 @@ struct OnboardPageThirdView: View {
 }
 
 
-#Preview {
-    OnboardPageThirdView()
-}
+//#Preview {
+//    OnboardPageThirdView()
+//}
 
