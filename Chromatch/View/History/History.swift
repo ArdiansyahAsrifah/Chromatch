@@ -102,7 +102,6 @@ struct HistoryView: View {
             HistoryDetailView(result: result, isActive: $isActive, selectedTab: $selectedTab)
         
         }
-
     }
 
     private var headerView: some View {
@@ -131,8 +130,7 @@ struct HistoryView: View {
             Text("This action will permanently delete all your color analysis results.")
         }
     }
-
-
+    
     private var emptyStateView: some View {
         VStack(alignment: .leading, spacing: 20) {
             (
