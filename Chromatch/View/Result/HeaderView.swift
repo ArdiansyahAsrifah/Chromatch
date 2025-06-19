@@ -19,7 +19,6 @@ struct HeaderView: View {
         ZStack {
             VStack(alignment: .leading, spacing: 0) {
                 ProfileAndIconView(progressValue: $progressValue, confidence: confidence, result: result, imageData: imageData)
-                    .padding(.top,55)
                 
                 SeasonTitleAndDescriptionView(result: result)
                     .padding(.bottom,20)

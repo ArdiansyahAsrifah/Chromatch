@@ -64,7 +64,12 @@ struct AnalyzeView: View {
             .environmentObject(historyManager)
             .toolbar(.hidden, for: .navigationBar)
             .onAppear {
+                capturedImageForAnalysis = nil
                 cameraManager.checkAndRequestPermission()
+                if cameraManager.permissionStatus == .authorized {
+                    cameraManager.viewModel = viewModel
+                    cameraManager.startSession()
+                }
             }
             .onDisappear {
                 cameraManager.stopSession()
@@ -92,7 +97,7 @@ struct AnalyzeView: View {
                 Text("To continue, please allow camera access in your device settings.")
             }
             .navigationDestination(isPresented: $navigateToSplash) {
-                 SplashView(result: predictionResult, confidence: Float(confidence), selectedTab: $selectedTab, imageData: capturedImageData)
+                SplashView(result: predictionResult, confidence: Float(confidence), selectedTab: $selectedTab, imageData: capturedImageData, onRetry: {navigateToSplash = false})
             }
             .onChange(of: capturedImageForAnalysis) { _, newImage in
                 if let imageToAnalyze = newImage {

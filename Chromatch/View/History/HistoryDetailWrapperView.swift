@@ -16,7 +16,8 @@ struct HistoryDetailWrapperView: View {
             result: colorResult.result,
             confidence: colorResult.confidence,
             selectedTab: $selectedTab,
-            imageData: imageData
+            imageData: imageData,
+            onRetry: nil
         )
     }
 }

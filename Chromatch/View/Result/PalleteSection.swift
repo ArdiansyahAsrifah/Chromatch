@@ -10,29 +10,28 @@ import SwiftUI
 struct YourPaletteSection: View {
     var result: String
     @Binding var showExpandedPalette: Bool
+    @Binding var selectedTab: AppTab
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Your Palette")
+                    Text("Signature Colors")
                         .font(.custom("Urbanist-Regular", size: 20)
                         .weight(.medium))
                         .foregroundColor(.black.opacity(0.9))
                     
-                    if showExpandedPalette {
-                        Text("Colors that flatter your tone")
-                            .font(.custom("Urbanist-Regular", size: 12).weight(.light)) //Nunito
-                            .foregroundColor(.black.opacity(0.6))
-                    }
+//                    if showExpandedPalette {
+//                        Text("Colors that flatter your tone")
+//                            .font(.custom("Urbanist-Regular", size: 12).weight(.light)) //Nunito
+//                            .foregroundColor(.black.opacity(0.6))
+//                    }
                 }
 
                 Spacer()
 
                 Button(action: {
-                    withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-                        showExpandedPalette.toggle()
-                    }
+                    showExpandedPalette = true
                 }) {
                     Image(systemName: showExpandedPalette ? "xmark" : "arrow.up.right")
                         .font(.system(size: 16, weight: .medium))
@@ -50,7 +49,7 @@ struct YourPaletteSection: View {
             
             // Color content
             if showExpandedPalette {
-                ExpandedColorView(result: result)
+                ExpandedColorView(result: result, selectedTab: $selectedTab, isShowingExpandedPalette: $showExpandedPalette)
             } else {
                 ColorGridView(result: result)
                     .padding(.horizontal, 20)

@@ -20,13 +20,15 @@ struct SplashView: View {
     @State private var progressValue: Float = 0.0
     let imageData: Data?
     
+    var onRetry: (() -> Void)?
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
                 // Dynamic Background based on result
                 getBackgroundGradient(result:result)
-                    .frame(width: 400)
-                    .ignoresSafeArea()
+                    .resizable()
+                    .edgesIgnoringSafeArea(.all)
                 
                 VStack(spacing: 0) {
 
@@ -116,7 +118,7 @@ struct SplashView: View {
                         Text(result)
                             .font(.custom("Urbanist-Regular", size: 48).weight(.medium))
                             .foregroundColor(.black.opacity(0.9))
-                            .opacity(animateText ? 1.0 : 0.0)
+                            .opacity(animateText ? 0.5 : 0.0)
                             .offset(y: animateText ? 0 : 30)
                             .animation(
                                 Animation.easeOut(duration: 0.8)
@@ -165,7 +167,8 @@ struct SplashView: View {
                     result: result,
                     confidence: confidence,
                     selectedTab: $selectedTab,
-                    imageData: imageData
+                    imageData: imageData,
+                    onRetry: onRetry
                 ),
                 isActive: $goToDetail
             ) {
@@ -174,7 +177,7 @@ struct SplashView: View {
         )
     }
     
-    func getBackgroundGradient(result:String) -> some View{
+    func getBackgroundGradient(result:String) -> Image{
         switch result.lowercased() {
         case "spring":
             return Image("Spring-BG")
@@ -216,7 +219,7 @@ struct SplashView: View {
         }
         
         // Start text animation
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             animateText = true
         }
     }

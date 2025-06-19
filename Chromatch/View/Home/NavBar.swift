@@ -15,6 +15,7 @@ struct MainContainer: View {
     @StateObject private var historyManager = HistoryManager()
     @State private var isActive = false
     @StateObject private var appState = AppState()
+    @State private var isShowingExpandedColorView = false
     @State private var imageData: Data? = nil
     
     var body: some View {
@@ -26,6 +27,7 @@ struct MainContainer: View {
                     switch selectedTab {
                     case .home:
                         HomeView(isActive: $isActive, selectedTab: $selectedTab)
+                        
                             
                     case .scan:
                         AnalyzeView(selectedTab: $selectedTab)
@@ -41,15 +43,17 @@ struct MainContainer: View {
                     .font(.custom("Urbanist-Regular", size: 16).weight(.medium))
                     .padding(.horizontal, 16)
                     .padding(.vertical, 10)
-                    .background(.thinMaterial)
+                    .background(.ultraThinMaterial.opacity(0.3))
                     .clipShape(Capsule())
                     .shadow(color: .black.opacity(0.1), radius: 5, y: 5)
                     .padding(.top, 65)
             }
             
-            if selectedTab != .scan {
+            if selectedTab != .scan && !isShowingExpandedColorView {
                 MainTabView(selectedTab: $selectedTab)
             }
+
+            
         }
         .environmentObject(appState)
         .ignoresSafeArea()
@@ -67,3 +71,4 @@ struct MainContainer: View {
         }
     }
 }
+

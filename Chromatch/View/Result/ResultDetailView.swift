@@ -15,34 +15,34 @@ struct ResultDetailView: View {
     @State private var showExpandedPalette = false
     @Environment(\.presentationMode) var presentationMode
     let imageData: Data?
+    var onRetry: (() -> Void)?
     
     var body: some View {
         GeometryReader { geometry in
             ZStack {
                 getSeasonalBackground(result: result)
+                    .resizable()
                     .edgesIgnoringSafeArea(.all)
-                    .frame(width: geometry.size.width, height: geometry.size.height)
                 
                 VStack(spacing: 0) {
                     HeaderView(result: result, progressValue: $progressValue, confidence: confidence, imageData: imageData)
-                    ScrollView{
-                        ContentSectionsView(
-                            result: result,
-                            showExpandedPalette: $showExpandedPalette
-                        )
-                        .padding(.top)
-                    }
+                        .padding(.top,65)
                     
-                    
-                    Spacer()
+                    ContentSectionsView(
+                        result: result,
+                        showExpandedPalette: $showExpandedPalette,
+                        selectedTab: $selectedTab
+                    )
                     
                     ActionButtonsView(
                         selectedTab: $selectedTab,
                         imageData: imageData,
                         result: result,
-                        confidence: confidence
+                        confidence: confidence,
+                        onRetry: onRetry
                     )
-                    .padding(.top)
+                    .padding(.bottom, 30)
+                    .padding(.horizontal, 20)
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height)
             }

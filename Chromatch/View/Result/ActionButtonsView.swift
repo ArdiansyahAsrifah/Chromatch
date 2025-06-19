@@ -15,8 +15,20 @@ struct ActionButtonsView: View {
     var confidence: Float
     @Environment(\.presentationMode) var presentationMode
     
+    var onRetry: (() -> Void)?
+    
     var body: some View {
-        HStack(spacing: 15) {
+        HStack{
+            if let onRetry = onRetry {
+                Button(action: onRetry) { // Use the unwrapped action
+                    Image(systemName: "arrow.counterclockwise")
+                        .foregroundColor(.primary)
+                        .frame(width: 56, height: 56)
+                        .background(.white)
+                        .clipShape(Circle())
+                }
+            }
+            
             SaveButton(
                 result: result,
                 confidence: confidence,
@@ -27,9 +39,6 @@ struct ActionButtonsView: View {
             .environmentObject(historyManager)
 
         }
-        .padding(.horizontal, 25)
-        .padding(.bottom, 30)
     }
 }
-
 
