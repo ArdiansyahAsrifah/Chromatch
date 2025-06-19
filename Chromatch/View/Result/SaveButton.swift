@@ -13,70 +13,45 @@ struct SaveButton: View {
     var imageData: Data?
     
     @StateObject private var cameraManager = CameraManager()
-    @Binding var isActive: Bool
     @Binding var selectedTab: AppTab
     @EnvironmentObject var historyManager: HistoryManager
     var presentationMode: Binding<PresentationMode>
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        
-        
-        HStack {
-            //INI BUTTON BUAT RETRY
-            Button(action: {
-                dismiss()
-            }) {
-                ZStack{
-                    Circle()
-                        .fill(Color.white)
-                        .opacity(0.5)
-                        .frame(width: 56, height: 56)
-                    
-                    Image(systemName: "arrow.triangle.2.circlepath")
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                    
+        Button(action: {
+            // Simpan data ke HistoryManager atau UserDefaults
+            let newResult = ColorResult(
+                result: result,
+                confidence: confidence,
+                timestamp: Date(),
+                imageData: imageData
+                
+            )
+            historyManager.addResult(newResult)
+            
+            // Dismiss current view terlebih dahulu
+            presentationMode.wrappedValue.dismiss()
+            
+            // Beralih ke tab home setelah delay singkat
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    selectedTab = .home
                 }
             }
-         
-            
-            
-            Spacer()
-            
-            Button(action: {
-                // Simpan data ke HistoryManager atau UserDefaults
-                let newResult = ColorResult(
-                    result: result,
-                    confidence: confidence,
-                    timestamp: Date(),
-                    imageData: imageData
-                    
+        }) {
+            Text("Save")
+                .font(.custom("Urbanist-Regular", size: 18).weight(.medium))
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
+                .background(
+                    RoundedRectangle(cornerRadius: 25)
+                        .fill(Color.black.opacity(0.9))
                 )
-                historyManager.addResult(newResult)
-                
-                // Dismiss current view terlebih dahulu
-                presentationMode.wrappedValue.dismiss()
-                
-                // Beralih ke tab home setelah delay singkat
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    withAnimation(.easeInOut(duration: 0.3)) {
-                        selectedTab = .home
-                    }
-                }
-            }) {
-                Text("Save")
-                    .font(.custom("Urbanist-Regular", size: 18).weight(.medium))
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 16)
-                    .background(
-                        RoundedRectangle(cornerRadius: 25)
-                            .fill(Color.black.opacity(0.9))
-                    )
-            }
-            
         }
+        
+        
         
         
     }

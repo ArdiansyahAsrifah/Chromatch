@@ -21,12 +21,6 @@ struct OnboardPageSecondView: View {
                 .foregroundStyle(.idleBTEnd)
                 .opacity(0.2)
             VStack{
-                ProgressBar(currentPage: 1)
-                
-                Spacer().frame(height: 24)
-                
-                
-                
                 VStack(spacing: 40) {
                     
                     VStack(spacing: 8) {
@@ -52,8 +46,13 @@ struct OnboardPageSecondView: View {
                     }
                     
                     Spacer()
+//                    ProgressBar(currentPage: 1)
                 }
                 .padding(.horizontal, 16)
+                
+                
+                
+                
             }
         }
     }
