@@ -35,35 +35,77 @@ struct HomeView: View {
     
     var body: some View {
         NavigationStack {
-            GeometryReader { geometry in
+            if historyManager.results.isEmpty {
                 ZStack {
-                    getSeasonalBackground(result: displayResult)
-                        .resizable()
-                        .edgesIgnoringSafeArea(.all)
-                    
-                    VStack(spacing: 0) {
-                        HeaderView(
-                            result: displayResult,
-                            progressValue: $progressValue,
-                            confidence: displayConfidence,
-                            imageData: displayImageData
-                        )
-                        .padding(.top,30)
+                    Rectangle()
+                        .ignoresSafeArea()
+                        .foregroundStyle(.activeBTEnd)
+                        .opacity(0.2)
+                    VStack {
+                        emptyStateView
+                        // Add button to navigate to camera
                         
-                        ContentSectionsView(
-                            result: displayResult,
-                            showExpandedPalette: $showExpandedPalette,
-                            selectedTab: $selectedTab
-                        )
-                    }.frame(width: geometry.size.width, height: geometry.size.height)
+                    }
+                }
+            } else {
+                GeometryReader { geometry in
+                    ZStack {
+                        getSeasonalBackground(result: displayResult)
+                            .resizable()
+                            .edgesIgnoringSafeArea(.all)
+                        
+                        VStack(spacing: 0) {
+                            HeaderView(
+                                result: displayResult,
+                                progressValue: $progressValue,
+                                confidence: displayConfidence,
+                                imageData: displayImageData
+                            )
+                            .padding(.top,30)
+                            
+                            ContentSectionsView(
+                                result: displayResult,
+                                showExpandedPalette: $showExpandedPalette,
+                                selectedTab: $selectedTab
+                            )
+                        }.frame(width: geometry.size.width, height: geometry.size.height)
+                    }
                 }
             }
         }
-        
+    }
+    
+    private var emptyStateView: some View {
+        VStack(spacing: 20) {
+            (
+                Text("Ready to unlock the colors that were made for you?\n\nLet's start")
+                + Text("with a selfie").bold()
+                
+            )
+            .font(.custom("Urbanist-Regular", size: 20))
+            .foregroundColor(.black)
+            .frame(maxWidth: .infinity, alignment: .top)
+            .padding(.horizontal, 30)
+            .padding(.top, -50)
+            .multilineTextAlignment(.center)
             
-        
+            Button {
+                selectedTab = .scan
+            } label: {
+                Image("CAMERA")
+                    .font(.system(size: 24))
+                    .foregroundColor(.white)
+                    .frame(width: 60, height: 56)
+                    .background(Color.black)
+                    .clipShape(Circle())
+                
+            }
+            
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
+
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
