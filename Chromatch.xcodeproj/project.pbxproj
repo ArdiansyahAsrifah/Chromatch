@@ -58,6 +58,11 @@
 			path = ChromatchUITests;
 			sourceTree = "<group>";
 		};
+		DBF1A3E62DFED37700303ED3 /* kerjaan george */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "kerjaan george";
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +93,7 @@
 		A57A24BD2DF67A7B00DD48EF = {
 			isa = PBXGroup;
 			children = (
+				DBF1A3E62DFED37700303ED3 /* kerjaan george */,
 				A57A24C82DF67A7B00DD48EF /* Chromatch */,
 				A57A24D92DF67A7C00DD48EF /* ChromatchTests */,
 				A57A24E32DF67A7C00DD48EF /* ChromatchUITests */,
@@ -122,6 +128,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				A57A24C82DF67A7B00DD48EF /* Chromatch */,
+				DBF1A3E62DFED37700303ED3 /* kerjaan george */,
 			);
 			name = Chromatch;
 			packageProductDependencies = (
@@ -409,7 +416,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Chromatch/Preview Content\"";
-				DEVELOPMENT_TEAM = V2R2B23AM7;
+				DEVELOPMENT_TEAM = BBWTGPFX25;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Chromatch/Info.plist;
@@ -440,7 +447,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Chromatch/Preview Content\"";
-				DEVELOPMENT_TEAM = V2R2B23AM7;
+				DEVELOPMENT_TEAM = BBWTGPFX25;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Chromatch/Info.plist;

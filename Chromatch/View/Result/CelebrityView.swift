@@ -25,7 +25,7 @@ struct CelebrityView: View {
 
             // Celebrity name
             Text(getCelebrityNames(result: result)[index])
-                .font(.custom("Urbanist-Regular", size: 12)) //Nunito
+                .font(.custom("NunitoSans", size: 12)) //Nunito
                 .foregroundColor(.black.opacity(0.8))
                 .multilineTextAlignment(.center)
                 .lineLimit(2)

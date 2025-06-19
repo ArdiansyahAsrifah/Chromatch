@@ -12,9 +12,11 @@ struct SaveButton: View {
     var confidence: Float
     var imageData: Data?
     
+    @StateObject private var cameraManager = CameraManager()
     @Binding var selectedTab: AppTab
     @EnvironmentObject var historyManager: HistoryManager
     var presentationMode: Binding<PresentationMode>
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         Button(action: {
@@ -48,8 +50,16 @@ struct SaveButton: View {
                         .fill(Color.black.opacity(0.9))
                 )
         }
-        .buttonStyle(SpringButtonStyle())
+        
+        
+        
+        
     }
+    
+    
+    
+    
+    
 }
 
 

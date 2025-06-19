@@ -9,6 +9,7 @@ import SwiftUI
 struct HomeView: View {
     @Binding var isActive: Bool
     @Binding var selectedTab: AppTab
+    
     @EnvironmentObject var historyManager: HistoryManager
     
     @State private var progressValue: Float = 0.0
@@ -62,6 +63,7 @@ struct HomeView: View {
                                 imageData: displayImageData
                             )
                             .padding(.top,30)
+                            
                             
                             ContentSectionsView(
                                 result: displayResult,

@@ -17,7 +17,7 @@ struct SeasonTitleAndDescriptionView: View {
                 .foregroundColor(.black.opacity(0.9))
             
             Text(getSeasonDescription(result: result))
-                .font(.custom("Urbanist-Regular", size: 16))
+                .font(.custom("NunitoSans", size: 16))
                 .foregroundColor(.black.opacity(0.7))
         }
     }

@@ -52,14 +52,15 @@ struct ResultDetailView: View {
 }
 
 
-//// Preview
+// Preview
 //struct ResultDetailView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        ResultDetailView(
 //            result: "Spring",
 //            confidence: 1.0,
 //            isActive: .constant(true),
-//            selectedTab: .constant(.home)
+//            selectedTab: .constant(.home),
+//            imageData: "person.circle"
 //        )
 //    }
 //}
