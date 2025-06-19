@@ -28,15 +28,15 @@ struct Onboarding: View {
             ZStack {
                             if currentPageIndex == 0 {
                                 OnboardPageFirstView()
-                                    .transition(.slide)
+                                    .transition(.opacity)
                             }
                             if currentPageIndex == 1 {
                                 OnboardPageSecondView()
-                                    .transition(.slide)
+                                    .transition(.opacity)
                             }
                             if currentPageIndex == 2 {
                                 OnboardPageThirdView()
-                                    .transition(.slide)
+                                    .transition(.opacity)
                             }
                         }
                         .animation(.easeInOut, value: currentPageIndex)

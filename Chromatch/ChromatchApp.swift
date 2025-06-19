@@ -14,6 +14,7 @@ struct ChromatchApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(historyManager)
         }
     }
 }

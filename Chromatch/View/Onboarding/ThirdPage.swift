@@ -10,6 +10,10 @@ import SwiftUI
 struct OnboardPageThirdView: View {
     @State private var isActive = false
 //    @State var selectedTab: AppTab
+    @AppStorage("hasCompletedOnboarding") var hasCompletedOnboarding = false
+    @State private var isNavigateToAnalyze = false
+    @State private var selectedTab: AppTab = .scan
+
     
     var body: some View {
         NavigationStack {
@@ -34,33 +38,46 @@ struct OnboardPageThirdView: View {
                     .multilineTextAlignment(.center)
                     
                     
-                    NavigationLink(destination: HomeView(isActive: $isActive, selectedTab: .constant(.home))){
-                        ZStack{
-                            Circle()
-                                .fill(Color.black)
-                                .frame(width: 48, height: 48)
-                            
-                            Image(systemName: "camera")
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                                .foregroundColor(.white)
+                    Button(
+                        action: {
+                            isNavigateToAnalyze = true
+                            hasCompletedOnboarding = true
+                        },
+                        label: {
+                            ZStack {
+                                Circle()
+                                    .fill(Color.black)
+                                    .frame(width: 48, height: 48)
+
+                                Image(systemName: "camera")
+                                    .resizable()
+                                    .frame(width: 15, height: 15)
+                                    .foregroundColor(.white)
+                            }
                         }
+                    )
+
                         
                         
-                    }
+                        
+                    
                     .frame(maxWidth: .infinity)
                     
                     
                     
                 }
+            }.navigationDestination(isPresented: $isNavigateToAnalyze) {
+                AnalyzeView(selectedTab: .constant(.scan))
+                    .environmentObject(HistoryManager())
             }
+
         }
         
     }
 }
 
 
-//#Preview {
-//    OnboardPageThirdView()
-//}
+#Preview {
+    OnboardPageThirdView()
+}
 

@@ -81,7 +81,7 @@ struct HomeView: View {
         VStack(spacing: 20) {
             (
                 Text("Ready to unlock the colors that were made for you?\n\nLet's start")
-                + Text("with a selfie").bold()
+                + Text(" with a selfie").bold()
                 
             )
             .font(.custom("Urbanist-Regular", size: 20))

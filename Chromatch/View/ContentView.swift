@@ -13,6 +13,8 @@ struct ContentView: View {
     var result: String = ""
     var confidence: Float = 0.0
     
+    @State private var selectedTab: AppTab = .scan
+    
     var body: some View {
         if hasCompletedOnboarding {
             MainContainer()
