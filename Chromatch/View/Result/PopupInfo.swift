@@ -40,7 +40,7 @@ struct PopupInfo: View {
                         .frame(maxWidth: .infinity, alignment: .top)
                     
                     Text("Follow these tips for better results")
-                        .font(.custom("Urbanist-Regular", size: 12)) //Nunito
+                        .font(.custom("NunitoSans", size: 12)) //Nunito
                         .multilineTextAlignment(.center)
                         .foregroundColor(Color(red: 0.09, green: 0.02, blue: 0.08))
                         .frame(maxWidth: .infinity, alignment: .top)
@@ -56,7 +56,7 @@ struct PopupInfo: View {
                                 .frame(width: 30, height: 30)
 
                             Text(items[index].text)
-                                .font(.custom("Urbanist-Regular", size: 14).weight(.medium))
+                                .font(.custom("NunitoSans", size: 14).weight(.medium))
                                 .foregroundColor(.primary)
                         }
                         .padding(.vertical, 10)

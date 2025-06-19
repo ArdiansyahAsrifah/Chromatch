@@ -16,12 +16,12 @@ struct ColorInfoView: View {
         return VStack(alignment: .leading, spacing: 0) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(colorInfo.name)
-                    .font(.custom("Urbanist-Regular", size: 16).weight(.medium))
+                    .font(.custom("NunitoSans", size: 16).weight(.medium))
                     .foregroundColor(textColor)
                     .shadow(color: .black.opacity(0.3), radius: 1, x: 0, y: 1)
 
                 Text(colorInfo.hex)
-                    .font(.custom("Urbanist-Regular", size: 14).weight(.medium))
+                    .font(.custom("NunitoSans", size: 14).weight(.medium))
                     .foregroundColor(textColor.opacity(0.9))
                     .shadow(color: .black.opacity(0.3), radius: 1, x: 0, y: 1)
             }

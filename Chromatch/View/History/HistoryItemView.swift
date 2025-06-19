@@ -83,7 +83,7 @@ struct CompactHistoryItemView: View {
                     .foregroundColor(.primary)
                 
                 Text(formatDate(result.timestamp))
-                    .font(.custom("Urbanist-Regular", size: 12).weight(.light))
+                    .font(.custom("NunitoSans", size: 12).weight(.light))
                     .foregroundColor(.secondary)
             }
             

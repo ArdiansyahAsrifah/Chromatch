@@ -53,7 +53,7 @@ struct ExpandedColorView: View {
                                     .foregroundColor(.black.opacity(0.9))
 
                                 Text("Colors that flatter your tone")
-                                    .font(.custom("Urbanist-Regular", size: 12).weight(.light))
+                                    .font(.custom("NunitoSans", size: 12).weight(.light))
                                     .foregroundColor(.black.opacity(0.6))
                             }
                             Spacer()

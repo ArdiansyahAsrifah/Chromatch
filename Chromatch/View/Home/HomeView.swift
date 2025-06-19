@@ -64,6 +64,7 @@ struct HomeView: View {
                             )
                             .padding(.top,30)
                             
+                            
                             ContentSectionsView(
                                 result: displayResult,
                                 showExpandedPalette: $showExpandedPalette,
