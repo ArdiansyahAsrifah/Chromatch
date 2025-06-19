@@ -43,7 +43,7 @@ struct MainContainer: View {
                     .font(.custom("Urbanist-Regular", size: 16).weight(.medium))
                     .padding(.horizontal, 16)
                     .padding(.vertical, 10)
-                    .background(.thinMaterial)
+                    .background(.ultraThinMaterial.opacity(0.3))
                     .clipShape(Capsule())
                     .shadow(color: .black.opacity(0.1), radius: 5, y: 5)
                     .padding(.top, 65)

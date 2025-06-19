@@ -89,17 +89,17 @@ struct HomeView: View {
             .padding(.top, -50)
             .multilineTextAlignment(.center)
             
-            Button {
-                selectedTab = .scan
-            } label: {
-                Image("CAMERA")
-                    .font(.system(size: 24))
-                    .foregroundColor(.white)
-                    .frame(width: 60, height: 56)
-                    .background(Color.black)
-                    .clipShape(Circle())
-                
-            }
+//            Button {
+//                selectedTab = .scan
+//            } label: {
+//                Image("CAMERA")
+//                    .font(.system(size: 24))
+//                    .foregroundColor(.white)
+//                    .frame(width: 60, height: 56)
+//                    .background(Color.black)
+//                    .clipShape(Circle())
+//                
+//            }
             
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
