@@ -5,7 +5,7 @@ struct Onboarding: View {
     @AppStorage("hasCompletedOnboarding") var hasCompletedOnboarding = false
     
     
-    private let totalPages = 3
+    private let totalPages = 2
     
     
     var body: some View {
@@ -34,10 +34,10 @@ struct Onboarding: View {
                                 OnboardPageSecondView()
                                     .transition(.opacity)
                             }
-                            if currentPageIndex == 2 {
-                                OnboardPageThirdView()
-                                    .transition(.opacity)
-                            }
+//                            if currentPageIndex == 2 {
+//                                OnboardPageThirdView()
+//                                    .transition(.opacity)
+//                            }
                         }
                         .animation(.easeInOut, value: currentPageIndex)
             
