@@ -29,6 +29,7 @@ Our app, **Choramatch**, provides a simple yet powerful solution. By leveraging 
 
 * **Language:** Swift
 * **IDE:** Xcode
+* **SwiftUI:** Provides views, controls, and layout structures for the app's user intefaces. 
 * **Machine Learning:** Core ML for on-device image analysis.
 * **Local Storage:** Swift Data for saving your analysis history.
 * **Camera & Video:** AVFoundation and VideoToolbox for real-time camera access and processing.
